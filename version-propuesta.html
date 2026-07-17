@@ -204,14 +204,16 @@
 </div>
 
 <main>
-  <h1>Arqueo de caja</h1>
+  <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
+    <h1 style="margin:0;">Arqueo de caja</h1>
+    <button class="btn btn-primary" id="actionBtn" style="display:none;" onclick="handleActionBtn()">Cerrar caja</button>
+  </div>
 
   <div class="tabs">
     <div class="tabs-links">
       <span class="active" id="tabCaja" onclick="showTab('caja')">Caja</span>
       <span id="tabArqueos" onclick="showTab('arqueos')">Todos los arqueos de caja</span>
     </div>
-    <button class="btn btn-primary" id="actionBtn" style="display:none;" onclick="handleActionBtn()">Cerrar caja</button>
   </div>
 
   <div id="viewCaja">
