@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arqueo de Caja — Inicio</title>
+<style>
+  :root{
+    --navy:#101b33;
+    --blue:#2f6fed;
+    --blue-dark:#1f52c4;
+    --orange:#e8792b;
+    --gray-1:#f4f5f8;
+    --gray-2:#e4e7ee;
+    --text-1:#171b2e;
+    --text-2:#5a6079;
+    --white:#ffffff;
+    --radius:10px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:"Segoe UI", Helvetica, Arial, sans-serif;
+    background:var(--gray-1);
+    color:var(--text-1);
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+  }
+  .topbar{
+    background:var(--navy);
+    color:var(--white);
+    display:flex;
+    align-items:center;
+    padding:12px 24px;
+  }
+  .topbar .brand{font-weight:700; letter-spacing:.04em; font-size:14px;}
+
+  .hero{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:60px 24px;
+    gap:16px;
+    text-align:center;
+  }
+  .hero h1{
+    font-size:26px;
+    font-weight:700;
+    color:var(--text-1);
+    max-width:480px;
+  }
+  .hero p{
+    font-size:14px;
+    color:var(--text-2);
+    max-width:420px;
+    line-height:1.6;
+  }
+
+  .cards{
+    display:flex;
+    gap:20px;
+    margin-top:24px;
+    flex-wrap:wrap;
+    justify-content:center;
+  }
+  .card{
+    background:var(--white);
+    border:1px solid var(--gray-2);
+    border-radius:var(--radius);
+    padding:32px 28px;
+    width:260px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:14px;
+    text-align:center;
+    box-shadow:0 2px 6px rgba(0,0,0,.06);
+  }
+  .card .label{
+    font-size:11px;
+    font-weight:600;
+    letter-spacing:.07em;
+    text-transform:uppercase;
+    color:var(--text-2);
+  }
+  .card h2{
+    font-size:16px;
+    font-weight:700;
+    color:var(--text-1);
+    line-height:1.4;
+  }
+  .card p{
+    font-size:13px;
+    color:var(--text-2);
+    line-height:1.5;
+    flex:1;
+  }
+
+  .btn{
+    display:inline-block;
+    padding:10px 22px;
+    border-radius:6px;
+    font-size:13px;
+    font-weight:600;
+    text-decoration:none;
+    transition:background .15s, box-shadow .15s;
+    width:100%;
+    text-align:center;
+  }
+  .btn-blue{
+    background:var(--blue);
+    color:var(--white);
+  }
+  .btn-blue:hover{background:var(--blue-dark); box-shadow:0 2px 8px rgba(47,111,237,.35);}
+  .btn-orange{
+    background:var(--orange);
+    color:var(--white);
+  }
+  .btn-orange:hover{background:#c96520; box-shadow:0 2px 8px rgba(232,121,43,.35);}
+
+  .badge{
+    display:inline-block;
+    padding:3px 10px;
+    border-radius:20px;
+    font-size:11px;
+    font-weight:600;
+  }
+  .badge-blue{background:#e8f0fd; color:var(--blue);}
+  .badge-orange{background:#fdf1ea; color:var(--orange);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <span class="brand">Arqueo de Caja</span>
+</div>
+
+<div class="hero">
+  <h1>Seleccioná una versión para explorar</h1>
+  <p>Compará la experiencia actual del módulo de arqueo de caja con la propuesta de mejora de flujo e interfaz.</p>
+
+  <div class="cards">
+
+    <div class="card">
+      <span class="badge badge-blue">Actual</span>
+      <h2>Versión actual</h2>
+      <p>Flujo e interfaz tal como existe hoy en el sistema.</p>
+      <a href="version-actual.html" class="btn btn-blue">Ver versión actual</a>
+    </div>
+
+    <div class="card">
+      <span class="badge badge-orange">Propuesta</span>
+      <h2>Propuesta de mejora</h2>
+      <p>Rediseño del flujo con mejoras de usabilidad y experiencia.</p>
+      <a href="version-propuesta.html" class="btn btn-orange">Ver propuesta de mejora</a>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
