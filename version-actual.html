@@ -55,6 +55,10 @@
   .btn-primary:disabled{background:var(--gray-3); color:#8b90a3; cursor:not-allowed;}
   .btn-orange{background:var(--orange); color:var(--white);}
   .btn-secondary{background:var(--gray-1); color:var(--text-1); border:1px solid var(--gray-2);}
+  .tabs{display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--gray-2); margin-bottom:18px;}
+  .tabs-links{display:flex; gap:22px;}
+  .tabs-links span{padding:8px 2px; font-size:13px; color:var(--text-2); cursor:pointer;}
+  .tabs-links span.active{color:var(--text-1); font-weight:600; border-bottom:2px solid var(--blue);}
   .lock-icon{width:30px; height:30px; border-radius:50%; background:var(--gray-2); color:var(--text-2); display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0;}
   .warn-icon{width:30px; height:30px; border-radius:50%; background:#f7ddba; color:var(--orange); display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0;}
 </style>
@@ -82,7 +86,16 @@
 
 <main>
   <h1>Arqueo de caja</h1>
-  <p class="subtitle">Estado de la caja antes de poder abrir una nueva jornada.</p>
+  <div class="tabs">
+    <div class="tabs-links">
+      <span class="active">Arqueo de caja</span>
+      <span>Todos los arqueos</span>
+    </div>
+    <button class="btn btn-secondary" style="display:flex; align-items:center; gap:6px; font-size:12px; padding:7px 13px;">
+      Abrir POS
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 1h4v4M11 1L5.5 6.5M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
 
   <!-- Caso 1: dueño, jornada normal -->
   <div class="card" id="cardDueno">
