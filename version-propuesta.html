@@ -79,16 +79,21 @@
     border-radius:6px;
   }
   main{
-    max-width:1040px;
+    max-width:680px;
     margin:24px auto 60px;
     padding:0 20px;
   }
   h1{font-size:20px; margin:0 0 4px;}
-  .tabs{display:flex; gap:22px; border-bottom:1px solid var(--gray-2); margin-bottom:18px;}
-  .tabs span{padding:8px 2px; font-size:13px; color:var(--text-2);}
-  .tabs span.active{color:var(--text-1); font-weight:600; border-bottom:2px solid var(--blue);}
-  .grid{display:grid; grid-template-columns:1.15fr .85fr; gap:18px;}
-  @media (max-width:760px){ .grid{grid-template-columns:1fr;} }
+  .tabs{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid var(--gray-2);
+    margin-bottom:18px;
+  }
+  .tabs-links{display:flex; gap:22px;}
+  .tabs-links span{padding:8px 2px; font-size:13px; color:var(--text-2); cursor:pointer;}
+  .tabs-links span.active{color:var(--text-1); font-weight:600; border-bottom:2px solid var(--blue);}
   .card{
     background:var(--white);
     border:1px solid var(--gray-2);
@@ -107,8 +112,6 @@
   .badge.abierta{background:#e6f6ee; color:var(--green);}
   .badge.bloqueada{background:#f1f2f6; color:var(--text-2);}
   .owner-line{font-size:12px; color:var(--text-2); margin-bottom:14px;}
-  .amount{font-size:22px; font-weight:700; margin:6px 0 2px;}
-  .amount.masked{letter-spacing:3px; color:var(--text-2); font-size:20px;}
   .field-label{font-size:11px; color:var(--text-2); text-transform:uppercase; letter-spacing:.03em;}
   .divider{height:1px; background:var(--gray-2); margin:14px 0;}
   .btn{
@@ -204,13 +207,16 @@
     <h1 style="margin:0;">Arqueo de caja</h1>
     <button class="btn btn-primary">Registrar venta</button>
   </div>
+
   <div class="tabs">
-    <span class="active" id="tabCaja" onclick="showTab('caja')">Caja</span>
-    <span id="tabArqueos" onclick="showTab('arqueos')">Todos los arqueos de caja</span>
+    <div class="tabs-links">
+      <span class="active" id="tabCaja" onclick="showTab('caja')">Caja</span>
+      <span id="tabArqueos" onclick="showTab('arqueos')">Todos los arqueos de caja</span>
+    </div>
+    <button class="btn btn-primary" id="actionBtn" style="display:none;" onclick="handleActionBtn()">Cerrar caja</button>
   </div>
 
   <div id="viewCaja">
-  <div class="grid">
     <!-- Caja activa -->
     <div class="card" id="cajaActivaCard">
       <div class="banner" id="preCierreBanner">Antes de cerrar, hacé el arqueo de los valores físicos de esta caja.</div>
@@ -279,10 +285,6 @@
               <option value="otro">Otro</option>
             </select>
           </div>
-
-          <div style="display:flex; justify-content:flex-end; margin-top:14px;">
-            <button class="btn btn-primary" id="arqueoConfirmBtn" disabled onclick="confirmArqueo()">Confirmar y cerrar caja</button>
-          </div>
         </div>
       </div>
 
@@ -305,20 +307,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Abrir caja -->
-    <div class="card">
-      <h2>Abrir caja</h2>
-      <div id="abrirCajaBlock">
-        <div class="locked-box">
-          <div class="lock-icon">&#128274;</div>
-          <div class="locked-title">Acción no permitida</div>
-          <div class="locked-sub" id="openLockedSub">Cierra la caja activa antes de abrir otra.</div>
-          <button class="btn btn-primary" disabled>Abrir caja</button>
-        </div>
-      </div>
-    </div>
-  </div>
   </div>
 
   <div id="viewArqueos" style="display:none;">
@@ -372,6 +360,8 @@
 </div>
 
 <script>
+  let cajaAbierta = true;
+
   function showTab(tab){
     document.getElementById('viewCaja').style.display = tab === 'caja' ? 'block' : 'none';
     document.getElementById('viewArqueos').style.display = tab === 'arqueos' ? 'block' : 'none';
@@ -383,8 +373,7 @@
   const stateDueno = document.getElementById('stateDueno');
   const stateOtro = document.getElementById('stateOtro');
   const stateAdmin = document.getElementById('stateAdmin');
-  const ownerLine = document.getElementById('ownerLine');
-  const openLockedSub = document.getElementById('openLockedSub');
+  const actionBtn = document.getElementById('actionBtn');
   const forcedLogNote = document.getElementById('forcedLogNote');
 
   function setRole(role){
@@ -392,14 +381,19 @@
     stateDueno.style.display = role === 'dueno' ? 'block' : 'none';
     stateOtro.style.display = role === 'otro' ? 'block' : 'none';
     stateAdmin.style.display = role === 'admin' ? 'block' : 'none';
-    document.getElementById('preCierreBanner').style.display = role === 'dueno' ? 'block' : 'none';
+    document.getElementById('preCierreBanner').style.display = role === 'dueno' ? 'flex' : 'none';
 
     if(role === 'dueno'){
-      openLockedSub.textContent = 'Cierra la caja activa antes de abrir otra.';
-    } else if(role === 'otro'){
-      openLockedSub.textContent = 'Existe una jornada abierta a cargo de Jorge Ramírez. No podés abrir una nueva hasta que se cierre.';
+      actionBtn.style.display = '';
+      if(cajaAbierta){
+        actionBtn.textContent = 'Cerrar caja';
+        actionBtn.disabled = true; // se habilita con los campos completos
+      } else {
+        actionBtn.textContent = 'Abrir caja';
+        actionBtn.disabled = false;
+      }
     } else {
-      openLockedSub.textContent = 'Hay una jornada activa en esta caja. Podés forzar su cierre desde el panel de la izquierda si corresponde.';
+      actionBtn.style.display = 'none';
     }
   }
 
@@ -410,11 +404,9 @@
     document.getElementById('sistemaOculto').style.display = e.target.checked ? 'block' : 'none';
   });
 
-  const SISTEMA_INICIAL = 200000;
   const SISTEMA_VOUCHER = 545890;
   const SISTEMA_BILLETES = 500000;
-  const SISTEMA_TOTAL = SISTEMA_INICIAL + SISTEMA_VOUCHER + SISTEMA_BILLETES; // 1.245.890
-  const SISTEMA_ESPERADO_CONTEO = SISTEMA_VOUCHER + SISTEMA_BILLETES; // lo que el usuario debería contar
+  const SISTEMA_ESPERADO_CONTEO = SISTEMA_VOUCHER + SISTEMA_BILLETES;
 
   function fmtGs(n){
     return 'Gs. ' + n.toLocaleString('es-PY');
@@ -430,43 +422,49 @@
     const billetes = parseNum('billetesUsuario');
     const diffBox = document.getElementById('arqueoDiffBox');
     const diffBanner = document.getElementById('arqueoDiffBanner');
-    const confirmBtn = document.getElementById('arqueoConfirmBtn');
     const motivoSelect = document.getElementById('motivoDiferencia');
     const totalEl = document.getElementById('usuarioTotal');
 
     if(voucher === null && billetes === null){
       totalEl.textContent = 'Gs. 0';
       diffBox.style.display = 'none';
-      confirmBtn.disabled = true;
+      actionBtn.disabled = true;
       return;
     }
 
     const total = (voucher || 0) + (billetes || 0);
     totalEl.textContent = fmtGs(total);
 
-    // recién comparamos cuando cargó los dos campos
     if(voucher === null || billetes === null){
       diffBox.style.display = 'none';
-      confirmBtn.disabled = true;
+      actionBtn.disabled = true;
       return;
     }
 
     const diff = total - SISTEMA_ESPERADO_CONTEO;
     if(diff === 0){
       diffBox.style.display = 'none';
-      confirmBtn.disabled = false;
+      actionBtn.disabled = false;
     } else {
       diffBox.style.display = 'block';
       const abs = Math.abs(diff);
       diffBanner.className = diff > 0 ? 'banner' : 'banner warn-red';
       diffBanner.textContent = (diff > 0 ? 'Sobrante de ' : 'Faltante de ') + fmtGs(abs) + ' respecto a voucher + billetes esperado.';
-      confirmBtn.disabled = !motivoSelect.value;
+      actionBtn.disabled = !motivoSelect.value;
     }
     motivoSelect.onchange = () => {
       if(diffBox.style.display === 'block'){
-        confirmBtn.disabled = !motivoSelect.value;
+        actionBtn.disabled = !motivoSelect.value;
       }
     };
+  }
+
+  function handleActionBtn(){
+    if(cajaAbierta){
+      confirmArqueo();
+    } else {
+      abrirCaja();
+    }
   }
 
   function confirmArqueo(){
@@ -478,18 +476,57 @@
       : 'El arqueo cuadró sin diferencias. Ya podés abrir una caja nueva.';
     document.getElementById('successOverlay').classList.add('show');
 
-    // refleja el cierre en el card principal
+    cajaAbierta = false;
+
     document.querySelector('#cajaActivaCard .badge').textContent = 'Cerrada';
     document.querySelector('#cajaActivaCard .badge').className = 'badge bloqueada';
     document.getElementById('preCierreBanner').style.display = 'none';
     stateDueno.innerHTML = '<div class="footer-note">Caja cerrada. El historial se actualizó en "Todos los arqueos de caja".</div>';
 
-    // habilita "Abrir caja" ahora que no hay jornada activa
-    document.getElementById('abrirCajaBlock').innerHTML =
-      '<select style="width:100%; border:1px solid var(--gray-2); border-radius:8px; padding:9px 10px; font-size:13px; font-family:inherit; margin-bottom:10px;">' +
-      '<option>Seleccionar cajero...</option><option>Jorge Ramírez</option><option>Juan Pérez</option><option>Ana María Ruiz</option>' +
-      '</select>' +
-      '<button class="btn btn-primary" onclick="alert(\'Abre el flujo de apertura de caja.\')">Abrir caja</button>';
+    actionBtn.textContent = 'Abrir caja';
+    actionBtn.disabled = false;
+  }
+
+  function abrirCaja(){
+    cajaAbierta = true;
+
+    document.querySelector('#cajaActivaCard .badge').textContent = 'Abierta';
+    document.querySelector('#cajaActivaCard .badge').className = 'badge abierta';
+    document.getElementById('preCierreBanner').style.display = 'flex';
+    stateDueno.innerHTML = `
+      <div id="arqueoInline" style="margin-top:0;">
+        <div class="field-label">Según usuario</div>
+        <div style="margin-top:6px;">
+          <div class="field-label" style="text-transform:none; font-size:12px; margin-bottom:3px;">Voucher (tarjeta de crédito y débito)</div>
+          <input id="voucherUsuario" type="text" inputmode="numeric" placeholder="Ingresá el monto de voucher"
+            style="width:100%; border:1px solid var(--gray-2); border-radius:8px; padding:9px 10px; font-size:14px; font-family:inherit;"
+            oninput="onArqueoInput()">
+        </div>
+        <div style="margin-top:10px;">
+          <div class="field-label" style="text-transform:none; font-size:12px; margin-bottom:3px;">Billetes</div>
+          <input id="billetesUsuario" type="text" inputmode="numeric" placeholder="Ingresá el monto en billetes"
+            style="width:100%; border:1px solid var(--gray-2); border-radius:8px; padding:9px 10px; font-size:14px; font-family:inherit;"
+            oninput="onArqueoInput()">
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:15px; font-weight:700; padding:10px 0 0; border-top:1px solid var(--gray-2); margin-top:12px;">
+          <span>Total</span>
+          <span id="usuarioTotal">Gs. 0</span>
+        </div>
+        <div id="arqueoDiffBox" style="display:none; margin-top:12px;">
+          <div class="banner" id="arqueoDiffBanner"></div>
+          <div class="field-label">Motivo de la diferencia (obligatorio)</div>
+          <select id="motivoDiferencia" style="width:100%; border:1px solid var(--gray-2); border-radius:8px; padding:9px 10px; font-size:13px; font-family:inherit; margin-top:4px;">
+            <option value="">Seleccioná un motivo</option>
+            <option value="propinas">Propinas mal clasificadas</option>
+            <option value="tipeo">Error de tipeo en el conteo</option>
+            <option value="faltante">Faltante sin identificar</option>
+            <option value="otro">Otro</option>
+          </select>
+        </div>
+      </div>`;
+
+    actionBtn.textContent = 'Cerrar caja';
+    actionBtn.disabled = true;
   }
 
   function closeSuccess(){
