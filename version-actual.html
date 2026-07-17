@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Vista cajero — jornada abierta, vencida u ocupada por otro cajero</title>
+<style>
+  :root{
+    --navy:#101b33;
+    --blue:#2f6fed;
+    --orange:#e8792b;
+    --orange-bg:#fdf1ea;
+    --green:#1a9c5f;
+    --green-bg:#e6f6ee;
+    --gray-1:#f4f5f8;
+    --gray-2:#e4e7ee;
+    --gray-3:#c7ccd8;
+    --text-1:#171b2e;
+    --text-2:#5a6079;
+    --white:#ffffff;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:"Segoe UI", Helvetica, Arial, sans-serif; background:var(--gray-1); color:var(--text-1);}
+  .topbar{background:var(--navy); color:var(--white); display:flex; align-items:center; justify-content:space-between; padding:10px 22px; font-size:13px;}
+  .topbar .brand{font-weight:700; letter-spacing:.04em;}
+  .topbar .nav{display:flex; gap:18px; color:#b9c0d6;}
+  .breadcrumb{background:var(--white); border-bottom:1px solid var(--gray-2); padding:8px 22px; font-size:12px; color:var(--text-2);}
+  .breadcrumb b{color:var(--text-1);}
+  .toolbar{
+    background:var(--white); border-bottom:1px solid var(--gray-2); padding:12px 22px;
+    display:flex; flex-wrap:wrap; gap:14px; align-items:center; font-size:13px;
+  }
+  .toolbar label{color:var(--text-2); margin-right:6px;}
+  .segmented{display:inline-flex; background:var(--gray-1); border:1px solid var(--gray-2); border-radius:8px; padding:2px;}
+  .segmented button{border:none; background:transparent; padding:6px 12px; font-size:13px; border-radius:6px; cursor:pointer; color:var(--text-2);}
+  .segmented button.active{background:var(--navy); color:var(--white);}
+  .note{font-size:12px; color:var(--text-2); background:#fff8ec; border:1px solid #f0dcb0; padding:6px 10px; border-radius:6px;}
+  main{max-width:720px; margin:24px auto 60px; padding:0 20px;}
+  h1{font-size:20px; margin:0 0 4px;}
+  .subtitle{font-size:13px; color:var(--text-2); margin:0 0 18px;}
+  .card{background:var(--white); border:1px solid var(--gray-2); border-radius:var(--radius); padding:18px 20px; margin-bottom:14px;}
+  .row-title{display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;}
+  .caja-name{font-size:15px; font-weight:700;}
+  .badge{font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; white-space:nowrap;}
+  .badge.abierta{background:var(--green-bg); color:var(--green);}
+  .badge.vencida{background:var(--orange-bg); color:var(--orange);}
+  .badge.bloqueada{background:var(--gray-2); color:var(--text-2);}
+  .owner-line{font-size:12px; color:var(--text-2); margin:6px 0 14px;}
+  .banner{display:flex; gap:10px; align-items:flex-start; padding:10px 12px; border-radius:8px; font-size:12.5px; margin-bottom:14px;}
+  .banner.info{background:#eef3ff; border:1px solid #cdd9f7; color:#1f3a8a;}
+  .banner.warn{background:var(--orange-bg); border:1px solid #f2cfa8; color:#8a4a12;}
+  .banner.locked{background:var(--gray-1); border:1px solid var(--gray-3); color:var(--text-2);}
+  .btn{border:none; border-radius:8px; padding:10px 16px; font-size:13px; font-weight:600; cursor:pointer;}
+  .btn-primary{background:var(--blue); color:var(--white);}
+  .btn-primary:disabled{background:var(--gray-3); color:#8b90a3; cursor:not-allowed;}
+  .btn-orange{background:var(--orange); color:var(--white);}
+  .btn-secondary{background:var(--gray-1); color:var(--text-1); border:1px solid var(--gray-2);}
+  .lock-icon{width:30px; height:30px; border-radius:50%; background:var(--gray-2); color:var(--text-2); display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0;}
+  .warn-icon{width:30px; height:30px; border-radius:50%; background:#f7ddba; color:var(--orange); display:flex; align-items:center; justify-content:center; font-size:14px; flex-shrink:0;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">YOUR COMPANY</div>
+  <div class="nav"><span>Configuración</span><span>Ventas</span><span>Compras</span><span>Stock</span><span>Finanzas</span></div>
+</div>
+<div class="breadcrumb">Puntos de Venta &gt; <b>Caja Central</b> &gt; Jornadas</div>
+
+<div class="toolbar">
+  <div>
+    <label>Ver como</label>
+    <span class="segmented" id="roleSwitch">
+      <button data-role="dueno" class="active">Cajero dueño · jornada normal</button>
+      <button data-role="vencida">Cajero dueño · jornada vencida</button>
+      <button data-role="otro">Otro cajero</button>
+    </span>
+  </div>
+  <div class="note">Prototipo — paso previo al reporte de jornada. Es la pantalla de apertura/cierre, no el detalle final.</div>
+</div>
+
+<main>
+  <h1>Jornadas</h1>
+  <p class="subtitle">Estado de la caja antes de poder abrir una nueva jornada.</p>
+
+  <!-- Caso 1: dueño, jornada normal -->
+  <div class="card" id="cardDueno">
+    <div class="row-title">
+      <span class="caja-name">Caja Central</span>
+      <span class="badge abierta">Abierta</span>
+    </div>
+    <div class="owner-line">Cajero responsable: vos · Apertura: hoy, 07:58</div>
+    <div class="banner info">
+      <span>&#8505;</span>
+      <span>Tu jornada sigue en curso. Podés seguir vendiendo con normalidad — el cierre está disponible cuando termines el turno.</span>
+    </div>
+    <button class="btn btn-primary">Ir al cierre y arqueo</button>
+  </div>
+
+  <!-- Caso 2: dueño, jornada vencida -->
+  <div class="card" id="cardVencida" style="display:none;">
+    <div class="row-title">
+      <span class="caja-name">Caja Central</span>
+      <span class="badge vencida">Abierta · Pendiente de cierre</span>
+    </div>
+    <div class="owner-line">Cajero responsable: vos · Apertura: ayer, 19:15 (hace 16 h)</div>
+    <div class="banner warn">
+      <span class="warn-icon">&#9888;</span>
+      <span>Esta jornada quedó abierta de un turno anterior. No podés abrir una caja nueva hasta cerrarla con tu conteo físico.</span>
+    </div>
+    <button class="btn btn-orange">Cerrar jornada pendiente</button>
+  </div>
+
+  <!-- Caso 3: otro cajero -->
+  <div class="card" id="cardOtro" style="display:none;">
+    <div class="row-title">
+      <span class="caja-name">Caja Central</span>
+      <span class="badge bloqueada">Bloqueada</span>
+    </div>
+    <div class="owner-line">Cajero responsable: Jorge Ramírez · Apertura: ayer, 19:15 (hace 16 h)</div>
+    <div class="banner locked">
+      <span class="lock-icon">&#128274;</span>
+      <span>Existe una jornada abierta a cargo de Jorge Ramírez. No podés abrir una caja nueva hasta que él la cierre, o hasta que un supervisor fuerce el cierre.</span>
+    </div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+      <button class="btn btn-primary" disabled>Abrir caja</button>
+      <button class="btn btn-secondary" onclick="alert('Se avisó a Jorge Ramírez que hay una jornada pendiente de cierre en Caja Central.')">Avisar a Jorge</button>
+    </div>
+  </div>
+</main>
+
+<script>
+  const roleButtons = document.querySelectorAll('#roleSwitch button');
+  const cards = {
+    dueno: document.getElementById('cardDueno'),
+    vencida: document.getElementById('cardVencida'),
+    otro: document.getElementById('cardOtro')
+  };
+  function setRole(role){
+    roleButtons.forEach(b => b.classList.toggle('active', b.dataset.role === role));
+    Object.keys(cards).forEach(k => cards[k].style.display = k === role ? 'block' : 'none');
+  }
+  roleButtons.forEach(btn => btn.addEventListener('click', () => setRole(btn.dataset.role)));
+  setRole('dueno');
+</script>
+
+</body>
+</html>
