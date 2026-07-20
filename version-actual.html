@@ -40,6 +40,7 @@
   .subtitle{font-size:13px; color:var(--text-2); margin:0 0 18px;}
   .card{background:var(--white); border:1px solid var(--gray-2); border-radius:var(--radius); padding:18px 20px; margin-bottom:14px;}
   .row-title{display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;}
+  .row-title-left{display:flex; align-items:center; gap:8px;}
   .caja-name{font-size:15px; font-weight:700;}
   .badge{font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px; white-space:nowrap;}
   .badge.abierta{background:var(--green-bg); color:var(--green);}
@@ -87,7 +88,6 @@
       <button data-role="otro">Otro cajero</button>
     </span>
   </div>
-  <div class="note">Prototipo — paso previo al reporte de jornada. Es la pantalla de apertura/cierre, no el detalle final.</div>
 </div>
 
 <main>
@@ -107,46 +107,50 @@
   <!-- Caso 1: dueño, jornada normal -->
   <div class="card" id="cardDueno">
     <div class="row-title">
-      <span class="caja-name">Caja Central</span>
-      <span class="badge abierta">Abierta</span>
+      <div class="row-title-left">
+        <span class="caja-name">Caja Central</span>
+        <span class="badge abierta">Abierta</span>
+      </div>
+      <button class="btn btn-primary">Cerrar caja</button>
     </div>
     <div class="owner-line">Cajero responsable: Juan Pérez · Apertura: hoy, 07:58</div>
     <div class="banner info">
       <span>&#8505;</span>
       <span>Tu jornada sigue en curso. Podés seguir vendiendo con normalidad — el cierre está disponible cuando termines el turno.</span>
     </div>
-    <button class="btn btn-primary">Ir al cierre y arqueo</button>
   </div>
 
   <!-- Caso 2: dueño, jornada vencida -->
   <div class="card" id="cardVencida" style="display:none;">
     <div class="row-title">
-      <span class="caja-name">Caja Central</span>
-      <span class="badge vencida">Pendiente de cierre</span>
+      <div class="row-title-left">
+        <span class="caja-name">Caja Central</span>
+        <span class="badge vencida">Pendiente de cierre</span>
+      </div>
+      <button class="btn btn-primary">Cerrar caja</button>
     </div>
     <div class="owner-line">Cajero responsable: Juan Pérez · Apertura: ayer, 19:15 (hace 16 h)</div>
     <div class="banner warn">
       <span class="warn-icon">&#9888;</span>
       <span>Esta jornada quedó abierta de un turno anterior. No podés abrir una caja nueva hasta cerrarla con tu conteo físico.</span>
     </div>
-    <button class="btn btn-orange">Cerrar acá pendiente</button>
   </div>
 
   <!-- Caso 3: otro cajero -->
   <div class="card" id="cardOtro" style="display:none;">
     <div class="row-title">
-      <span class="caja-name">Caja Central</span>
-      <span class="badge bloqueada">Bloqueada</span>
+      <div class="row-title-left">
+        <span class="caja-name">Caja Central</span>
+        <span class="badge bloqueada">Bloqueada</span>
+      </div>
+      <button class="btn btn-primary" disabled>Abrir caja</button>
     </div>
     <div class="owner-line">Cajero responsable: Jorge Ramírez · Apertura: ayer, 19:15 (hace 16 h)</div>
     <div class="banner locked">
       <span class="lock-icon">&#128274;</span>
       <span>Existe una jornada abierta a cargo de Jorge Ramírez. No podés abrir una caja nueva hasta que él la cierre, o hasta que un supervisor fuerce el cierre.</span>
     </div>
-    <div style="display:flex; gap:10px; flex-wrap:wrap;">
-      <button class="btn btn-primary" disabled>Abrir caja</button>
-      <button class="btn btn-secondary" onclick="alert('Se avisó a Jorge Ramírez que hay una jornada pendiente de cierre en Caja Central.')">Avisar a Jorge</button>
-    </div>
+    <button class="btn btn-secondary" onclick="alert('Se avisó a Jorge Ramírez que hay una jornada pendiente de cierre en Caja Central.')">Avisar a Jorge</button>
   </div>
   </div><!-- /viewArqueo -->
 

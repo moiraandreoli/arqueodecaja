@@ -219,8 +219,6 @@
   <div id="viewCaja">
     <!-- Caja activa -->
     <div class="card" id="cajaActivaCard">
-      <div class="banner" id="preCierreBanner">Antes de cerrar, hacé el arqueo de los valores físicos de esta caja.</div>
-
       <div class="row-title">
         <span class="caja-name">Caja Central</span>
         <span class="badge abierta">Abierta</span>
@@ -381,7 +379,6 @@
     stateDueno.style.display = role === 'dueno' ? 'block' : 'none';
     stateOtro.style.display = role === 'otro' ? 'block' : 'none';
     stateAdmin.style.display = role === 'admin' ? 'block' : 'none';
-    document.getElementById('preCierreBanner').style.display = role === 'dueno' ? 'flex' : 'none';
 
     if(role === 'dueno'){
       actionBtn.style.display = '';
@@ -480,7 +477,6 @@
 
     document.querySelector('#cajaActivaCard .badge').textContent = 'Cerrada';
     document.querySelector('#cajaActivaCard .badge').className = 'badge bloqueada';
-    document.getElementById('preCierreBanner').style.display = 'none';
     stateDueno.innerHTML = '<div class="footer-note">Caja cerrada. El historial se actualizó en "Todos los arqueos de caja".</div>';
 
     actionBtn.textContent = 'Abrir caja';
@@ -492,7 +488,6 @@
 
     document.querySelector('#cajaActivaCard .badge').textContent = 'Abierta';
     document.querySelector('#cajaActivaCard .badge').className = 'badge abierta';
-    document.getElementById('preCierreBanner').style.display = 'flex';
     stateDueno.innerHTML = `
       <div id="arqueoInline" style="margin-top:0;">
         <div class="field-label">Según usuario</div>

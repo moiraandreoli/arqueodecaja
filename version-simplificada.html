@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Arqueo de caja — versión actual simplificada</title>
+<style>
+  :root{
+    --navy:#101b33;
+    --blue:#2f6fed;
+    --blue-dark:#1f52c4;
+    --green:#1a9c5f;
+    --green-bg:#e6f6ee;
+    --gray-1:#f4f5f8;
+    --gray-2:#e4e7ee;
+    --gray-3:#c7ccd8;
+    --text-1:#171b2e;
+    --text-2:#5a6079;
+    --white:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; font-family:"Segoe UI", Helvetica, Arial, sans-serif; background:var(--gray-1); color:var(--text-1);}
+  .topbar{background:var(--navy); color:var(--white); display:flex; align-items:center; justify-content:space-between; padding:10px 22px; font-size:13px;}
+  .brand{font-weight:700; letter-spacing:.04em;}
+  .nav{display:flex; gap:18px; color:#b9c0d6;}
+  main{max-width:800px; margin:24px auto 60px; padding:0 20px;}
+  h1{font-size:20px; margin:0 0 16px;}
+  .tabs{display:flex; gap:22px; border-bottom:1px solid var(--gray-2); margin-bottom:18px;}
+  .tabs span{padding:8px 2px; font-size:13px; color:var(--text-2); cursor:pointer;}
+  .tabs span.active{color:var(--text-1); font-weight:600; border-bottom:2px solid var(--blue);}
+  .card{
+    background:var(--white); border:1px solid var(--gray-2); border-radius:10px;
+    padding:20px 22px; max-width:800px;
+  }
+  .row-title{display:flex; align-items:center; justify-content:space-between;}
+  .caja-name{font-size:16px; font-weight:700;}
+  .badge{font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px;}
+  .badge.abierta{background:var(--green-bg); color:var(--green);}
+  .badge.cerrada{background:var(--gray-2); color:var(--text-2);}
+  .owner-line{font-size:12.5px; color:var(--text-2); margin-top:6px; min-height:18px;}
+  .btn{border:none; border-radius:8px; padding:10px 18px; font-size:13px; font-weight:600; cursor:pointer; margin-top:16px;}
+  .btn-primary{background:var(--blue); color:var(--white);}
+  .btn-primary:hover{background:var(--blue-dark);}
+  .btn-outline-blue{background:transparent; color:var(--blue); border:1px solid var(--blue);}
+  .btn-outline-blue:hover{background:#eef3ff;}
+  table{width:100%; border-collapse:collapse; font-size:12.5px;}
+  th{text-align:left; color:var(--text-2); font-weight:600; padding:8px 6px; border-bottom:1px solid var(--gray-2);}
+  td{padding:9px 6px; border-bottom:1px solid var(--gray-1);}
+  .toolbar{
+    background:var(--white); border-bottom:1px solid var(--gray-2); padding:12px 22px;
+    display:flex; gap:14px; align-items:center; font-size:13px;
+  }
+  .toolbar label{color:var(--text-2); margin-right:6px;}
+  .segmented{display:inline-flex; background:var(--gray-1); border:1px solid var(--gray-2); border-radius:8px; padding:2px;}
+  .segmented button{border:none; background:transparent; padding:6px 12px; font-size:13px; border-radius:6px; cursor:pointer; color:var(--text-2);}
+  .segmented button.active{background:var(--navy); color:var(--white);}
+  .admin-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:14px 4px; border-bottom:1px solid var(--gray-1);
+  }
+  .admin-row:last-child{border-bottom:none;}
+  .admin-caja-name{font-size:14px; font-weight:700;}
+  .admin-caja-name .badge{margin-left:8px; vertical-align:middle;}
+  .admin-owner{font-size:12px; color:var(--text-2); margin-top:2px;}
+  .estado-ok{color:var(--green); font-weight:600;}
+  .estado-dif{color:#e8792b; font-weight:600;}
+
+  .overlay{position:fixed; inset:0; background:rgba(16,27,51,.45); display:none; align-items:center; justify-content:center; z-index:50;}
+  .overlay.show{display:flex;}
+  .modal{background:var(--white); border-radius:12px; padding:22px 24px; width:400px; max-width:90vw;}
+  .modal h3{margin:0 0 6px; font-size:16px;}
+  .modal p{font-size:12.5px; color:var(--text-2); margin:0 0 14px;}
+  .modal .field-label{font-size:11px; color:var(--text-2); text-transform:uppercase; letter-spacing:.03em;}
+  .modal select, .modal textarea{width:100%; border:1px solid var(--gray-2); border-radius:8px; padding:9px 10px; font-size:13px; font-family:inherit;}
+  .modal textarea{min-height:60px; resize:vertical; margin-top:10px;}
+  .modal-actions{display:flex; justify-content:flex-end; gap:10px; margin-top:18px;}
+  .btn-red{background:#d33c3c; color:var(--white);}
+  .btn-red:disabled{background:var(--gray-3); color:#8b90a3; cursor:not-allowed;}
+  .btn-secondary{background:var(--gray-1); color:var(--text-1); border:1px solid var(--gray-2);}
+  .banner-audit{background:var(--gray-1); border:1px solid var(--gray-3); color:var(--text-2); font-family:monospace; font-size:11.5px; padding:10px 12px; border-radius:8px; margin-top:12px; display:none;}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">YOUR COMPANY</div>
+  <div class="nav"><span>Configuración</span><span>Ventas</span><span>Compras</span><span>Stock</span><span>Finanzas</span></div>
+</div>
+<div class="toolbar">
+  <label>Ver como</label>
+  <span class="segmented" id="roleSwitch">
+    <button class="active" data-role="cajero" onclick="setRole('cajero')">Cajero</button>
+    <button data-role="admin" onclick="setRole('admin')">Admin</button>
+    <button data-role="otro" onclick="setRole('otro')">Otro cajero</button>
+  </span>
+</div>
+
+<main>
+  <h1 id="pageTitle">Arqueo de caja</h1>
+
+  <div id="cajeroContent">
+    <div class="tabs">
+      <span class="active" id="tabCaja" onclick="showTab('caja')">Arqueo de caja</span>
+      <span id="tabTodos" onclick="showTab('todos')">Todos los arqueos</span>
+    </div>
+
+    <div id="viewCaja">
+      <div class="card">
+        <div class="row-title">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <span class="caja-name">Caja Central</span>
+            <span class="badge cerrada" id="estadoBadge">Cerrada</span>
+          </div>
+          <button class="btn btn-primary" id="mainBtn" style="margin-top:0;" onclick="toggleCaja()">Abrir caja</button>
+        </div>
+        <div class="owner-line" id="ownerLine"></div>
+      </div>
+    </div>
+
+    <div id="viewTodos" style="display:none;">
+      <div class="card">
+        <div class="row-title" style="margin-bottom:14px;">
+          <span class="caja-name" style="font-size:14px;">Historial reciente</span>
+          <span style="font-size:12px; color:var(--text-2);">Mostrando 1–5 de 23</span>
+        </div>
+        <table>
+          <tr><th>Fecha y hora de cierre</th><th>Caja</th><th>Cajero</th><th>Monto</th><th>Estado</th></tr>
+          <tr><td>5 Jul 2026, 19:30</td><td>Caja Central</td><td>Juan Pérez</td><td>Gs. 1.120.400</td><td class="estado-ok">Cerrado OK</td></tr>
+          <tr><td>4 Jul 2026, 19:15</td><td>Caja Auxiliar 1</td><td>Ana María Ruiz</td><td>Gs. 435.000</td><td class="estado-ok">Cerrado OK</td></tr>
+          <tr><td>3 Jul 2026, 21:05</td><td>Caja Central</td><td>Jorge Ramírez</td><td>Gs. 1.895.300</td><td class="estado-dif">Diferencia</td></tr>
+          <tr><td>2 Jul 2026, 20:12</td><td>Caja Central</td><td>Jorge Ramírez</td><td>Gs. 980.150</td><td class="estado-ok">Cerrado OK</td></tr>
+          <tr><td>1 Jul 2026, 18:47</td><td>Caja Auxiliar 1</td><td>Ana María Ruiz</td><td>Gs. 1.310.000</td><td class="estado-dif">Diferencia</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div id="adminContent" style="display:none;">
+    <p style="font-size:13px; color:var(--text-2); margin:-8px 0 16px;">Cajas de los cajeros a tu cargo. Como Admin, podés abrir o cerrar cualquiera de ellas.</p>
+    <div class="card">
+      <div class="admin-row" id="rowJorge">
+        <div>
+          <div class="admin-caja-name">Caja Central <span class="badge abierta">Abierta</span></div>
+          <div class="admin-owner">Cajero responsable: Jorge Ramírez</div>
+          <div class="banner-audit" id="auditJorge"></div>
+        </div>
+        <button class="btn btn-outline-blue" style="margin-top:0;" onclick="openForceClose('Jorge Ramírez', 'rowJorge', 'auditJorge')">Cerrar caja</button>
+      </div>
+      <div class="admin-row" id="rowAna">
+        <div>
+          <div class="admin-caja-name">Caja Auxiliar 1 <span class="badge abierta">Abierta</span></div>
+          <div class="admin-owner">Cajero responsable: Ana María Ruiz</div>
+          <div class="banner-audit" id="auditAna"></div>
+        </div>
+        <button class="btn btn-outline-blue" style="margin-top:0;" onclick="openForceClose('Ana María Ruiz', 'rowAna', 'auditAna')">Cerrar caja</button>
+      </div>
+      <div class="admin-row">
+        <div>
+          <div class="admin-caja-name">Caja Delivery <span class="badge cerrada">Cerrada</span></div>
+          <div class="admin-owner">Sin cajero asignado</div>
+        </div>
+        <button class="btn btn-outline-blue" style="margin-top:0;" onclick="alert('Abre Caja Delivery, asignando cajero.')">Abrir caja</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="otroContent" style="display:none;">
+    <div class="tabs">
+      <span class="active">Arqueo de caja</span>
+      <span>Todos los arqueos</span>
+    </div>
+    <div class="card">
+      <div class="row-title">
+        <span class="caja-name">Caja Central</span>
+        <span class="badge abierta">Abierta</span>
+      </div>
+      <div class="owner-line">Cajero responsable: Jorge Ramírez · Apertura: hoy, 07:58</div>
+      <div style="background:var(--gray-1); border:1px dashed var(--gray-3); border-radius:8px; padding:16px; margin-top:14px; text-align:center;">
+        <div style="font-size:13px; font-weight:700; margin-bottom:4px;">No podés abrir esta caja</div>
+        <div style="font-size:12.5px; color:var(--text-2); max-width:340px; margin:0 auto 12px;">Existe una jornada abierta a cargo de Jorge Ramírez en este punto de venta. Solo él puede cerrarla, o un Admin puede forzar el cierre.</div>
+        <div style="display:flex; gap:10px; justify-content:center;">
+          <button class="btn btn-primary" style="background:var(--gray-2); color:var(--text-1); margin-top:0;" onclick="alert('Se avisó a Jorge Ramírez que hay una apertura pendiente en Caja Central.')">Avisar a Jorge</button>
+          <button class="btn btn-outline-blue" style="margin-top:0;" onclick="alert('Se avisó al Admin (Ana Torres) que la caja de Jorge Ramírez sigue abierta.')">Avisar al Admin</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="overlay" id="forceCloseOverlay">
+  <div class="modal" style="width:420px;">
+
+    <!-- Paso 1: motivo -->
+    <div id="fcStep1">
+      <h3 id="forceCloseTitle">Forzar cierre de caja</h3>
+      <p>Esta acción cierra la jornada a nombre de otro cajero. Requiere motivo — el conteo físico se hace en el siguiente paso, siempre.</p>
+      <div class="field-label">Motivo (obligatorio)</div>
+      <select id="motivoForzado">
+        <option value="">Seleccioná un motivo</option>
+        <option value="Cajero ausente">Cajero ausente</option>
+        <option value="Renuncia">Renuncia</option>
+        <option value="Emergencia">Emergencia</option>
+        <option value="Error de operación">Error de operación</option>
+        <option value="Otro">Otro</option>
+      </select>
+      <textarea id="comentarioForzado" placeholder="Comentario adicional (opcional)"></textarea>
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="closeForceClose()">Cancelar</button>
+        <button class="btn btn-red" id="continueFcBtn" disabled onclick="goFcStep2()">Continuar al conteo</button>
+      </div>
+    </div>
+
+    <!-- Paso 2: conteo físico obligatorio -->
+    <div id="fcStep2" style="display:none;">
+      <h3>Conteo físico</h3>
+      <p id="fcStep2Sub">Contá el efectivo que hay en la caja ahora mismo. No se puede forzar un cierre sin este paso.</p>
+
+      <div class="field-label" style="margin-top:6px;">Voucher (tarjeta de crédito y débito)</div>
+      <input id="fcVoucher" type="text" inputmode="numeric" placeholder="Ingresá el monto de voucher"
+        style="width:100%; border:1px solid var(--gray-2); border-radius:8px; padding:9px 10px; font-size:14px; font-family:inherit; margin-top:4px;"
+        oninput="onFcConteoInput()">
+
+      <div class="field-label" style="margin-top:10px;">Billetes</div>
+      <input id="fcBilletes" type="text" inputmode="numeric" placeholder="Ingresá el monto en billetes"
+        style="width:100%; border:1px solid var(--gray-2); border-radius:8px; padding:9px 10px; font-size:14px; font-family:inherit; margin-top:4px;"
+        oninput="onFcConteoInput()">
+
+      <div class="modal-actions">
+        <button class="btn btn-secondary" onclick="goFcStep1()">Volver</button>
+        <button class="btn btn-red" id="confirmForceBtn" disabled onclick="confirmForceClose()">Confirmar cierre</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function setRole(role){
+    document.querySelectorAll('#roleSwitch button').forEach(b => b.classList.toggle('active', b.dataset.role === role));
+    document.getElementById('cajeroContent').style.display = role === 'cajero' ? 'block' : 'none';
+    document.getElementById('adminContent').style.display = role === 'admin' ? 'block' : 'none';
+    document.getElementById('otroContent').style.display = role === 'otro' ? 'block' : 'none';
+    document.getElementById('pageTitle').textContent = role === 'admin' ? 'Arqueo de caja — Mi equipo' : 'Arqueo de caja';
+  }
+
+  let forceCloseTarget = null;
+
+  function openForceClose(nombre, rowId, auditId){
+    forceCloseTarget = { nombre, rowId, auditId };
+    document.getElementById('forceCloseTitle').textContent = 'Forzar cierre de caja — ' + nombre;
+    document.getElementById('motivoForzado').value = '';
+    document.getElementById('comentarioForzado').value = '';
+    document.getElementById('continueFcBtn').disabled = true;
+    document.getElementById('fcVoucher').value = '';
+    document.getElementById('fcBilletes').value = '';
+    document.getElementById('confirmForceBtn').disabled = true;
+    document.getElementById('fcStep2Sub').textContent = 'Contá el efectivo que hay en la caja ahora mismo. No se puede forzar un cierre sin este paso.';
+    goFcStep1();
+    document.getElementById('forceCloseOverlay').classList.add('show');
+  }
+
+  function closeForceClose(){
+    document.getElementById('forceCloseOverlay').classList.remove('show');
+    forceCloseTarget = null;
+  }
+
+  function goFcStep1(){
+    document.getElementById('fcStep1').style.display = 'block';
+    document.getElementById('fcStep2').style.display = 'none';
+  }
+
+  function goFcStep2(){
+    document.getElementById('fcStep2Sub').textContent =
+      'Contá el efectivo de la caja de ' + forceCloseTarget.nombre + ' ahora mismo. No se puede forzar un cierre sin este paso.';
+    document.getElementById('fcStep1').style.display = 'none';
+    document.getElementById('fcStep2').style.display = 'block';
+  }
+
+  document.getElementById('motivoForzado').addEventListener('change', (e) => {
+    document.getElementById('continueFcBtn').disabled = !e.target.value;
+  });
+
+  function parseNumFc(id){
+    const raw = document.getElementById(id).value.replace(/[^0-9]/g, '');
+    return raw ? parseInt(raw, 10) : null;
+  }
+
+  function onFcConteoInput(){
+    const voucher = parseNumFc('fcVoucher');
+    const billetes = parseNumFc('fcBilletes');
+    document.getElementById('confirmForceBtn').disabled = (voucher === null || billetes === null);
+  }
+
+  function confirmForceClose(){
+    if(!forceCloseTarget) return;
+    const motivo = document.getElementById('motivoForzado').value;
+    const comentario = document.getElementById('comentarioForzado').value.trim();
+    const voucher = parseNumFc('fcVoucher') || 0;
+    const billetes = parseNumFc('fcBilletes') || 0;
+    const total = voucher + billetes;
+    const now = new Date().toLocaleString('es-PY');
+
+    let line = 'Cierre forzado · ' + now + '<br>';
+    line += 'Ejecutado por: Admin (no es el titular) — hizo el conteo físico en el momento<br>';
+    line += 'Responsable financiero: ' + forceCloseTarget.nombre + ' (sin cambios)<br>';
+    line += 'Conteo: Voucher Gs. ' + voucher.toLocaleString('es-PY') + ' · Billetes Gs. ' + billetes.toLocaleString('es-PY') + ' · Total Gs. ' + total.toLocaleString('es-PY') + '<br>';
+    line += 'Motivo: ' + motivo;
+    if(comentario) line += ' · Comentario: ' + comentario;
+
+    const auditEl = document.getElementById(forceCloseTarget.auditId);
+    auditEl.innerHTML = line;
+    auditEl.style.display = 'block';
+
+    const row = document.getElementById(forceCloseTarget.rowId);
+    row.querySelector('.badge').textContent = 'Cerrada';
+    row.querySelector('.badge').className = 'badge cerrada';
+    row.querySelector('button').textContent = 'Abrir caja';
+    row.querySelector('button').setAttribute('onclick', "alert('Abre la caja, asignando nuevo cajero.')");
+
+    closeForceClose();
+  }
+
+  let abierta = false;
+
+  function toggleCaja(){
+    abierta = !abierta;
+    const badge = document.getElementById('estadoBadge');
+    const btn = document.getElementById('mainBtn');
+    const owner = document.getElementById('ownerLine');
+
+    if(abierta){
+      badge.textContent = 'Abierta';
+      badge.className = 'badge abierta';
+      btn.textContent = 'Cerrar caja';
+      owner.textContent = 'Cajero responsable: Jorge Ramírez · Apertura: hoy, ahora';
+    } else {
+      badge.textContent = 'Cerrada';
+      badge.className = 'badge cerrada';
+      btn.textContent = 'Abrir caja';
+      owner.textContent = '';
+    }
+  }
+
+  function showTab(tab){
+    document.getElementById('viewCaja').style.display = tab === 'caja' ? 'block' : 'none';
+    document.getElementById('viewTodos').style.display = tab === 'todos' ? 'block' : 'none';
+    document.getElementById('tabCaja').classList.toggle('active', tab === 'caja');
+    document.getElementById('tabTodos').classList.toggle('active', tab === 'todos');
+  }
+</script>
+
+</body>
+</html>
