@@ -206,7 +206,7 @@
 <main>
   <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;">
     <h1 style="margin:0;">Arqueo de caja</h1>
-    <button class="btn btn-primary" id="actionBtn" style="display:none;" onclick="handleActionBtn()">Cerrar caja</button>
+    <button class="btn btn-primary" id="actionBtn" style="display:none;" onclick="handleActionBtn()">Finalizar arqueo</button>
   </div>
 
   <div class="tabs">
@@ -300,7 +300,7 @@
       <div id="stateAdmin" style="display:none;">
         <div class="banner warn-red">Cerrar esta caja sin el conteo del cajero responsable queda registrado en el log de auditoría.</div>
         <div style="display:flex; gap:10px; flex-wrap:wrap;">
-          <button class="btn btn-primary" disabled title="Solo el cajero responsable puede hacer el cierre normal">Cerrar caja y hacer arqueo</button>
+          <button class="btn btn-primary" disabled title="Solo el cajero responsable puede hacer el cierre normal">Finalizar arqueo y hacer arqueo</button>
           <button class="btn btn-outline-orange" onclick="openModal()">Forzar cierre</button>
         </div>
       </div>
@@ -383,10 +383,10 @@
     if(role === 'dueno'){
       actionBtn.style.display = '';
       if(cajaAbierta){
-        actionBtn.textContent = 'Cerrar caja';
+        actionBtn.textContent = 'Finalizar arqueo';
         actionBtn.disabled = true; // se habilita con los campos completos
       } else {
-        actionBtn.textContent = 'Abrir caja';
+        actionBtn.textContent = 'Iniciar arqueo';
         actionBtn.disabled = false;
       }
     } else {
@@ -479,7 +479,7 @@
     document.querySelector('#cajaActivaCard .badge').className = 'badge bloqueada';
     stateDueno.innerHTML = '<div class="footer-note">Caja cerrada. El historial se actualizó en "Todos los arqueos de caja".</div>';
 
-    actionBtn.textContent = 'Abrir caja';
+    actionBtn.textContent = 'Iniciar arqueo';
     actionBtn.disabled = false;
   }
 
@@ -520,7 +520,7 @@
         </div>
       </div>`;
 
-    actionBtn.textContent = 'Cerrar caja';
+    actionBtn.textContent = 'Finalizar arqueo';
     actionBtn.disabled = true;
   }
 

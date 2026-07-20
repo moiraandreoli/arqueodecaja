@@ -110,7 +110,7 @@
             <span class="caja-name">Caja Central</span>
             <span class="badge cerrada" id="estadoBadge">Cerrada</span>
           </div>
-          <button class="btn btn-primary" id="mainBtn" style="margin-top:0;" onclick="toggleCaja()">Abrir caja</button>
+          <button class="btn btn-primary" id="mainBtn" style="margin-top:0;" onclick="toggleCaja()">Iniciar arqueo</button>
         </div>
         <div class="owner-line" id="ownerLine"></div>
       </div>
@@ -143,7 +143,7 @@
           <div class="admin-owner">Cajero responsable: Jorge Ramírez</div>
           <div class="banner-audit" id="auditJorge"></div>
         </div>
-        <button class="btn btn-outline-blue" style="margin-top:0;" onclick="openForceClose('Jorge Ramírez', 'rowJorge', 'auditJorge')">Cerrar caja</button>
+        <button class="btn btn-outline-blue" style="margin-top:0;" onclick="openForceClose('Jorge Ramírez', 'rowJorge', 'auditJorge')">Finalizar arqueo</button>
       </div>
       <div class="admin-row" id="rowAna">
         <div>
@@ -151,14 +151,14 @@
           <div class="admin-owner">Cajero responsable: Ana María Ruiz</div>
           <div class="banner-audit" id="auditAna"></div>
         </div>
-        <button class="btn btn-outline-blue" style="margin-top:0;" onclick="openForceClose('Ana María Ruiz', 'rowAna', 'auditAna')">Cerrar caja</button>
+        <button class="btn btn-outline-blue" style="margin-top:0;" onclick="openForceClose('Ana María Ruiz', 'rowAna', 'auditAna')">Finalizar arqueo</button>
       </div>
       <div class="admin-row">
         <div>
           <div class="admin-caja-name">Caja Delivery <span class="badge cerrada">Cerrada</span></div>
           <div class="admin-owner">Sin cajero asignado</div>
         </div>
-        <button class="btn btn-outline-blue" style="margin-top:0;" onclick="alert('Abre Caja Delivery, asignando cajero.')">Abrir caja</button>
+        <button class="btn btn-outline-blue" style="margin-top:0;" onclick="alert('Abre Caja Delivery, asignando cajero.')">Iniciar arqueo</button>
       </div>
     </div>
   </div>
@@ -191,7 +191,7 @@
     <div>
       <button class="btn btn-secondary" style="margin-top:0;" onclick="cancelFullForm()">&#8592; Volver</button>
     </div>
-    <button class="btn btn-primary" id="cerrarCajaFormBtn" style="margin-top:0;" disabled onclick="confirmForceClose()">Cerrar caja</button>
+    <button class="btn btn-primary" id="cerrarCajaFormBtn" style="margin-top:0;" disabled onclick="confirmForceClose()">Finalizar arqueo</button>
   </div>
 
   <h1 style="margin-bottom:2px;" id="fcJornadaTitle">Jornada — Caja Central</h1>
@@ -413,7 +413,7 @@
     const row = document.getElementById(forceCloseTarget.rowId);
     row.querySelector('.badge').textContent = 'Cerrada';
     row.querySelector('.badge').className = 'badge cerrada';
-    row.querySelector('button').textContent = 'Abrir caja';
+    row.querySelector('button').textContent = 'Iniciar arqueo';
     row.querySelector('button').setAttribute('onclick', "alert('Abre la caja, asignando nuevo cajero.')");
 
     cancelFullForm();
@@ -430,12 +430,12 @@
     if(abierta){
       badge.textContent = 'Abierta';
       badge.className = 'badge abierta';
-      btn.textContent = 'Cerrar caja';
+      btn.textContent = 'Finalizar arqueo';
       owner.textContent = 'Cajero responsable: Jorge Ramírez · Apertura: hoy, ahora';
     } else {
       badge.textContent = 'Cerrada';
       badge.className = 'badge cerrada';
-      btn.textContent = 'Abrir caja';
+      btn.textContent = 'Iniciar arqueo';
       owner.textContent = '';
     }
   }
