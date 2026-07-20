@@ -85,7 +85,7 @@
   <div class="brand">YOUR COMPANY</div>
   <div class="nav"><span>Configuración</span><span>Ventas</span><span>Compras</span><span>Stock</span><span>Finanzas</span></div>
 </div>
-<div class="toolbar">
+<div class="toolbar" id="roleToolbar">
   <label>Ver como</label>
   <span class="segmented" id="roleSwitch">
     <button class="active" data-role="cajero" onclick="setRole('cajero')">Cajero</button>
@@ -94,7 +94,7 @@
   </span>
 </div>
 
-<main>
+<main id="primaryMain">
   <h1 id="pageTitle">Arqueo de caja</h1>
 
   <div id="cajeroContent">
@@ -186,50 +186,122 @@
   </div>
 </main>
 
+<main id="fcFullFormMain" style="display:none; max-width:1040px; margin:24px auto 60px; padding:0 20px;">
+  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+    <div>
+      <button class="btn btn-secondary" style="margin-top:0;" onclick="cancelFullForm()">&#8592; Volver</button>
+    </div>
+    <button class="btn btn-primary" id="cerrarCajaFormBtn" style="margin-top:0;" disabled onclick="confirmForceClose()">Cerrar caja</button>
+  </div>
+
+  <h1 style="margin-bottom:2px;" id="fcJornadaTitle">Jornada — Caja Central</h1>
+  <p style="font-size:12.5px; color:var(--text-2); margin:0 0 16px;" id="fcJornadaSub">Apertura: 2026-07-06 07:58 · Usuario de apertura: Jorge Ramírez</p>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+    <div class="card">
+      <div style="font-weight:700; font-size:13.5px; margin-bottom:10px;">Saldos en Cajas del Punto de Venta</div>
+      <table>
+        <tr><th>Cuenta de Fondos</th><th>Moneda</th><th>Saldo Computado</th><th>Saldo Declarado</th><th>Diferencia</th></tr>
+        <tr>
+          <td>Caja Central</td><td>Guaraníes</td>
+          <td>Gs. 1.245.890</td>
+          <td><input id="saldoDeclarado" type="text" inputmode="numeric" placeholder="0"
+            style="width:100px; border:1px solid var(--gray-2); border-radius:6px; padding:4px 6px; font-size:12.5px; font-family:inherit;"
+            oninput="onFormFieldsInput()"></td>
+          <td id="diferenciaSaldo">—</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <div style="font-weight:700; font-size:13.5px; margin-bottom:10px;">Diferencias por Formas de Pago</div>
+      <table>
+        <tr><th>Forma de Pago</th><th>Valores Declarados</th><th>Valores Computados</th><th>Diferencia</th></tr>
+        <tr>
+          <td>Efectivo (Ventas + Saldo Inicial − Egresos)</td>
+          <td><input id="declaradoEfectivo" type="text" inputmode="numeric" placeholder="0"
+            style="width:90px; border:1px solid var(--gray-2); border-radius:6px; padding:4px 6px; font-size:12.5px; font-family:inherit;"
+            oninput="onFormFieldsInput()"></td>
+          <td>Gs. 500.000</td>
+          <td id="diferenciaEfectivo">—</td>
+        </tr>
+        <tr>
+          <td>Tarjetas y otras Formas de Pago Procesadas por Terceros (Voucher)</td>
+          <td><input id="declaradoVoucher" type="text" inputmode="numeric" placeholder="0"
+            style="width:90px; border:1px solid var(--gray-2); border-radius:6px; padding:4px 6px; font-size:12.5px; font-family:inherit;"
+            oninput="onFormFieldsInput()"></td>
+          <td>Gs. 545.890</td>
+          <td id="diferenciaVoucher">—</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;">
+    <div class="card">
+      <div style="font-weight:700; font-size:13.5px; margin-bottom:10px;">Recaudación</div>
+      <table>
+        <tr><th>Billete</th><th>Cantidad</th><th>Monto</th></tr>
+        <tr>
+          <td>Gs. 100.000</td>
+          <td><input type="text" inputmode="numeric" placeholder="0" style="width:60px; border:1px solid var(--gray-2); border-radius:6px; padding:4px 6px; font-size:12.5px; font-family:inherit;"></td>
+          <td>Gs. 0</td>
+        </tr>
+        <tr>
+          <td>Gs. 50.000</td>
+          <td><input type="text" inputmode="numeric" placeholder="0" style="width:60px; border:1px solid var(--gray-2); border-radius:6px; padding:4px 6px; font-size:12.5px; font-family:inherit;"></td>
+          <td>Gs. 0</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <div style="font-weight:700; font-size:13.5px; margin-bottom:10px;">Vouchers Declarados</div>
+      <table>
+        <tr><th>Monto</th></tr>
+        <tr><td><input id="voucherDeclaradoLinea" type="text" inputmode="numeric" placeholder="0" style="width:100%; border:1px solid var(--gray-2); border-radius:6px; padding:4px 6px; font-size:12.5px; font-family:inherit;"></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;">
+    <div class="card">
+      <div style="font-weight:700; font-size:13.5px; margin-bottom:10px;">Resumen de Egresos</div>
+      <table>
+        <tr><th>Id</th><th>Concepto</th><th>Monto</th></tr>
+        <tr><td colspan="3" style="color:var(--text-2); font-size:12px;">Sin egresos registrados</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div style="font-weight:700; font-size:13.5px; margin-bottom:10px;">Resumen de Cobros</div>
+      <table>
+        <tr><th>Id</th><th>Concepto</th><th>Monto</th></tr>
+        <tr><td colspan="3" style="color:var(--text-2); font-size:12px;">Sin cobros registrados</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <p style="font-size:11.5px; color:var(--text-2); margin-top:14px;">Versión reducida del formulario real (Jornada 200), suficiente para simular el flujo de cierre forzado — no reproduce cada sección (Estado de Cuenta, Cheques, Resumen de Ventas y Cobros completo) del reporte final.</p>
+</main>
+
 <div class="overlay" id="forceCloseOverlay">
   <div class="modal" style="width:420px;">
-
-    <!-- Paso 1: motivo -->
-    <div id="fcStep1">
-      <h3 id="forceCloseTitle">Forzar cierre de caja</h3>
-      <p>Esta acción cierra la jornada a nombre de otro cajero. Requiere motivo — el conteo físico se hace en el siguiente paso, siempre.</p>
-      <div class="field-label">Motivo (obligatorio)</div>
-      <select id="motivoForzado">
-        <option value="">Seleccioná un motivo</option>
-        <option value="Cajero ausente">Cajero ausente</option>
-        <option value="Renuncia">Renuncia</option>
-        <option value="Emergencia">Emergencia</option>
-        <option value="Error de operación">Error de operación</option>
-        <option value="Otro">Otro</option>
-      </select>
-      <textarea id="comentarioForzado" placeholder="Comentario adicional (opcional)"></textarea>
-      <div class="modal-actions">
-        <button class="btn btn-secondary" onclick="closeForceClose()">Cancelar</button>
-        <button class="btn btn-red" id="continueFcBtn" disabled onclick="goFcStep2()">Continuar al conteo</button>
-      </div>
+    <h3 id="forceCloseTitle">Forzar cierre de caja</h3>
+    <p>Esta acción cierra la jornada a nombre de otro cajero. Requiere motivo — el conteo físico se hace en el siguiente paso, en el formulario completo de arqueo.</p>
+    <div class="field-label">Motivo (obligatorio)</div>
+    <select id="motivoForzado">
+      <option value="">Seleccioná un motivo</option>
+      <option value="Cajero ausente">Cajero ausente</option>
+      <option value="Renuncia">Renuncia</option>
+      <option value="Emergencia">Emergencia</option>
+      <option value="Error de operación">Error de operación</option>
+      <option value="Otro">Otro</option>
+    </select>
+    <textarea id="comentarioForzado" placeholder="Comentario adicional (opcional)"></textarea>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeForceClose()">Cancelar</button>
+      <button class="btn btn-primary" id="continueFcBtn" disabled onclick="goToFullForm()">Continuar al formulario de arqueo</button>
     </div>
-
-    <!-- Paso 2: conteo físico obligatorio -->
-    <div id="fcStep2" style="display:none;">
-      <h3>Conteo físico</h3>
-      <p id="fcStep2Sub">Contá el efectivo que hay en la caja ahora mismo. No se puede forzar un cierre sin este paso.</p>
-
-      <div class="field-label" style="margin-top:6px;">Voucher (tarjeta de crédito y débito)</div>
-      <input id="fcVoucher" type="text" inputmode="numeric" placeholder="Ingresá el monto de voucher"
-        style="width:100%; border:1px solid var(--gray-2); border-radius:8px; padding:9px 10px; font-size:14px; font-family:inherit; margin-top:4px;"
-        oninput="onFcConteoInput()">
-
-      <div class="field-label" style="margin-top:10px;">Billetes</div>
-      <input id="fcBilletes" type="text" inputmode="numeric" placeholder="Ingresá el monto en billetes"
-        style="width:100%; border:1px solid var(--gray-2); border-radius:8px; padding:9px 10px; font-size:14px; font-family:inherit; margin-top:4px;"
-        oninput="onFcConteoInput()">
-
-      <div class="modal-actions">
-        <button class="btn btn-secondary" onclick="goFcStep1()">Volver</button>
-        <button class="btn btn-red" id="confirmForceBtn" disabled onclick="confirmForceClose()">Confirmar cierre</button>
-      </div>
-    </div>
-
   </div>
 </div>
 
@@ -250,29 +322,11 @@
     document.getElementById('motivoForzado').value = '';
     document.getElementById('comentarioForzado').value = '';
     document.getElementById('continueFcBtn').disabled = true;
-    document.getElementById('fcVoucher').value = '';
-    document.getElementById('fcBilletes').value = '';
-    document.getElementById('confirmForceBtn').disabled = true;
-    document.getElementById('fcStep2Sub').textContent = 'Contá el efectivo que hay en la caja ahora mismo. No se puede forzar un cierre sin este paso.';
-    goFcStep1();
     document.getElementById('forceCloseOverlay').classList.add('show');
   }
 
   function closeForceClose(){
     document.getElementById('forceCloseOverlay').classList.remove('show');
-    forceCloseTarget = null;
-  }
-
-  function goFcStep1(){
-    document.getElementById('fcStep1').style.display = 'block';
-    document.getElementById('fcStep2').style.display = 'none';
-  }
-
-  function goFcStep2(){
-    document.getElementById('fcStep2Sub').textContent =
-      'Contá el efectivo de la caja de ' + forceCloseTarget.nombre + ' ahora mismo. No se puede forzar un cierre sin este paso.';
-    document.getElementById('fcStep1').style.display = 'none';
-    document.getElementById('fcStep2').style.display = 'block';
   }
 
   document.getElementById('motivoForzado').addEventListener('change', (e) => {
@@ -283,26 +337,72 @@
     const raw = document.getElementById(id).value.replace(/[^0-9]/g, '');
     return raw ? parseInt(raw, 10) : null;
   }
+  function fmtGsFc(n){ return 'Gs. ' + n.toLocaleString('es-PY'); }
 
-  function onFcConteoInput(){
-    const voucher = parseNumFc('fcVoucher');
-    const billetes = parseNumFc('fcBilletes');
-    document.getElementById('confirmForceBtn').disabled = (voucher === null || billetes === null);
+  const SISTEMA_SALDO = 1245890;
+  const SISTEMA_EFECTIVO = 500000;
+  const SISTEMA_VOUCHER = 545890;
+
+  function goToFullForm(){
+    if(!forceCloseTarget) return;
+    closeForceClose();
+
+    document.getElementById('fcJornadaTitle').textContent = 'Jornada — Caja de ' + forceCloseTarget.nombre;
+    document.getElementById('fcJornadaSub').textContent = 'Apertura: 2026-07-06 07:58 · Usuario de apertura: ' + forceCloseTarget.nombre;
+    document.getElementById('saldoDeclarado').value = '';
+    document.getElementById('declaradoEfectivo').value = '';
+    document.getElementById('declaradoVoucher').value = '';
+    document.getElementById('diferenciaSaldo').textContent = '—';
+    document.getElementById('diferenciaEfectivo').textContent = '—';
+    document.getElementById('diferenciaVoucher').textContent = '—';
+    document.getElementById('cerrarCajaFormBtn').disabled = true;
+
+    document.getElementById('adminContent').style.display = 'none';
+    document.getElementById('roleToolbar').style.display = 'none';
+    document.getElementById('primaryMain').style.display = 'none';
+    document.getElementById('fcFullFormMain').style.display = 'block';
+  }
+
+  function cancelFullForm(){
+    document.getElementById('fcFullFormMain').style.display = 'none';
+    document.getElementById('adminContent').style.display = 'block';
+    document.getElementById('roleToolbar').style.display = 'flex';
+    document.getElementById('primaryMain').style.display = 'block';
+    forceCloseTarget = null;
+  }
+
+  function onFormFieldsInput(){
+    const saldo = parseNumFc('saldoDeclarado');
+    const efectivo = parseNumFc('declaradoEfectivo');
+    const voucher = parseNumFc('declaradoVoucher');
+
+    function diffText(declarado, esperado){
+      if(declarado === null) return '—';
+      const diff = declarado - esperado;
+      if(diff === 0) return 'Gs. 0';
+      return (diff > 0 ? '+' : '') + 'Gs. ' + diff.toLocaleString('es-PY');
+    }
+
+    document.getElementById('diferenciaSaldo').textContent = diffText(saldo, SISTEMA_SALDO);
+    document.getElementById('diferenciaEfectivo').textContent = diffText(efectivo, SISTEMA_EFECTIVO);
+    document.getElementById('diferenciaVoucher').textContent = diffText(voucher, SISTEMA_VOUCHER);
+
+    document.getElementById('cerrarCajaFormBtn').disabled = (saldo === null || efectivo === null || voucher === null);
   }
 
   function confirmForceClose(){
     if(!forceCloseTarget) return;
     const motivo = document.getElementById('motivoForzado').value;
     const comentario = document.getElementById('comentarioForzado').value.trim();
-    const voucher = parseNumFc('fcVoucher') || 0;
-    const billetes = parseNumFc('fcBilletes') || 0;
-    const total = voucher + billetes;
+    const saldo = parseNumFc('saldoDeclarado') || 0;
+    const efectivo = parseNumFc('declaradoEfectivo') || 0;
+    const voucher = parseNumFc('declaradoVoucher') || 0;
     const now = new Date().toLocaleString('es-PY');
 
     let line = 'Cierre forzado · ' + now + '<br>';
-    line += 'Ejecutado por: Admin (no es el titular) — hizo el conteo físico en el momento<br>';
+    line += 'Ejecutado por: Admin (no es el titular) — completó el formulario de arqueo en el momento<br>';
     line += 'Responsable financiero: ' + forceCloseTarget.nombre + ' (sin cambios)<br>';
-    line += 'Conteo: Voucher Gs. ' + voucher.toLocaleString('es-PY') + ' · Billetes Gs. ' + billetes.toLocaleString('es-PY') + ' · Total Gs. ' + total.toLocaleString('es-PY') + '<br>';
+    line += 'Saldo declarado: ' + fmtGsFc(saldo) + ' · Efectivo: ' + fmtGsFc(efectivo) + ' · Voucher: ' + fmtGsFc(voucher) + '<br>';
     line += 'Motivo: ' + motivo;
     if(comentario) line += ' · Comentario: ' + comentario;
 
@@ -316,7 +416,7 @@
     row.querySelector('button').textContent = 'Abrir caja';
     row.querySelector('button').setAttribute('onclick', "alert('Abre la caja, asignando nuevo cajero.')");
 
-    closeForceClose();
+    cancelFullForm();
   }
 
   let abierta = false;
