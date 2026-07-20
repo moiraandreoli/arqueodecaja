@@ -315,6 +315,7 @@
   }
 
   let forceCloseTarget = null;
+  let formCaller = null; // 'cajero' | 'admin'
 
   function openForceClose(nombre, rowId, auditId){
     forceCloseTarget = { nombre, rowId, auditId };
@@ -345,6 +346,7 @@
 
   function goToFullForm(){
     if(!forceCloseTarget) return;
+    formCaller = 'admin';
     closeForceClose();
 
     document.getElementById('fcJornadaTitle').textContent = 'Jornada — Caja de ' + forceCloseTarget.nombre;
@@ -365,9 +367,12 @@
 
   function cancelFullForm(){
     document.getElementById('fcFullFormMain').style.display = 'none';
-    document.getElementById('adminContent').style.display = 'block';
     document.getElementById('roleToolbar').style.display = 'flex';
     document.getElementById('primaryMain').style.display = 'block';
+    if(formCaller === 'admin'){
+      document.getElementById('adminContent').style.display = 'block';
+    }
+    formCaller = null;
     forceCloseTarget = null;
   }
 
@@ -391,16 +396,27 @@
   }
 
   function confirmForceClose(){
-    if(!forceCloseTarget) return;
-    const motivo = document.getElementById('motivoForzado').value;
-    const comentario = document.getElementById('comentarioForzado').value.trim();
     const saldo = parseNumFc('saldoDeclarado') || 0;
     const efectivo = parseNumFc('declaradoEfectivo') || 0;
     const voucher = parseNumFc('declaradoVoucher') || 0;
     const now = new Date().toLocaleString('es-PY');
 
+    if(formCaller === 'cajero'){
+      abierta = false;
+      document.getElementById('estadoBadge').textContent = 'Cerrada';
+      document.getElementById('estadoBadge').className = 'badge cerrada';
+      document.getElementById('mainBtn').textContent = 'Iniciar arqueo';
+      document.getElementById('ownerLine').textContent = '';
+      cancelFullForm();
+      return;
+    }
+
+    if(!forceCloseTarget) return;
+    const motivo = document.getElementById('motivoForzado').value;
+    const comentario = document.getElementById('comentarioForzado').value.trim();
+
     let line = 'Cierre forzado · ' + now + '<br>';
-    line += 'Ejecutado por: Admin (no es el titular) — completó el formulario de arqueo en el momento<br>';
+    line += 'Ejecutado por: Admin — completó el formulario de arqueo en el momento<br>';
     line += 'Responsable financiero: ' + forceCloseTarget.nombre + ' (sin cambios)<br>';
     line += 'Saldo declarado: ' + fmtGsFc(saldo) + ' · Efectivo: ' + fmtGsFc(efectivo) + ' · Voucher: ' + fmtGsFc(voucher) + '<br>';
     line += 'Motivo: ' + motivo;
@@ -422,21 +438,27 @@
   let abierta = false;
 
   function toggleCaja(){
-    abierta = !abierta;
-    const badge = document.getElementById('estadoBadge');
-    const btn = document.getElementById('mainBtn');
-    const owner = document.getElementById('ownerLine');
-
     if(abierta){
-      badge.textContent = 'Abierta';
-      badge.className = 'badge abierta';
-      btn.textContent = 'Finalizar arqueo';
-      owner.textContent = 'Cajero responsable: Jorge Ramírez · Apertura: hoy, ahora';
+      // Mostrar formulario de arqueo antes de cerrar
+      formCaller = 'cajero';
+      document.getElementById('fcJornadaTitle').textContent = 'Jornada — Caja Central';
+      document.getElementById('fcJornadaSub').textContent = 'Apertura: hoy, 07:58 · Usuario de apertura: Jorge Ramírez';
+      document.getElementById('saldoDeclarado').value = '';
+      document.getElementById('declaradoEfectivo').value = '';
+      document.getElementById('declaradoVoucher').value = '';
+      document.getElementById('diferenciaSaldo').textContent = '—';
+      document.getElementById('diferenciaEfectivo').textContent = '—';
+      document.getElementById('diferenciaVoucher').textContent = '—';
+      document.getElementById('cerrarCajaFormBtn').disabled = true;
+      document.getElementById('roleToolbar').style.display = 'none';
+      document.getElementById('primaryMain').style.display = 'none';
+      document.getElementById('fcFullFormMain').style.display = 'block';
     } else {
-      badge.textContent = 'Cerrada';
-      badge.className = 'badge cerrada';
-      btn.textContent = 'Iniciar arqueo';
-      owner.textContent = '';
+      abierta = true;
+      document.getElementById('estadoBadge').textContent = 'Abierta';
+      document.getElementById('estadoBadge').className = 'badge abierta';
+      document.getElementById('mainBtn').textContent = 'Finalizar arqueo';
+      document.getElementById('ownerLine').textContent = 'Cajero responsable: Jorge Ramírez · Apertura: hoy, ahora';
     }
   }
 
