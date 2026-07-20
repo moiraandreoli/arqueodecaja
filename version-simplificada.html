@@ -24,7 +24,8 @@
   .nav{display:flex; gap:18px; color:#b9c0d6;}
   main{max-width:800px; margin:24px auto 60px; padding:0 20px;}
   h1{font-size:20px; margin:0 0 16px;}
-  .tabs{display:flex; gap:22px; border-bottom:1px solid var(--gray-2); margin-bottom:18px;}
+  .tabs{display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--gray-2); margin-bottom:18px;}
+  .tabs-links{display:flex; gap:22px;}
   .tabs span{padding:8px 2px; font-size:13px; color:var(--text-2); cursor:pointer;}
   .tabs span.active{color:var(--text-1); font-weight:600; border-bottom:2px solid var(--blue);}
   .card{background:var(--white); border:1px solid var(--gray-2); border-radius:10px; padding:20px 22px; max-width:800px;}
@@ -115,8 +116,14 @@
   <!-- Vista cajero -->
   <div id="cajeroContent">
     <div class="tabs">
-      <span class="active" id="tabCaja" onclick="showTab('caja')">Arqueo de caja</span>
-      <span id="tabTodos" onclick="showTab('todos')">Todos los arqueos</span>
+      <div class="tabs-links">
+        <span class="active" id="tabCaja" onclick="showTab('caja')">Arqueo de caja</span>
+        <span id="tabTodos" onclick="showTab('todos')">Todos los arqueos</span>
+      </div>
+      <button class="btn btn-secondary" style="margin-top:0; display:inline-flex; align-items:center; gap:6px; font-size:12.5px; padding:7px 13px;" onclick="alert('Navegando al POS...')">
+        Abrir POS
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 1h4v4M11 1L5.5 6.5M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
     </div>
 
     <div id="viewCaja">
@@ -148,7 +155,9 @@
             <!-- Derecha: Según usuario -->
             <div class="conteo-col">
               <div class="conteo-section-title">Según usuario</div>
-              <div style="font-size:12px; color:var(--text-2); margin-bottom:3px;">Voucher (tarjeta de crédito y débito)</div>
+              <div style="font-size:12px; color:var(--text-2); margin-bottom:3px;">Monto inicial</div>
+              <input id="uMonto" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onConteoInput()">
+              <div style="font-size:12px; color:var(--text-2); margin-bottom:3px; margin-top:10px;">Voucher (tarjeta de crédito y débito)</div>
               <input id="uVoucher" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onConteoInput()">
               <div style="font-size:12px; font-weight:600; margin:12px 0 4px; color:var(--text-1);">Billetes (Guaraníes)</div>
               <div class="denom-grid">
@@ -181,6 +190,9 @@
               <option value="faltante">Faltante sin identificar</option>
               <option value="otro">Otro</option>
             </select>
+          </div>
+          <div style="display:flex; justify-content:flex-end; margin-top:18px;">
+            <button class="btn btn-primary" id="cerrarCajeroBtn" style="margin-top:0;" disabled onclick="toggleCaja()">Cerrar arqueo</button>
           </div>
         </div>
       </div>
@@ -267,9 +279,8 @@
 
 <!-- Formulario de arqueo — admin (forma de dos columnas) -->
 <main id="fcFullFormMain" style="display:none; max-width:800px; margin:24px auto 60px; padding:0 20px;">
-  <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+  <div style="margin-bottom:16px;">
     <button class="btn btn-secondary" style="margin-top:0;" onclick="cancelFullForm()">&#8592; Volver</button>
-    <button class="btn btn-primary" id="cerrarCajaFormBtn" style="margin-top:0;" disabled onclick="confirmForceClose()">Cerrar arqueo</button>
   </div>
 
   <h1 style="margin-bottom:2px;" id="fcJornadaTitle">Jornada — Caja Central</h1>
@@ -292,7 +303,9 @@
       <!-- Derecha: Según usuario -->
       <div class="conteo-col">
         <div class="conteo-section-title">Según usuario</div>
-        <div style="font-size:12px; color:var(--text-2); margin-bottom:3px;">Voucher (tarjeta de crédito y débito)</div>
+        <div style="font-size:12px; color:var(--text-2); margin-bottom:3px;">Monto inicial</div>
+        <input id="fcMonto" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onFcInput()">
+        <div style="font-size:12px; color:var(--text-2); margin-bottom:3px; margin-top:10px;">Voucher (tarjeta de crédito y débito)</div>
         <input id="fcVoucher" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onFcInput()">
         <div style="font-size:12px; font-weight:600; margin:12px 0 4px; color:var(--text-1);">Billetes (Guaraníes)</div>
         <div class="denom-grid">
@@ -326,6 +339,9 @@
         <option value="otro">Otro</option>
       </select>
     </div>
+    <div style="display:flex; justify-content:flex-end; margin-top:18px;">
+      <button class="btn btn-primary" id="cerrarCajaFormBtn" style="margin-top:0;" disabled onclick="confirmForceClose()">Cerrar arqueo</button>
+    </div>
   </div>
 </main>
 
@@ -352,30 +368,32 @@
 </div>
 
 <script>
+  const SIS_INICIAL = 200000;
   const SIS_VOUCHER = 545890;
   const SIS_BILLETES = 500000;
-  const SIS_ESPERADO = SIS_VOUCHER + SIS_BILLETES; // 1.045.890
+  const SIS_TOTAL = SIS_INICIAL + SIS_VOUCHER + SIS_BILLETES; // 1.245.890
 
   function parseVal(v){ const r = v.replace(/[^0-9]/g,''); return r ? parseInt(r,10) : null; }
   function fmtGs(n){ return 'Gs. ' + n.toLocaleString('es-PY'); }
 
-  function calcConteo(voucherEl, denomEls, subtotalId, totalId, bannerId, motivoBlockId, motivoSelectId, submitBtn){
+  function calcConteo(montoEl, voucherEl, denomEls, subtotalId, totalId, bannerId, motivoBlockId, motivoSelectId, submitBtn){
+    const montoVal = parseVal(montoEl.value);
     const voucherVal = parseVal(voucherEl.value);
     let subtotal = 0;
     denomEls.forEach(inp => { subtotal += (parseVal(inp.value) || 0) * parseInt(inp.dataset.denom); });
 
     document.getElementById(subtotalId).textContent = fmtGs(subtotal);
-    const total = (voucherVal || 0) + subtotal;
+    const total = (montoVal || 0) + (voucherVal || 0) + subtotal;
     document.getElementById(totalId).textContent = fmtGs(total);
 
-    if(voucherVal === null){
+    if(montoVal === null || voucherVal === null){
       document.getElementById(bannerId).style.display = 'none';
       document.getElementById(motivoBlockId).style.display = 'none';
       submitBtn.disabled = true;
       return;
     }
 
-    const diff = total - SIS_ESPERADO;
+    const diff = total - SIS_TOTAL;
     const banner = document.getElementById(bannerId);
     const motivoBlock = document.getElementById(motivoBlockId);
 
@@ -385,7 +403,7 @@
       submitBtn.disabled = false;
     } else {
       banner.className = 'diff-banner ' + (diff > 0 ? 'sobrante' : 'faltante');
-      banner.textContent = (diff > 0 ? 'Sobrante de ' : 'Faltante de ') + fmtGs(Math.abs(diff)) + ' respecto al total esperado (Voucher + Billetes según sistema).';
+      banner.textContent = (diff > 0 ? 'Sobrante de ' : 'Faltante de ') + fmtGs(Math.abs(diff)) + ' respecto al total según sistema.';
       banner.style.display = 'block';
       motivoBlock.style.display = 'block';
       submitBtn.disabled = !document.getElementById(motivoSelectId).value;
@@ -395,16 +413,18 @@
   // Cajero inline
   function onConteoInput(){
     calcConteo(
+      document.getElementById('uMonto'),
       document.getElementById('uVoucher'),
       document.querySelectorAll('.cajero-denom'),
       'uSubtotalBilletes', 'uTotal', 'diffBanner', 'motivoBlock', 'motivoConteo',
-      document.getElementById('mainBtn')
+      document.getElementById('cerrarCajeroBtn')
     );
   }
 
   // Admin full-form
   function onFcInput(){
     calcConteo(
+      document.getElementById('fcMonto'),
       document.getElementById('fcVoucher'),
       document.querySelectorAll('.fc-denom'),
       'fcSubtotalBilletes', 'fcTotal', 'fcDiffBanner', 'fcMotivoBlock', 'fcMotivoConteo',
@@ -413,6 +433,7 @@
   }
 
   function resetConteo(){
+    document.getElementById('uMonto').value = '';
     document.getElementById('uVoucher').value = '';
     document.querySelectorAll('.cajero-denom').forEach(inp => inp.value = '');
     document.getElementById('uSubtotalBilletes').textContent = fmtGs(0);
@@ -420,9 +441,11 @@
     document.getElementById('diffBanner').style.display = 'none';
     document.getElementById('motivoBlock').style.display = 'none';
     document.getElementById('motivoConteo').value = '';
+    document.getElementById('cerrarCajeroBtn').disabled = true;
   }
 
   function resetFcForm(){
+    document.getElementById('fcMonto').value = '';
     document.getElementById('fcVoucher').value = '';
     document.querySelectorAll('.fc-denom').forEach(inp => inp.value = '');
     document.getElementById('fcSubtotalBilletes').textContent = fmtGs(0);
@@ -473,8 +496,7 @@
       abierta = true;
       document.getElementById('estadoBadge').textContent = 'Abierta';
       document.getElementById('estadoBadge').className = 'badge abierta';
-      document.getElementById('mainBtn').textContent = 'Cerrar arqueo';
-      document.getElementById('mainBtn').disabled = true;
+      document.getElementById('mainBtn').style.display = 'none';
       document.getElementById('ownerLine').textContent = 'Cajero responsable: Jorge Ramírez · Apertura: hoy, ahora';
       resetConteo();
       document.getElementById('conteoBlock').style.display = 'block';
@@ -485,8 +507,7 @@
     abierta = false;
     document.getElementById('estadoBadge').textContent = 'Cerrada';
     document.getElementById('estadoBadge').className = 'badge cerrada';
-    document.getElementById('mainBtn').textContent = 'Abrir caja';
-    document.getElementById('mainBtn').disabled = false;
+    document.getElementById('mainBtn').style.display = '';
     document.getElementById('ownerLine').textContent = '';
     document.getElementById('conteoBlock').style.display = 'none';
     resetConteo();
@@ -536,12 +557,13 @@
 
   function confirmForceClose(){
     if(!forceCloseTarget) return;
+    const monto = parseVal(document.getElementById('fcMonto').value) || 0;
     const voucher = parseVal(document.getElementById('fcVoucher').value) || 0;
     let billetes = 0;
     document.querySelectorAll('.fc-denom').forEach(inp => {
       billetes += (parseVal(inp.value) || 0) * parseInt(inp.dataset.denom);
     });
-    const total = voucher + billetes;
+    const total = monto + voucher + billetes;
     const now = new Date().toLocaleString('es-PY');
     const motivo = document.getElementById('motivoForzado').value;
     const comentario = document.getElementById('comentarioForzado').value.trim();
@@ -549,7 +571,7 @@
 
     let line = 'Cierre forzado · ' + now + '<br>';
     line += 'Ejecutado por: Admin · Responsable: ' + forceCloseTarget.nombre + '<br>';
-    line += 'Total declarado: ' + fmtGs(total) + ' (Voucher: ' + fmtGs(voucher) + ' · Billetes: ' + fmtGs(billetes) + ')<br>';
+    line += 'Total declarado: ' + fmtGs(total) + ' (Monto inicial: ' + fmtGs(monto) + ' · Voucher: ' + fmtGs(voucher) + ' · Billetes: ' + fmtGs(billetes) + ')<br>';
     line += 'Motivo de cierre: ' + motivo;
     if(comentario) line += ' · ' + comentario;
     if(motivoDiff) line += '<br>Motivo diferencia: ' + motivoDiff;
