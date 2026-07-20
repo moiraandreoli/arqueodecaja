@@ -258,20 +258,12 @@
         <span class="badge abierta">Abierta</span>
       </div>
       <div class="owner-line">Cajero responsable: Jorge Ramírez · Apertura: hoy, 07:58</div>
-      <div class="conteo-grid" style="margin-top:14px;">
-        <div class="conteo-col col-sep">
-          <div class="conteo-section-title">Según sistema</div>
-          <div class="conteo-row"><span class="lbl">Monto inicial</span><span>Gs. 200.000</span></div>
-          <div class="conteo-row"><span class="lbl">Voucher</span><span>Gs. 545.890</span></div>
-          <div class="conteo-row"><span class="lbl">Billetes</span><span>Gs. 500.000</span></div>
-          <div class="conteo-divider"></div>
-          <div class="conteo-total"><span>Total</span><span>Gs. 1.245.890</span></div>
-        </div>
-        <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; gap:10px; padding:12px 0;">
-          <div style="text-align:center; font-size:13px; color:var(--text-2);">No podés cerrar esta caja.</div>
-          <button class="btn btn-secondary" style="margin-top:0; font-size:12.5px; padding:8px 14px;" onclick="alert('Se avisó a Jorge Ramírez que hay una apertura pendiente en Caja Central.')">Avisar a Jorge</button>
-          <button class="btn btn-outline-blue" style="margin-top:0; font-size:12.5px; padding:8px 14px;" onclick="alert('Se avisó al Admin (Ana Torres) que la caja de Jorge Ramírez sigue abierta.')">Avisar al Admin</button>
-        </div>
+      <div style="background:var(--gray-1); border:1px solid var(--gray-3); border-radius:8px; padding:14px 16px; margin-top:14px; font-size:13px; color:var(--text-2); line-height:1.5;">
+        Existe una jornada abierta a cargo de Jorge Ramírez. No podés abrir una caja nueva hasta que él la cierre, o hasta que un supervisor fuerce el cierre.
+      </div>
+      <div style="display:flex; gap:10px; margin-top:14px;">
+        <button class="btn btn-secondary" style="margin-top:0;" onclick="alert('Se avisó a Jorge Ramírez que hay una apertura pendiente en Caja Central.')">Avisar a Jorge</button>
+        <button class="btn btn-outline-blue" style="margin-top:0;" onclick="alert('Se avisó al Admin (Ana Torres) que la caja de Jorge Ramírez sigue abierta.')">Avisar al Admin</button>
       </div>
     </div>
   </div>
