@@ -27,10 +27,7 @@
   .tabs{display:flex; gap:22px; border-bottom:1px solid var(--gray-2); margin-bottom:18px;}
   .tabs span{padding:8px 2px; font-size:13px; color:var(--text-2); cursor:pointer;}
   .tabs span.active{color:var(--text-1); font-weight:600; border-bottom:2px solid var(--blue);}
-  .card{
-    background:var(--white); border:1px solid var(--gray-2); border-radius:10px;
-    padding:20px 22px; max-width:800px;
-  }
+  .card{background:var(--white); border:1px solid var(--gray-2); border-radius:10px; padding:20px 22px; max-width:800px;}
   .row-title{display:flex; align-items:center; justify-content:space-between;}
   .caja-name{font-size:16px; font-weight:700;}
   .badge{font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px;}
@@ -39,31 +36,28 @@
   .owner-line{font-size:12.5px; color:var(--text-2); margin-top:6px; min-height:18px;}
   .btn{border:none; border-radius:8px; padding:10px 18px; font-size:13px; font-weight:600; cursor:pointer; margin-top:16px;}
   .btn-primary{background:var(--blue); color:var(--white);}
-  .btn-primary:hover{background:var(--blue-dark);}
+  .btn-primary:hover:not(:disabled){background:var(--blue-dark);}
+  .btn-primary:disabled{background:var(--gray-3); color:#8b90a3; cursor:not-allowed;}
   .btn-outline-blue{background:transparent; color:var(--blue); border:1px solid var(--blue);}
   .btn-outline-blue:hover{background:#eef3ff;}
+  .btn-secondary{background:var(--gray-1); color:var(--text-1); border:1px solid var(--gray-2);}
   table{width:100%; border-collapse:collapse; font-size:12.5px;}
   th{text-align:left; color:var(--text-2); font-weight:600; padding:8px 6px; border-bottom:1px solid var(--gray-2);}
   td{padding:9px 6px; border-bottom:1px solid var(--gray-1);}
-  .toolbar{
-    background:var(--white); border-bottom:1px solid var(--gray-2); padding:12px 22px;
-    display:flex; gap:14px; align-items:center; font-size:13px;
-  }
+  .toolbar{background:var(--white); border-bottom:1px solid var(--gray-2); padding:12px 22px; display:flex; gap:14px; align-items:center; font-size:13px; flex-wrap:wrap;}
   .toolbar label{color:var(--text-2); margin-right:6px;}
   .segmented{display:inline-flex; background:var(--gray-1); border:1px solid var(--gray-2); border-radius:8px; padding:2px;}
   .segmented button{border:none; background:transparent; padding:6px 12px; font-size:13px; border-radius:6px; cursor:pointer; color:var(--text-2);}
   .segmented button.active{background:var(--navy); color:var(--white);}
-  .admin-row{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:14px 4px; border-bottom:1px solid var(--gray-1);
-  }
+  .blind-toggle{display:flex; align-items:center; gap:6px; font-size:12.5px; color:var(--text-2); cursor:pointer; margin-left:auto;}
+  .blind-toggle input{cursor:pointer;}
+  .admin-row{display:flex; align-items:center; justify-content:space-between; padding:14px 4px; border-bottom:1px solid var(--gray-1);}
   .admin-row:last-child{border-bottom:none;}
   .admin-caja-name{font-size:14px; font-weight:700;}
   .admin-caja-name .badge{margin-left:8px; vertical-align:middle;}
   .admin-owner{font-size:12px; color:var(--text-2); margin-top:2px;}
   .estado-ok{color:var(--green); font-weight:600;}
   .estado-dif{color:#e8792b; font-weight:600;}
-
   .overlay{position:fixed; inset:0; background:rgba(16,27,51,.45); display:none; align-items:center; justify-content:center; z-index:50;}
   .overlay.show{display:flex;}
   .modal{background:var(--white); border-radius:12px; padding:22px 24px; width:400px; max-width:90vw;}
@@ -75,8 +69,26 @@
   .modal-actions{display:flex; justify-content:flex-end; gap:10px; margin-top:18px;}
   .btn-red{background:#d33c3c; color:var(--white);}
   .btn-red:disabled{background:var(--gray-3); color:#8b90a3; cursor:not-allowed;}
-  .btn-secondary{background:var(--gray-1); color:var(--text-1); border:1px solid var(--gray-2);}
   .banner-audit{background:var(--gray-1); border:1px solid var(--gray-3); color:var(--text-2); font-family:monospace; font-size:11.5px; padding:10px 12px; border-radius:8px; margin-top:12px; display:none;}
+
+  /* Conteo de dos columnas */
+  .conteo-grid{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:14px;}
+  .conteo-col{display:flex; flex-direction:column;}
+  .conteo-section-title{font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--text-2); margin-bottom:10px;}
+  .conteo-row{display:flex; justify-content:space-between; font-size:13px; padding:4px 0;}
+  .conteo-row .lbl{color:var(--text-2);}
+  .conteo-divider{height:1px; background:var(--gray-2); margin:8px 0;}
+  .conteo-total{display:flex; justify-content:space-between; font-size:14px; font-weight:700; padding:4px 0; margin-top:auto;}
+  .denom-grid{display:grid; grid-template-columns:1fr 1fr; gap:3px 10px; margin:6px 0;}
+  .denom-row{display:flex; align-items:center; gap:6px; padding:2px 0;}
+  .denom-label{font-size:12px; color:var(--text-2); min-width:72px;}
+  .denom-input{width:54px; border:1px solid var(--gray-2); border-radius:6px; padding:3px 6px; font-size:12px; font-family:inherit; text-align:right;}
+  .conteo-input{width:100%; border:1px solid var(--gray-2); border-radius:8px; padding:8px 10px; font-size:13px; font-family:inherit; margin-top:4px;}
+  .diff-banner{display:none; padding:10px 12px; border-radius:8px; font-size:12.5px; margin-top:14px;}
+  .diff-banner.faltante{background:#fdf1ea; border:1px solid #f2cfa8; color:#8a4a12;}
+  .diff-banner.sobrante{background:#e6f6ee; border:1px solid #a8dfc4; color:#0d5c37;}
+  .blind-note{display:none; font-size:12px; color:var(--text-2); font-style:italic; padding:4px 0;}
+  .col-sep{border-right:1px solid var(--gray-2); padding-right:24px;}
 </style>
 </head>
 <body>
@@ -92,11 +104,15 @@
     <button data-role="admin" onclick="setRole('admin')">Admin</button>
     <button data-role="otro" onclick="setRole('otro')">Otro cajero</button>
   </span>
+  <label class="blind-toggle">
+    <input type="checkbox" id="blindToggle"> Modo ciego
+  </label>
 </div>
 
 <main id="primaryMain">
   <h1 id="pageTitle">Arqueo de caja</h1>
 
+  <!-- Vista cajero -->
   <div id="cajeroContent">
     <div class="tabs">
       <span class="active" id="tabCaja" onclick="showTab('caja')">Arqueo de caja</span>
@@ -110,9 +126,63 @@
             <span class="caja-name">Caja Central</span>
             <span class="badge cerrada" id="estadoBadge">Cerrada</span>
           </div>
-          <button class="btn btn-primary" id="mainBtn" style="margin-top:0;" onclick="toggleCaja()">Iniciar arqueo</button>
+          <button class="btn btn-primary" id="mainBtn" style="margin-top:0;" onclick="toggleCaja()">Abrir caja</button>
         </div>
         <div class="owner-line" id="ownerLine"></div>
+
+        <!-- Bloque de conteo (solo cuando la caja está abierta) -->
+        <div id="conteoBlock" style="display:none;">
+          <div class="conteo-grid">
+            <!-- Izquierda: Según sistema -->
+            <div class="conteo-col col-sep" id="colSistema">
+              <div class="conteo-section-title">Según sistema</div>
+              <div id="sistemaRows">
+                <div class="conteo-row"><span class="lbl">Monto inicial</span><span>Gs. 200.000</span></div>
+                <div class="conteo-row"><span class="lbl">Voucher</span><span>Gs. 545.890</span></div>
+                <div class="conteo-row"><span class="lbl">Billetes</span><span>Gs. 500.000</span></div>
+              </div>
+              <div class="blind-note" id="blindNote">El detalle según sistema está oculto por el modo ciego.</div>
+              <div class="conteo-divider"></div>
+              <div class="conteo-total"><span>Total</span><span>Gs. 1.245.890</span></div>
+            </div>
+            <!-- Derecha: Según usuario -->
+            <div class="conteo-col">
+              <div class="conteo-section-title">Según usuario</div>
+              <div style="font-size:12px; color:var(--text-2); margin-bottom:3px;">Voucher (tarjeta de crédito y débito)</div>
+              <input id="uVoucher" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onConteoInput()">
+              <div style="font-size:12px; font-weight:600; margin:12px 0 4px; color:var(--text-1);">Billetes (Guaraníes)</div>
+              <div class="denom-grid">
+                <div class="denom-row"><span class="denom-label">Gs. 100.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input cajero-denom" data-denom="100000" oninput="onConteoInput()"></div>
+                <div class="denom-row"><span class="denom-label">Gs. 50.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input cajero-denom" data-denom="50000" oninput="onConteoInput()"></div>
+                <div class="denom-row"><span class="denom-label">Gs. 20.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input cajero-denom" data-denom="20000" oninput="onConteoInput()"></div>
+                <div class="denom-row"><span class="denom-label">Gs. 10.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input cajero-denom" data-denom="10000" oninput="onConteoInput()"></div>
+                <div class="denom-row"><span class="denom-label">Gs. 5.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input cajero-denom" data-denom="5000" oninput="onConteoInput()"></div>
+                <div class="denom-row"><span class="denom-label">Gs. 2.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input cajero-denom" data-denom="2000" oninput="onConteoInput()"></div>
+                <div class="denom-row"><span class="denom-label">Gs. 1.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input cajero-denom" data-denom="1000" oninput="onConteoInput()"></div>
+                <div class="denom-row"><span class="denom-label">Gs. 500</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input cajero-denom" data-denom="500" oninput="onConteoInput()"></div>
+                <div class="denom-row"><span class="denom-label">Gs. 100</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input cajero-denom" data-denom="100" oninput="onConteoInput()"></div>
+                <div class="denom-row"><span class="denom-label">Gs. 50</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input cajero-denom" data-denom="50" oninput="onConteoInput()"></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:12.5px; color:var(--text-2); margin-top:8px; padding-top:6px; border-top:1px solid var(--gray-2);">
+                <span>Subtotal billetes</span><span id="uSubtotalBilletes">Gs. 0</span>
+              </div>
+              <div class="conteo-divider"></div>
+              <div class="conteo-total"><span>Total</span><span id="uTotal">Gs. 0</span></div>
+            </div>
+          </div>
+          <!-- Diferencia y motivo (ancho completo) -->
+          <div class="diff-banner" id="diffBanner"></div>
+          <div id="motivoBlock" style="display:none; margin-top:10px;">
+            <div style="font-size:11px; color:var(--text-2); text-transform:uppercase; letter-spacing:.03em; margin-bottom:4px;">Motivo de la diferencia (obligatorio)</div>
+            <select id="motivoConteo" style="width:100%; border:1px solid var(--gray-2); border-radius:8px; padding:8px 10px; font-size:13px; font-family:inherit;" onchange="onConteoInput()">
+              <option value="">Seleccioná un motivo</option>
+              <option value="propinas">Propinas mal clasificadas</option>
+              <option value="tipeo">Error de tipeo en el conteo</option>
+              <option value="faltante">Faltante sin identificar</option>
+              <option value="otro">Otro</option>
+            </select>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -134,6 +204,7 @@
     </div>
   </div>
 
+  <!-- Vista admin -->
   <div id="adminContent" style="display:none;">
     <p style="font-size:13px; color:var(--text-2); margin:-8px 0 16px;">Cajas de los cajeros a tu cargo. Como Admin, podés abrir o cerrar cualquiera de ellas.</p>
     <div class="card">
@@ -143,7 +214,7 @@
           <div class="admin-owner">Cajero responsable: Jorge Ramírez</div>
           <div class="banner-audit" id="auditJorge"></div>
         </div>
-        <button class="btn btn-outline-blue" style="margin-top:0;" onclick="openForceClose('Jorge Ramírez', 'rowJorge', 'auditJorge')">Finalizar arqueo</button>
+        <button class="btn btn-outline-blue" style="margin-top:0;" onclick="openForceClose('Jorge Ramírez', 'rowJorge', 'auditJorge')">Cerrar arqueo</button>
       </div>
       <div class="admin-row" id="rowAna">
         <div>
@@ -151,18 +222,19 @@
           <div class="admin-owner">Cajero responsable: Ana María Ruiz</div>
           <div class="banner-audit" id="auditAna"></div>
         </div>
-        <button class="btn btn-outline-blue" style="margin-top:0;" onclick="openForceClose('Ana María Ruiz', 'rowAna', 'auditAna')">Finalizar arqueo</button>
+        <button class="btn btn-outline-blue" style="margin-top:0;" onclick="openForceClose('Ana María Ruiz', 'rowAna', 'auditAna')">Cerrar arqueo</button>
       </div>
       <div class="admin-row">
         <div>
           <div class="admin-caja-name">Caja Delivery <span class="badge cerrada">Cerrada</span></div>
           <div class="admin-owner">Sin cajero asignado</div>
         </div>
-        <button class="btn btn-outline-blue" style="margin-top:0;" onclick="alert('Abre Caja Delivery, asignando cajero.')">Iniciar arqueo</button>
+        <button class="btn btn-outline-blue" style="margin-top:0;" onclick="alert('Abre Caja Delivery, asignando cajero.')">Abrir caja</button>
       </div>
     </div>
   </div>
 
+  <!-- Vista otro cajero -->
   <div id="otroContent" style="display:none;">
     <div class="tabs">
       <span class="active">Arqueo de caja</span>
@@ -174,120 +246,94 @@
         <span class="badge abierta">Abierta</span>
       </div>
       <div class="owner-line">Cajero responsable: Jorge Ramírez · Apertura: hoy, 07:58</div>
-      <div style="background:var(--gray-1); border:1px dashed var(--gray-3); border-radius:8px; padding:16px; margin-top:14px; text-align:center;">
-        <div style="font-size:13px; font-weight:700; margin-bottom:4px;">No podés abrir esta caja</div>
-        <div style="font-size:12.5px; color:var(--text-2); max-width:340px; margin:0 auto 12px;">Existe una jornada abierta a cargo de Jorge Ramírez en este punto de venta. Solo él puede cerrarla, o un Admin puede forzar el cierre.</div>
-        <div style="display:flex; gap:10px; justify-content:center;">
-          <button class="btn btn-primary" style="background:var(--gray-2); color:var(--text-1); margin-top:0;" onclick="alert('Se avisó a Jorge Ramírez que hay una apertura pendiente en Caja Central.')">Avisar a Jorge</button>
-          <button class="btn btn-outline-blue" style="margin-top:0;" onclick="alert('Se avisó al Admin (Ana Torres) que la caja de Jorge Ramírez sigue abierta.')">Avisar al Admin</button>
+      <div class="conteo-grid" style="margin-top:14px;">
+        <div class="conteo-col col-sep">
+          <div class="conteo-section-title">Según sistema</div>
+          <div class="conteo-row"><span class="lbl">Monto inicial</span><span>Gs. 200.000</span></div>
+          <div class="conteo-row"><span class="lbl">Voucher</span><span>Gs. 545.890</span></div>
+          <div class="conteo-row"><span class="lbl">Billetes</span><span>Gs. 500.000</span></div>
+          <div class="conteo-divider"></div>
+          <div class="conteo-total"><span>Total</span><span>Gs. 1.245.890</span></div>
+        </div>
+        <div style="display:flex; flex-direction:column; justify-content:center; align-items:center; gap:10px; padding:12px 0;">
+          <div style="text-align:center; font-size:13px; color:var(--text-2);">No podés cerrar esta caja.</div>
+          <button class="btn btn-secondary" style="margin-top:0; font-size:12.5px; padding:8px 14px;" onclick="alert('Se avisó a Jorge Ramírez que hay una apertura pendiente en Caja Central.')">Avisar a Jorge</button>
+          <button class="btn btn-outline-blue" style="margin-top:0; font-size:12.5px; padding:8px 14px;" onclick="alert('Se avisó al Admin (Ana Torres) que la caja de Jorge Ramírez sigue abierta.')">Avisar al Admin</button>
         </div>
       </div>
     </div>
   </div>
 </main>
 
-<main id="fcFullFormMain" style="display:none; max-width:1040px; margin:24px auto 60px; padding:0 20px;">
+<!-- Formulario de arqueo — admin (forma de dos columnas) -->
+<main id="fcFullFormMain" style="display:none; max-width:800px; margin:24px auto 60px; padding:0 20px;">
   <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
-    <div>
-      <button class="btn btn-secondary" style="margin-top:0;" onclick="cancelFullForm()">&#8592; Volver</button>
-    </div>
-    <button class="btn btn-primary" id="cerrarCajaFormBtn" style="margin-top:0;" disabled onclick="confirmForceClose()">Finalizar arqueo</button>
+    <button class="btn btn-secondary" style="margin-top:0;" onclick="cancelFullForm()">&#8592; Volver</button>
+    <button class="btn btn-primary" id="cerrarCajaFormBtn" style="margin-top:0;" disabled onclick="confirmForceClose()">Cerrar arqueo</button>
   </div>
 
   <h1 style="margin-bottom:2px;" id="fcJornadaTitle">Jornada — Caja Central</h1>
   <p style="font-size:12.5px; color:var(--text-2); margin:0 0 16px;" id="fcJornadaSub">Apertura: 2026-07-06 07:58 · Usuario de apertura: Jorge Ramírez</p>
 
-  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-    <div class="card">
-      <div style="font-weight:700; font-size:13.5px; margin-bottom:10px;">Saldos en Cajas del Punto de Venta</div>
-      <table>
-        <tr><th>Cuenta de Fondos</th><th>Moneda</th><th>Saldo Computado</th><th>Saldo Declarado</th><th>Diferencia</th></tr>
-        <tr>
-          <td>Caja Central</td><td>Guaraníes</td>
-          <td>Gs. 1.245.890</td>
-          <td><input id="saldoDeclarado" type="text" inputmode="numeric" placeholder="0"
-            style="width:100px; border:1px solid var(--gray-2); border-radius:6px; padding:4px 6px; font-size:12.5px; font-family:inherit;"
-            oninput="onFormFieldsInput()"></td>
-          <td id="diferenciaSaldo">—</td>
-        </tr>
-      </table>
+  <div class="card">
+    <div class="conteo-grid">
+      <!-- Izquierda: Según sistema -->
+      <div class="conteo-col col-sep">
+        <div class="conteo-section-title">Según sistema</div>
+        <div id="fcSistemaRows">
+          <div class="conteo-row"><span class="lbl">Monto inicial</span><span>Gs. 200.000</span></div>
+          <div class="conteo-row"><span class="lbl">Voucher</span><span>Gs. 545.890</span></div>
+          <div class="conteo-row"><span class="lbl">Billetes</span><span>Gs. 500.000</span></div>
+        </div>
+        <div class="blind-note" id="fcBlindNote">El detalle según sistema está oculto por el modo ciego.</div>
+        <div class="conteo-divider"></div>
+        <div class="conteo-total"><span>Total</span><span>Gs. 1.245.890</span></div>
+      </div>
+      <!-- Derecha: Según usuario -->
+      <div class="conteo-col">
+        <div class="conteo-section-title">Según usuario</div>
+        <div style="font-size:12px; color:var(--text-2); margin-bottom:3px;">Voucher (tarjeta de crédito y débito)</div>
+        <input id="fcVoucher" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onFcInput()">
+        <div style="font-size:12px; font-weight:600; margin:12px 0 4px; color:var(--text-1);">Billetes (Guaraníes)</div>
+        <div class="denom-grid">
+          <div class="denom-row"><span class="denom-label">Gs. 100.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input fc-denom" data-denom="100000" oninput="onFcInput()"></div>
+          <div class="denom-row"><span class="denom-label">Gs. 50.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input fc-denom" data-denom="50000" oninput="onFcInput()"></div>
+          <div class="denom-row"><span class="denom-label">Gs. 20.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input fc-denom" data-denom="20000" oninput="onFcInput()"></div>
+          <div class="denom-row"><span class="denom-label">Gs. 10.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input fc-denom" data-denom="10000" oninput="onFcInput()"></div>
+          <div class="denom-row"><span class="denom-label">Gs. 5.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input fc-denom" data-denom="5000" oninput="onFcInput()"></div>
+          <div class="denom-row"><span class="denom-label">Gs. 2.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input fc-denom" data-denom="2000" oninput="onFcInput()"></div>
+          <div class="denom-row"><span class="denom-label">Gs. 1.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input fc-denom" data-denom="1000" oninput="onFcInput()"></div>
+          <div class="denom-row"><span class="denom-label">Gs. 500</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input fc-denom" data-denom="500" oninput="onFcInput()"></div>
+          <div class="denom-row"><span class="denom-label">Gs. 100</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input fc-denom" data-denom="100" oninput="onFcInput()"></div>
+          <div class="denom-row"><span class="denom-label">Gs. 50</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input fc-denom" data-denom="50" oninput="onFcInput()"></div>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:12.5px; color:var(--text-2); margin-top:8px; padding-top:6px; border-top:1px solid var(--gray-2);">
+          <span>Subtotal billetes</span><span id="fcSubtotalBilletes">Gs. 0</span>
+        </div>
+        <div class="conteo-divider"></div>
+        <div class="conteo-total"><span>Total</span><span id="fcTotal">Gs. 0</span></div>
+      </div>
     </div>
-
-    <div class="card">
-      <div style="font-weight:700; font-size:13.5px; margin-bottom:10px;">Diferencias por Formas de Pago</div>
-      <table>
-        <tr><th>Forma de Pago</th><th>Valores Declarados</th><th>Valores Computados</th><th>Diferencia</th></tr>
-        <tr>
-          <td>Efectivo (Ventas + Saldo Inicial − Egresos)</td>
-          <td><input id="declaradoEfectivo" type="text" inputmode="numeric" placeholder="0"
-            style="width:90px; border:1px solid var(--gray-2); border-radius:6px; padding:4px 6px; font-size:12.5px; font-family:inherit;"
-            oninput="onFormFieldsInput()"></td>
-          <td>Gs. 500.000</td>
-          <td id="diferenciaEfectivo">—</td>
-        </tr>
-        <tr>
-          <td>Tarjetas y otras Formas de Pago Procesadas por Terceros (Voucher)</td>
-          <td><input id="declaradoVoucher" type="text" inputmode="numeric" placeholder="0"
-            style="width:90px; border:1px solid var(--gray-2); border-radius:6px; padding:4px 6px; font-size:12.5px; font-family:inherit;"
-            oninput="onFormFieldsInput()"></td>
-          <td>Gs. 545.890</td>
-          <td id="diferenciaVoucher">—</td>
-        </tr>
-      </table>
-    </div>
-  </div>
-
-  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;">
-    <div class="card">
-      <div style="font-weight:700; font-size:13.5px; margin-bottom:10px;">Recaudación</div>
-      <table>
-        <tr><th>Billete</th><th>Cantidad</th><th>Monto</th></tr>
-        <tr>
-          <td>Gs. 100.000</td>
-          <td><input type="text" inputmode="numeric" placeholder="0" style="width:60px; border:1px solid var(--gray-2); border-radius:6px; padding:4px 6px; font-size:12.5px; font-family:inherit;"></td>
-          <td>Gs. 0</td>
-        </tr>
-        <tr>
-          <td>Gs. 50.000</td>
-          <td><input type="text" inputmode="numeric" placeholder="0" style="width:60px; border:1px solid var(--gray-2); border-radius:6px; padding:4px 6px; font-size:12.5px; font-family:inherit;"></td>
-          <td>Gs. 0</td>
-        </tr>
-      </table>
-    </div>
-
-    <div class="card">
-      <div style="font-weight:700; font-size:13.5px; margin-bottom:10px;">Vouchers Declarados</div>
-      <table>
-        <tr><th>Monto</th></tr>
-        <tr><td><input id="voucherDeclaradoLinea" type="text" inputmode="numeric" placeholder="0" style="width:100%; border:1px solid var(--gray-2); border-radius:6px; padding:4px 6px; font-size:12.5px; font-family:inherit;"></td></tr>
-      </table>
+    <!-- Diferencia y motivo (ancho completo) -->
+    <div class="diff-banner" id="fcDiffBanner"></div>
+    <div id="fcMotivoBlock" style="display:none; margin-top:10px;">
+      <div style="font-size:11px; color:var(--text-2); text-transform:uppercase; letter-spacing:.03em; margin-bottom:4px;">Motivo de la diferencia (obligatorio)</div>
+      <select id="fcMotivoConteo" style="width:100%; border:1px solid var(--gray-2); border-radius:8px; padding:8px 10px; font-size:13px; font-family:inherit;" onchange="onFcInput()">
+        <option value="">Seleccioná un motivo</option>
+        <option value="propinas">Propinas mal clasificadas</option>
+        <option value="tipeo">Error de tipeo en el conteo</option>
+        <option value="faltante">Faltante sin identificar</option>
+        <option value="otro">Otro</option>
+      </select>
     </div>
   </div>
-
-  <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:16px;">
-    <div class="card">
-      <div style="font-weight:700; font-size:13.5px; margin-bottom:10px;">Resumen de Egresos</div>
-      <table>
-        <tr><th>Id</th><th>Concepto</th><th>Monto</th></tr>
-        <tr><td colspan="3" style="color:var(--text-2); font-size:12px;">Sin egresos registrados</td></tr>
-      </table>
-    </div>
-    <div class="card">
-      <div style="font-weight:700; font-size:13.5px; margin-bottom:10px;">Resumen de Cobros</div>
-      <table>
-        <tr><th>Id</th><th>Concepto</th><th>Monto</th></tr>
-        <tr><td colspan="3" style="color:var(--text-2); font-size:12px;">Sin cobros registrados</td></tr>
-      </table>
-    </div>
-  </div>
-
-  <p style="font-size:11.5px; color:var(--text-2); margin-top:14px;">Versión reducida del formulario real (Jornada 200), suficiente para simular el flujo de cierre forzado — no reproduce cada sección (Estado de Cuenta, Cheques, Resumen de Ventas y Cobros completo) del reporte final.</p>
 </main>
 
+<!-- Modal: motivo de cierre forzado (admin) -->
 <div class="overlay" id="forceCloseOverlay">
   <div class="modal" style="width:420px;">
     <h3 id="forceCloseTitle">Forzar cierre de caja</h3>
-    <p>Esta acción cierra la jornada a nombre de otro cajero. Requiere motivo — el conteo físico se hace en el siguiente paso, en el formulario completo de arqueo.</p>
+    <p>Esta acción cierra la jornada a nombre de otro cajero. Requiere motivo — el conteo físico se completa en el siguiente paso.</p>
     <div class="field-label">Motivo (obligatorio)</div>
     <select id="motivoForzado">
       <option value="">Seleccioná un motivo</option>
@@ -306,6 +352,99 @@
 </div>
 
 <script>
+  const SIS_VOUCHER = 545890;
+  const SIS_BILLETES = 500000;
+  const SIS_ESPERADO = SIS_VOUCHER + SIS_BILLETES; // 1.045.890
+
+  function parseVal(v){ const r = v.replace(/[^0-9]/g,''); return r ? parseInt(r,10) : null; }
+  function fmtGs(n){ return 'Gs. ' + n.toLocaleString('es-PY'); }
+
+  function calcConteo(voucherEl, denomEls, subtotalId, totalId, bannerId, motivoBlockId, motivoSelectId, submitBtn){
+    const voucherVal = parseVal(voucherEl.value);
+    let subtotal = 0;
+    denomEls.forEach(inp => { subtotal += (parseVal(inp.value) || 0) * parseInt(inp.dataset.denom); });
+
+    document.getElementById(subtotalId).textContent = fmtGs(subtotal);
+    const total = (voucherVal || 0) + subtotal;
+    document.getElementById(totalId).textContent = fmtGs(total);
+
+    if(voucherVal === null){
+      document.getElementById(bannerId).style.display = 'none';
+      document.getElementById(motivoBlockId).style.display = 'none';
+      submitBtn.disabled = true;
+      return;
+    }
+
+    const diff = total - SIS_ESPERADO;
+    const banner = document.getElementById(bannerId);
+    const motivoBlock = document.getElementById(motivoBlockId);
+
+    if(diff === 0){
+      banner.style.display = 'none';
+      motivoBlock.style.display = 'none';
+      submitBtn.disabled = false;
+    } else {
+      banner.className = 'diff-banner ' + (diff > 0 ? 'sobrante' : 'faltante');
+      banner.textContent = (diff > 0 ? 'Sobrante de ' : 'Faltante de ') + fmtGs(Math.abs(diff)) + ' respecto al total esperado (Voucher + Billetes según sistema).';
+      banner.style.display = 'block';
+      motivoBlock.style.display = 'block';
+      submitBtn.disabled = !document.getElementById(motivoSelectId).value;
+    }
+  }
+
+  // Cajero inline
+  function onConteoInput(){
+    calcConteo(
+      document.getElementById('uVoucher'),
+      document.querySelectorAll('.cajero-denom'),
+      'uSubtotalBilletes', 'uTotal', 'diffBanner', 'motivoBlock', 'motivoConteo',
+      document.getElementById('mainBtn')
+    );
+  }
+
+  // Admin full-form
+  function onFcInput(){
+    calcConteo(
+      document.getElementById('fcVoucher'),
+      document.querySelectorAll('.fc-denom'),
+      'fcSubtotalBilletes', 'fcTotal', 'fcDiffBanner', 'fcMotivoBlock', 'fcMotivoConteo',
+      document.getElementById('cerrarCajaFormBtn')
+    );
+  }
+
+  function resetConteo(){
+    document.getElementById('uVoucher').value = '';
+    document.querySelectorAll('.cajero-denom').forEach(inp => inp.value = '');
+    document.getElementById('uSubtotalBilletes').textContent = fmtGs(0);
+    document.getElementById('uTotal').textContent = fmtGs(0);
+    document.getElementById('diffBanner').style.display = 'none';
+    document.getElementById('motivoBlock').style.display = 'none';
+    document.getElementById('motivoConteo').value = '';
+  }
+
+  function resetFcForm(){
+    document.getElementById('fcVoucher').value = '';
+    document.querySelectorAll('.fc-denom').forEach(inp => inp.value = '');
+    document.getElementById('fcSubtotalBilletes').textContent = fmtGs(0);
+    document.getElementById('fcTotal').textContent = fmtGs(0);
+    document.getElementById('fcDiffBanner').style.display = 'none';
+    document.getElementById('fcMotivoBlock').style.display = 'none';
+    document.getElementById('fcMotivoConteo').value = '';
+    document.getElementById('cerrarCajaFormBtn').disabled = true;
+  }
+
+  // Blind mode
+  document.getElementById('blindToggle').addEventListener('change', function(){
+    const blind = this.checked;
+    // Cajero inline
+    document.getElementById('sistemaRows').style.display = blind ? 'none' : '';
+    document.getElementById('blindNote').style.display = blind ? 'block' : 'none';
+    // Admin form
+    document.getElementById('fcSistemaRows').style.display = blind ? 'none' : '';
+    document.getElementById('fcBlindNote').style.display = blind ? 'block' : 'none';
+  });
+
+  // Roles
   function setRole(role){
     document.querySelectorAll('#roleSwitch button').forEach(b => b.classList.toggle('active', b.dataset.role === role));
     document.getElementById('cajeroContent').style.display = role === 'cajero' ? 'block' : 'none';
@@ -314,9 +453,46 @@
     document.getElementById('pageTitle').textContent = role === 'admin' ? 'Arqueo de caja — Mi equipo' : 'Arqueo de caja';
   }
 
-  let forceCloseTarget = null;
-  let formCaller = null; // 'cajero' | 'admin'
+  // Tabs
+  function showTab(tab){
+    document.getElementById('viewCaja').style.display = tab === 'caja' ? 'block' : 'none';
+    document.getElementById('viewTodos').style.display = tab === 'todos' ? 'block' : 'none';
+    document.getElementById('tabCaja').classList.toggle('active', tab === 'caja');
+    document.getElementById('tabTodos').classList.toggle('active', tab === 'todos');
+  }
 
+  // Cajero: abrir/cerrar caja
+  let abierta = false;
+  let forceCloseTarget = null;
+  let formCaller = null;
+
+  function toggleCaja(){
+    if(abierta){
+      cerrarCajeroInline();
+    } else {
+      abierta = true;
+      document.getElementById('estadoBadge').textContent = 'Abierta';
+      document.getElementById('estadoBadge').className = 'badge abierta';
+      document.getElementById('mainBtn').textContent = 'Cerrar arqueo';
+      document.getElementById('mainBtn').disabled = true;
+      document.getElementById('ownerLine').textContent = 'Cajero responsable: Jorge Ramírez · Apertura: hoy, ahora';
+      resetConteo();
+      document.getElementById('conteoBlock').style.display = 'block';
+    }
+  }
+
+  function cerrarCajeroInline(){
+    abierta = false;
+    document.getElementById('estadoBadge').textContent = 'Cerrada';
+    document.getElementById('estadoBadge').className = 'badge cerrada';
+    document.getElementById('mainBtn').textContent = 'Abrir caja';
+    document.getElementById('mainBtn').disabled = false;
+    document.getElementById('ownerLine').textContent = '';
+    document.getElementById('conteoBlock').style.display = 'none';
+    resetConteo();
+  }
+
+  // Admin: forzar cierre
   function openForceClose(nombre, rowId, auditId){
     forceCloseTarget = { nombre, rowId, auditId };
     document.getElementById('forceCloseTitle').textContent = 'Forzar cierre de caja — ' + nombre;
@@ -334,31 +510,13 @@
     document.getElementById('continueFcBtn').disabled = !e.target.value;
   });
 
-  function parseNumFc(id){
-    const raw = document.getElementById(id).value.replace(/[^0-9]/g, '');
-    return raw ? parseInt(raw, 10) : null;
-  }
-  function fmtGsFc(n){ return 'Gs. ' + n.toLocaleString('es-PY'); }
-
-  const SISTEMA_SALDO = 1245890;
-  const SISTEMA_EFECTIVO = 500000;
-  const SISTEMA_VOUCHER = 545890;
-
   function goToFullForm(){
     if(!forceCloseTarget) return;
     formCaller = 'admin';
     closeForceClose();
-
     document.getElementById('fcJornadaTitle').textContent = 'Jornada — Caja de ' + forceCloseTarget.nombre;
     document.getElementById('fcJornadaSub').textContent = 'Apertura: 2026-07-06 07:58 · Usuario de apertura: ' + forceCloseTarget.nombre;
-    document.getElementById('saldoDeclarado').value = '';
-    document.getElementById('declaradoEfectivo').value = '';
-    document.getElementById('declaradoVoucher').value = '';
-    document.getElementById('diferenciaSaldo').textContent = '—';
-    document.getElementById('diferenciaEfectivo').textContent = '—';
-    document.getElementById('diferenciaVoucher').textContent = '—';
-    document.getElementById('cerrarCajaFormBtn').disabled = true;
-
+    resetFcForm();
     document.getElementById('adminContent').style.display = 'none';
     document.getElementById('roleToolbar').style.display = 'none';
     document.getElementById('primaryMain').style.display = 'none';
@@ -376,51 +534,25 @@
     forceCloseTarget = null;
   }
 
-  function onFormFieldsInput(){
-    const saldo = parseNumFc('saldoDeclarado');
-    const efectivo = parseNumFc('declaradoEfectivo');
-    const voucher = parseNumFc('declaradoVoucher');
-
-    function diffText(declarado, esperado){
-      if(declarado === null) return '—';
-      const diff = declarado - esperado;
-      if(diff === 0) return 'Gs. 0';
-      return (diff > 0 ? '+' : '') + 'Gs. ' + diff.toLocaleString('es-PY');
-    }
-
-    document.getElementById('diferenciaSaldo').textContent = diffText(saldo, SISTEMA_SALDO);
-    document.getElementById('diferenciaEfectivo').textContent = diffText(efectivo, SISTEMA_EFECTIVO);
-    document.getElementById('diferenciaVoucher').textContent = diffText(voucher, SISTEMA_VOUCHER);
-
-    document.getElementById('cerrarCajaFormBtn').disabled = (saldo === null || efectivo === null || voucher === null);
-  }
-
   function confirmForceClose(){
-    const saldo = parseNumFc('saldoDeclarado') || 0;
-    const efectivo = parseNumFc('declaradoEfectivo') || 0;
-    const voucher = parseNumFc('declaradoVoucher') || 0;
-    const now = new Date().toLocaleString('es-PY');
-
-    if(formCaller === 'cajero'){
-      abierta = false;
-      document.getElementById('estadoBadge').textContent = 'Cerrada';
-      document.getElementById('estadoBadge').className = 'badge cerrada';
-      document.getElementById('mainBtn').textContent = 'Iniciar arqueo';
-      document.getElementById('ownerLine').textContent = '';
-      cancelFullForm();
-      return;
-    }
-
     if(!forceCloseTarget) return;
+    const voucher = parseVal(document.getElementById('fcVoucher').value) || 0;
+    let billetes = 0;
+    document.querySelectorAll('.fc-denom').forEach(inp => {
+      billetes += (parseVal(inp.value) || 0) * parseInt(inp.dataset.denom);
+    });
+    const total = voucher + billetes;
+    const now = new Date().toLocaleString('es-PY');
     const motivo = document.getElementById('motivoForzado').value;
     const comentario = document.getElementById('comentarioForzado').value.trim();
+    const motivoDiff = document.getElementById('fcMotivoConteo').value;
 
     let line = 'Cierre forzado · ' + now + '<br>';
-    line += 'Ejecutado por: Admin — completó el formulario de arqueo en el momento<br>';
-    line += 'Responsable financiero: ' + forceCloseTarget.nombre + ' (sin cambios)<br>';
-    line += 'Saldo declarado: ' + fmtGsFc(saldo) + ' · Efectivo: ' + fmtGsFc(efectivo) + ' · Voucher: ' + fmtGsFc(voucher) + '<br>';
-    line += 'Motivo: ' + motivo;
-    if(comentario) line += ' · Comentario: ' + comentario;
+    line += 'Ejecutado por: Admin · Responsable: ' + forceCloseTarget.nombre + '<br>';
+    line += 'Total declarado: ' + fmtGs(total) + ' (Voucher: ' + fmtGs(voucher) + ' · Billetes: ' + fmtGs(billetes) + ')<br>';
+    line += 'Motivo de cierre: ' + motivo;
+    if(comentario) line += ' · ' + comentario;
+    if(motivoDiff) line += '<br>Motivo diferencia: ' + motivoDiff;
 
     const auditEl = document.getElementById(forceCloseTarget.auditId);
     auditEl.innerHTML = line;
@@ -429,44 +561,10 @@
     const row = document.getElementById(forceCloseTarget.rowId);
     row.querySelector('.badge').textContent = 'Cerrada';
     row.querySelector('.badge').className = 'badge cerrada';
-    row.querySelector('button').textContent = 'Iniciar arqueo';
+    row.querySelector('button').textContent = 'Abrir caja';
     row.querySelector('button').setAttribute('onclick', "alert('Abre la caja, asignando nuevo cajero.')");
 
     cancelFullForm();
-  }
-
-  let abierta = false;
-
-  function toggleCaja(){
-    if(abierta){
-      // Mostrar formulario de arqueo antes de cerrar
-      formCaller = 'cajero';
-      document.getElementById('fcJornadaTitle').textContent = 'Jornada — Caja Central';
-      document.getElementById('fcJornadaSub').textContent = 'Apertura: hoy, 07:58 · Usuario de apertura: Jorge Ramírez';
-      document.getElementById('saldoDeclarado').value = '';
-      document.getElementById('declaradoEfectivo').value = '';
-      document.getElementById('declaradoVoucher').value = '';
-      document.getElementById('diferenciaSaldo').textContent = '—';
-      document.getElementById('diferenciaEfectivo').textContent = '—';
-      document.getElementById('diferenciaVoucher').textContent = '—';
-      document.getElementById('cerrarCajaFormBtn').disabled = true;
-      document.getElementById('roleToolbar').style.display = 'none';
-      document.getElementById('primaryMain').style.display = 'none';
-      document.getElementById('fcFullFormMain').style.display = 'block';
-    } else {
-      abierta = true;
-      document.getElementById('estadoBadge').textContent = 'Abierta';
-      document.getElementById('estadoBadge').className = 'badge abierta';
-      document.getElementById('mainBtn').textContent = 'Finalizar arqueo';
-      document.getElementById('ownerLine').textContent = 'Cajero responsable: Jorge Ramírez · Apertura: hoy, ahora';
-    }
-  }
-
-  function showTab(tab){
-    document.getElementById('viewCaja').style.display = tab === 'caja' ? 'block' : 'none';
-    document.getElementById('viewTodos').style.display = tab === 'todos' ? 'block' : 'none';
-    document.getElementById('tabCaja').classList.toggle('active', tab === 'caja');
-    document.getElementById('tabTodos').classList.toggle('active', tab === 'todos');
   }
 </script>
 
