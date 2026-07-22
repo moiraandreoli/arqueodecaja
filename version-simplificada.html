@@ -109,6 +109,29 @@
   .diff-banner.sobrante{background:#e6f6ee; border:1px solid #a8dfc4; color:#0d5c37;}
   .blind-note{display:none; font-size:12px; color:var(--text-2); font-style:italic; padding:4px 0;}
   .col-sep{border-right:1px solid var(--gray-2); padding-right:24px;}
+
+  /* Apertura de jornada */
+  .ap-card{max-width:640px; margin:0 auto; background:var(--white); border:0.5px solid var(--gray-2); border-radius:12px; padding:24px 28px;}
+  .ap-header{display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;}
+  .ap-header-left{display:flex; align-items:center; gap:10px;}
+  .ap-title{font-size:16px; font-weight:600;}
+  .ap-badge{font-size:12px; padding:2px 10px; border-radius:8px; background:var(--gray-1); color:var(--text-2);}
+  .ap-divider{border-top:0.5px solid var(--gray-2); margin:16px 0 20px;}
+  .ap-label{font-size:13px; color:var(--text-2); display:block; margin-bottom:6px;}
+  .ap-fecha-wrap{width:260px; margin-bottom:20px;}
+  .ap-fecha-wrap input{height:36px; padding:0 10px; border:0.5px solid var(--gray-2); border-radius:8px; font-size:14px; color:var(--text-1); width:100%; font-family:inherit;}
+  .ap-fecha-wrap input:focus{outline:none; border-color:var(--gray-3); box-shadow:0 0 0 2px rgba(28,28,30,.06);}
+  .ap-section-label{font-size:13px; color:var(--text-2); margin:0 0 8px;}
+  .ap-row{display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; align-items:center; padding:12px 0; border-bottom:0.5px solid var(--gray-2);}
+  .ap-row.ap-row-header{font-size:12px; color:var(--gray-3); padding:0 0 8px;}
+  .ap-row.ap-row-last{border-bottom:none;}
+  .ap-row input[type="text"]{height:36px; padding:0 10px; border:0.5px solid var(--gray-2); border-radius:8px; font-size:14px; color:var(--text-1); width:100%; font-family:inherit;}
+  .ap-row input:focus{outline:none; border-color:var(--gray-3); box-shadow:0 0 0 2px rgba(28,28,30,.06);}
+  .ap-moneda{font-size:14px;}
+  .ap-computado{font-size:14px; color:var(--text-2);}
+  .ap-actions{display:flex; justify-content:flex-end; gap:10px; margin-top:24px;}
+  .btn-dark{background:var(--text-1); color:var(--white); border:none; border-radius:8px; padding:8px 16px; font-size:13px; font-weight:600; cursor:pointer;}
+  .btn-dark:hover{opacity:.9;}
 </style>
 </head>
 <body>
@@ -200,25 +223,7 @@
         </div>
         <div class="owner-line" id="ownerLine"></div>
 
-        <!-- Paso 1: form de apertura -->
-        <div id="aperturaBlock" style="display:none; margin-top:14px;">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-            <div>
-              <div style="font-size:12px; color:var(--text-2); margin-bottom:4px;">Fecha y hora de apertura</div>
-              <input id="aperturaFecha" type="datetime-local" class="conteo-input" style="margin-top:0;">
-            </div>
-            <div>
-              <div style="font-size:12px; color:var(--text-2); margin-bottom:4px;">Monto inicial <span style="color:var(--text-2); font-weight:400;">(Cuenta fondo dueño 1245)</span></div>
-              <input id="aperturaMonto" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" style="margin-top:0;" oninput="onAperturaInput()">
-            </div>
-          </div>
-          <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:16px;">
-            <button class="btn btn-secondary" style="margin-top:0;" onclick="cancelarApertura()">Cancelar</button>
-            <button class="btn btn-primary" id="confirmarAperturaBtn" style="margin-top:0;" disabled onclick="confirmarApertura()">Abrir caja</button>
-          </div>
-        </div>
-
-        <!-- Paso 2: bloque de conteo (cuando la caja está abierta) -->
+        <!-- Bloque de conteo (cuando la caja está abierta) -->
         <div id="conteoBlock" style="display:none;">
           <div class="conteo-grid">
             <!-- Izquierda: Según sistema -->
@@ -289,25 +294,7 @@
         </div>
         <div class="owner-line" id="cm-ownerLine"></div>
 
-        <!-- Paso 1: form de apertura -->
-        <div id="cm-aperturaBlock" style="display:none; margin-top:14px;">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-            <div>
-              <div style="font-size:12px; color:var(--text-2); margin-bottom:4px;">Fecha y hora de apertura</div>
-              <input id="cm-aperturaFecha" type="datetime-local" class="conteo-input" style="margin-top:0;">
-            </div>
-            <div>
-              <div style="font-size:12px; color:var(--text-2); margin-bottom:4px;">Monto inicial <span style="font-weight:400;">(Cuenta fondo dueño 1245)</span></div>
-              <input id="cm-aperturaMonto" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" style="margin-top:0;" oninput="onAperturaInputCm()">
-            </div>
-          </div>
-          <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:16px;">
-            <button class="btn btn-secondary" style="margin-top:0;" onclick="cancelarAperturaCm()">Cancelar</button>
-            <button class="btn btn-primary" id="cm-confirmarAperturaBtn" style="margin-top:0;" disabled onclick="confirmarAperturaCm()">Abrir caja</button>
-          </div>
-        </div>
-
-        <!-- Paso 2: bloque de conteo -->
+        <!-- Bloque de conteo -->
         <div id="cm-conteoBlock" style="display:none;">
           <div class="conteo-grid">
             <div class="conteo-col col-sep">
@@ -511,6 +498,37 @@
         <button style="background:none; border:none; color:var(--blue); font-weight:600; font-size:13px; font-family:inherit; cursor:pointer; padding:0;" onclick="alert('Se avisó a Jorge Ramírez que hay una apertura pendiente en Caja Central.')">Avisar al cajero</button>
         <button class="btn btn-outline-blue" style="margin-top:0;" onclick="alert('Se avisó al Admin (Ana Torres) que la caja de Jorge Ramírez sigue abierta.')">Avisar al Admin</button>
       </div>
+    </div>
+  </div>
+</main>
+
+<!-- Apertura de jornada -->
+<main id="aperturaMain" style="display:none; padding:40px 20px;">
+  <div class="ap-card">
+    <div class="ap-header">
+      <div class="ap-header-left">
+        <span class="ap-title" id="apCajaNombre">Caja Central</span>
+        <span class="ap-badge">Cerrada</span>
+      </div>
+      <button class="btn btn-secondary" style="margin-top:0; font-size:13px; padding:7px 14px;" onclick="alert('Navegando al POS...')">Abrir POS ↗</button>
+    </div>
+    <div class="ap-divider"></div>
+    <div class="ap-fecha-wrap">
+      <label class="ap-label" for="apFecha">Fecha y hora de apertura</label>
+      <input type="datetime-local" id="apFecha">
+    </div>
+    <div>
+      <p class="ap-section-label">Saldos iniciales</p>
+      <div class="ap-row ap-row-header">
+        <span>Moneda</span>
+        <span>Saldo computado</span>
+        <span>Monto inicial</span>
+      </div>
+      <div id="apSaldosContainer"></div>
+    </div>
+    <div class="ap-actions">
+      <button class="btn btn-secondary" style="margin-top:0; font-size:13px; padding:7px 14px;" onclick="cancelarAperturaGlobal()">Cancelar</button>
+      <button class="btn-dark" onclick="confirmarAperturaGlobal()">Abrir jornada</button>
     </div>
   </div>
 </main>
@@ -739,37 +757,9 @@
         : 'El arqueo quedó registrado sin diferencias. Ya podés abrir una caja nueva.';
       document.getElementById('cierreOkOverlay').classList.add('show');
     } else {
-      const now = new Date();
-      const pad = n => String(n).padStart(2,'0');
-      const localDT = now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate())+'T'+pad(now.getHours())+':'+pad(now.getMinutes());
-      document.getElementById('cm-aperturaFecha').value = localDT;
-      document.getElementById('cm-aperturaMonto').value = '';
-      document.getElementById('cm-confirmarAperturaBtn').disabled = true;
       document.getElementById('cm-mainBtn').style.display = 'none';
-      document.getElementById('cm-aperturaBlock').style.display = 'block';
+      abrirAperturaForm('Caja Mostrador', 'mostrador');
     }
-  }
-
-  function onAperturaInputCm(){
-    const v = document.getElementById('cm-aperturaMonto').value.replace(/[^0-9]/g,'');
-    document.getElementById('cm-confirmarAperturaBtn').disabled = !v;
-  }
-
-  function cancelarAperturaCm(){
-    document.getElementById('cm-aperturaBlock').style.display = 'none';
-    document.getElementById('cm-mainBtn').style.display = '';
-  }
-
-  function confirmarAperturaCm(){
-    const fechaRaw = document.getElementById('cm-aperturaFecha').value;
-    const fecha = fechaRaw ? new Date(fechaRaw).toLocaleString('es-PY',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : 'ahora';
-    abiertaCm = true;
-    document.getElementById('cm-estadoBadge').textContent = 'Abierta';
-    document.getElementById('cm-estadoBadge').className = 'badge abierta';
-    document.getElementById('cm-aperturaBlock').style.display = 'none';
-    document.getElementById('cm-ownerLine').textContent = 'Cajero responsable: Jorge Ramírez · Apertura: ' + fecha;
-    resetConteoCm();
-    document.getElementById('cm-conteoBlock').style.display = 'block';
   }
 
   function onConteoInputCm(){
@@ -818,6 +808,66 @@
   let formCaller = null;
 
   let pendingCierre = null;
+  let pendingApertura = null;
+
+  // Datos de saldos para el form de apertura
+  const cuentasDeFondos = [
+    { id: 'gs001', moneda: 'Guaraníes', simbolo: 'Gs.', saldoComputado: 2256030 },
+    { id: 'usd001', moneda: 'Dólares', simbolo: 'USD', saldoComputado: 0 }
+  ];
+
+  function abrirAperturaForm(cajaNombre, pendingKey){
+    pendingApertura = pendingKey;
+    document.getElementById('apCajaNombre').textContent = cajaNombre;
+    const now = new Date();
+    const pad = n => String(n).padStart(2,'0');
+    document.getElementById('apFecha').value = now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate())+'T'+pad(now.getHours())+':'+pad(now.getMinutes());
+    // Renderizar filas de saldos
+    const cont = document.getElementById('apSaldosContainer');
+    cont.innerHTML = '';
+    cuentasDeFondos.forEach((c, i) => {
+      const row = document.createElement('div');
+      row.className = 'ap-row' + (i === cuentasDeFondos.length-1 ? ' ap-row-last' : '');
+      row.innerHTML = `<span class="ap-moneda">${c.moneda}</span><span class="ap-computado">${c.simbolo} ${c.saldoComputado.toLocaleString('es-PY')}</span><input type="text" value="${c.saldoComputado.toLocaleString('es-PY')}">`;
+      cont.appendChild(row);
+    });
+    document.getElementById('primaryMain').style.display = 'none';
+    document.getElementById('roleToolbar').style.display = 'none';
+    document.getElementById('aperturaMain').style.display = 'block';
+  }
+
+  function cancelarAperturaGlobal(){
+    document.getElementById('aperturaMain').style.display = 'none';
+    document.getElementById('roleToolbar').style.display = 'flex';
+    document.getElementById('primaryMain').style.display = 'block';
+    if(pendingApertura === 'mostrador') document.getElementById('cm-mainBtn').style.display = '';
+    else document.getElementById('mainBtn').style.display = '';
+    pendingApertura = null;
+  }
+
+  function confirmarAperturaGlobal(){
+    const fechaRaw = document.getElementById('apFecha').value;
+    const fecha = fechaRaw ? new Date(fechaRaw).toLocaleString('es-PY',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : 'ahora';
+    document.getElementById('aperturaMain').style.display = 'none';
+    document.getElementById('roleToolbar').style.display = 'flex';
+    document.getElementById('primaryMain').style.display = 'block';
+    if(pendingApertura === 'mostrador'){
+      abiertaCm = true;
+      document.getElementById('cm-estadoBadge').textContent = 'Abierta';
+      document.getElementById('cm-estadoBadge').className = 'badge abierta';
+      document.getElementById('cm-ownerLine').textContent = 'Cajero responsable: Jorge Ramírez · Apertura: ' + fecha;
+      resetConteoCm();
+      document.getElementById('cm-conteoBlock').style.display = 'block';
+    } else {
+      abierta = true;
+      document.getElementById('estadoBadge').textContent = 'Abierta';
+      document.getElementById('estadoBadge').className = 'badge abierta';
+      document.getElementById('ownerLine').textContent = 'Cajero responsable: Jorge Ramírez · Apertura: ' + fecha;
+      resetConteo();
+      document.getElementById('conteoBlock').style.display = 'block';
+    }
+    pendingApertura = null;
+  }
 
   function toggleCaja(){
     if(abierta){
@@ -829,38 +879,9 @@
         : 'El arqueo quedó registrado sin diferencias. Ya podés abrir una caja nueva.';
       document.getElementById('cierreOkOverlay').classList.add('show');
     } else {
-      // Mostrar form de apertura
-      const now = new Date();
-      const pad = n => String(n).padStart(2,'0');
-      const localDT = now.getFullYear()+'-'+pad(now.getMonth()+1)+'-'+pad(now.getDate())+'T'+pad(now.getHours())+':'+pad(now.getMinutes());
-      document.getElementById('aperturaFecha').value = localDT;
-      document.getElementById('aperturaMonto').value = '';
-      document.getElementById('confirmarAperturaBtn').disabled = true;
       document.getElementById('mainBtn').style.display = 'none';
-      document.getElementById('aperturaBlock').style.display = 'block';
+      abrirAperturaForm('Caja Central', 'central');
     }
-  }
-
-  function onAperturaInput(){
-    const v = document.getElementById('aperturaMonto').value.replace(/[^0-9]/g,'');
-    document.getElementById('confirmarAperturaBtn').disabled = !v;
-  }
-
-  function cancelarApertura(){
-    document.getElementById('aperturaBlock').style.display = 'none';
-    document.getElementById('mainBtn').style.display = '';
-  }
-
-  function confirmarApertura(){
-    const fechaRaw = document.getElementById('aperturaFecha').value;
-    const fecha = fechaRaw ? new Date(fechaRaw).toLocaleString('es-PY',{day:'2-digit',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}) : 'ahora';
-    abierta = true;
-    document.getElementById('estadoBadge').textContent = 'Abierta';
-    document.getElementById('estadoBadge').className = 'badge abierta';
-    document.getElementById('aperturaBlock').style.display = 'none';
-    document.getElementById('ownerLine').textContent = 'Cajero responsable: Jorge Ramírez · Apertura: ' + fecha;
-    resetConteo();
-    document.getElementById('conteoBlock').style.display = 'block';
   }
 
   function confirmarCierre(){
