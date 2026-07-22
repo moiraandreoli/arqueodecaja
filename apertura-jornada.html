@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Apertura de Jornada — BIMS (prototipo)</title>
+<style>
+  :root {
+    --surface-page: #f4f5f7;
+    --surface-card: #ffffff;
+    --surface-muted: #f7f7f8;
+    --border: #e3e4e6;
+    --text-primary: #1c1c1e;
+    --text-secondary: #6b6d70;
+    --text-muted: #9a9b9e;
+    --accent: #1c1c1e;
+    --radius: 8px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 40px 20px;
+    background: var(--surface-page);
+    font-family: -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: var(--text-primary);
+  }
+  .card {
+    max-width: 640px;
+    margin: 0 auto;
+    background: var(--surface-card);
+    border: 0.5px solid var(--border);
+    border-radius: 12px;
+    padding: 24px 28px;
+  }
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .card-header-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .titulo {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .badge {
+    font-size: 12px;
+    padding: 2px 10px;
+    border-radius: var(--radius);
+    background: var(--surface-muted);
+    color: var(--text-secondary);
+  }
+  .btn {
+    font-size: 13px;
+    padding: 7px 14px;
+    border-radius: var(--radius);
+    border: 0.5px solid var(--border);
+    background: var(--surface-card);
+    color: var(--text-primary);
+    cursor: pointer;
+  }
+  .btn:hover { background: var(--surface-muted); }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+  }
+  .btn-primary:hover { opacity: 0.9; }
+  .divider {
+    border-top: 0.5px solid var(--border);
+    margin: 16px 0 20px;
+  }
+  .field-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    display: block;
+    margin-bottom: 6px;
+  }
+  input[type="datetime-local"], input[type="text"] {
+    height: 36px;
+    padding: 0 10px;
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 14px;
+    color: var(--text-primary);
+    width: 100%;
+  }
+  input:focus {
+    outline: none;
+    border-color: #9a9b9e;
+    box-shadow: 0 0 0 2px rgba(28,28,30,0.06);
+  }
+  .fecha-wrap { width: 260px; margin-bottom: 20px; }
+  .section-label {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0 0 8px;
+  }
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .row.header {
+    font-size: 12px;
+    color: var(--text-muted);
+    padding: 0 0 8px;
+  }
+  .row.last { border-bottom: none; }
+  .moneda { font-size: 14px; }
+  .computado { font-size: 14px; color: var(--text-secondary); }
+  .actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 24px;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="card-header">
+    <div class="card-header-left">
+      <span class="titulo" id="punto-venta-nombre">Caja 001</span>
+      <span class="badge">Cerrada</span>
+    </div>
+    <button class="btn">Abrir POS ↗</button>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="fecha-wrap">
+    <label class="field-label" for="fecha-apertura">Fecha y hora de apertura</label>
+    <input type="datetime-local" id="fecha-apertura" value="2026-07-22T19:42">
+  </div>
+
+  <div>
+    <p class="section-label">Saldos iniciales</p>
+
+    <div class="row header">
+      <span>Moneda</span>
+      <span>Saldo computado</span>
+      <span>Monto inicial</span>
+    </div>
+
+    <div id="saldos-container">
+      <!-- Filas generadas dinámicamente desde las cuentas de fondos del punto de venta -->
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn">Cancelar</button>
+    <button class="btn btn-primary" id="btn-abrir">Abrir jornada</button>
+  </div>
+</div>
+
+<script>
+  // Datos de ejemplo — reemplazar por las cuentas de fondos reales del punto de venta.
+  // Cada cuenta de fondos del punto de venta genera una fila. Si el punto de venta
+  // tiene una sola cuenta, queda una sola fila (comportamiento equivalente al caso
+  // mono-moneda). No hay límite de cantidad de filas.
+  const cuentasDeFondos = [
+    { id: "uenoctacte123", moneda: "Guaraníes", simbolo: "Gs.", saldoComputado: 2256030 },
+    { id: "cajausd", moneda: "Dólares", simbolo: "USD", saldoComputado: 0 }
+  ];
+
+  function formatearMonto(valor) {
+    return valor.toLocaleString("es-PY");
+  }
+
+  const container = document.getElementById("saldos-container");
+
+  cuentasDeFondos.forEach((cuenta, index) => {
+    const row = document.createElement("div");
+    row.className = "row" + (index === cuentasDeFondos.length - 1 ? " last" : "");
+    row.innerHTML = `
+      <span class="moneda">${cuenta.moneda}</span>
+      <span class="computado">${cuenta.simbolo} ${formatearMonto(cuenta.saldoComputado)}</span>
+      <input type="text" data-cuenta-id="${cuenta.id}" value="${formatearMonto(cuenta.saldoComputado)}">
+    `;
+    container.appendChild(row);
+  });
+
+  document.getElementById("btn-abrir").addEventListener("click", () => {
+    const valores = Array.from(container.querySelectorAll("input")).map(input => ({
+      cuentaId: input.dataset.cuentaId,
+      montoInicial: input.value
+    }));
+    console.log("Abrir jornada con:", valores);
+  });
+</script>
+
+</body>
+</html>
