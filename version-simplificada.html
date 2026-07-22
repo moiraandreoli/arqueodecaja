@@ -19,9 +19,25 @@
   }
   *{box-sizing:border-box;}
   body{margin:0; font-family:"Segoe UI", Helvetica, Arial, sans-serif; background:var(--gray-1); color:var(--text-1);}
-  .topbar{background:var(--navy); color:var(--white); display:flex; align-items:center; justify-content:space-between; padding:10px 22px; font-size:13px;}
-  .brand{font-weight:700; letter-spacing:.04em;}
-  .nav{display:flex; gap:18px; color:#b9c0d6;}
+  .topbar-main{background:var(--navy); color:var(--white); display:flex; align-items:center; gap:0; height:64px; padding:0 20px;}
+  .logo-box{background:linear-gradient(135deg,#38bdf8,#2563eb); border-radius:8px; padding:6px 11px; font-size:15px; font-weight:800; letter-spacing:.06em; color:var(--white); flex-shrink:0; margin-right:20px;}
+  .main-nav{display:flex; align-items:center; gap:2px; flex:1; overflow:hidden;}
+  .nav-item{color:#8d97b8; font-size:11px; font-weight:600; letter-spacing:.05em; text-transform:uppercase; padding:6px 9px; border-radius:6px; cursor:pointer; white-space:nowrap; display:flex; align-items:center; gap:3px; user-select:none;}
+  .nav-item:hover{color:var(--white); background:rgba(255,255,255,.08);}
+  .nav-caret{font-size:9px; opacity:.7;}
+  .topbar-icons{display:flex; align-items:center; gap:6px; margin-left:16px; flex-shrink:0;}
+  .topbar-icon-btn{background:none; border:none; color:#8d97b8; cursor:pointer; padding:7px; border-radius:8px; display:flex; align-items:center; justify-content:center; position:relative;}
+  .topbar-icon-btn:hover{background:rgba(255,255,255,.08); color:var(--white);}
+  .notif-badge{position:absolute; top:3px; right:3px; background:#e53e3e; color:var(--white); font-size:9px; font-weight:700; min-width:14px; height:14px; border-radius:7px; display:flex; align-items:center; justify-content:center; padding:0 3px; line-height:1;}
+  .avatar{width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,#60a5fa,#2f6fed); color:var(--white); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; cursor:pointer; flex-shrink:0; margin-left:4px;}
+  .topbar-sub{background:var(--white); border-bottom:1px solid var(--gray-2); height:48px; display:flex; align-items:center; justify-content:space-between; padding:0 20px;}
+  .quick-icons{display:flex; align-items:center; gap:4px;}
+  .quick-btn{background:none; border:none; color:var(--gray-3); cursor:pointer; padding:7px; border-radius:8px; display:flex; align-items:center; justify-content:center;}
+  .quick-btn:hover{background:var(--gray-1); color:var(--text-2);}
+  .search-wrap{position:relative;}
+  .search-wrap svg{position:absolute; left:10px; top:50%; transform:translateY(-50%); color:var(--gray-3); pointer-events:none;}
+  .search-input{width:300px; border:1px solid var(--gray-2); border-radius:8px; padding:7px 10px 7px 32px; font-size:13px; font-family:inherit; color:var(--text-1); background:var(--gray-1); outline:none;}
+  .search-input:focus{border-color:var(--blue); background:var(--white);}
   main{max-width:800px; margin:24px auto 60px; padding:0 20px;}
   h1{font-size:20px; margin:0 0 16px;}
   .tabs{display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--gray-2); margin-bottom:18px;}
@@ -97,9 +113,53 @@
 </head>
 <body>
 
-<div class="topbar">
-  <div class="brand">YOUR COMPANY</div>
-  <div class="nav"><span>Configuración</span><span>Ventas</span><span>Compras</span><span>Stock</span><span>Finanzas</span></div>
+<!-- Fila 1: nav principal -->
+<div class="topbar-main">
+  <div class="logo-box">BIMS</div>
+  <nav class="main-nav">
+    <div class="nav-item">Configuración <span class="nav-caret">▾</span></div>
+    <div class="nav-item">Ventas <span class="nav-caret">▾</span></div>
+    <div class="nav-item">Compras <span class="nav-caret">▾</span></div>
+    <div class="nav-item">Stock <span class="nav-caret">▾</span></div>
+    <div class="nav-item">Producción <span class="nav-caret">▾</span></div>
+    <div class="nav-item">Ganadería <span class="nav-caret">▾</span></div>
+    <div class="nav-item">RRHH <span class="nav-caret">▾</span></div>
+    <div class="nav-item">Bienes Raíces <span class="nav-caret">▾</span></div>
+    <div class="nav-item">Finanzas <span class="nav-caret">▾</span></div>
+    <div class="nav-item">Contabilidad <span class="nav-caret">▾</span></div>
+  </nav>
+  <div class="topbar-icons">
+    <!-- Mensajes -->
+    <button class="topbar-icon-btn" title="Mensajes">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 3h14a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H5l-4 3V4a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <!-- Notificaciones -->
+    <button class="topbar-icon-btn" title="Notificaciones">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2a5 5 0 0 0-5 5v3l-1.5 2.5h13L14 10V7a5 5 0 0 0-5-5ZM7 14.5a2 2 0 0 0 4 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="notif-badge">3</span>
+    </button>
+    <!-- Avatar -->
+    <div class="avatar" title="Mi perfil">MA</div>
+  </div>
+</div>
+
+<!-- Fila 2: accesos rápidos + búsqueda -->
+<div class="topbar-sub">
+  <div class="quick-icons">
+    <button class="quick-btn" title="Inicio">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 7 8 2l6 5v7H10v-4H6v4H2V7Z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="quick-btn" title="Explorar">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="currentColor" stroke-width="1.4"/><path d="m10.5 5.5-2 4.5-4.5 2 2-4.5 4.5-2Z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <button class="quick-btn" title="Nuevo">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="search-wrap">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.4"/><path d="m9.5 9.5 2.5 2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+    <input class="search-input" type="text" placeholder="Buscar en BIMS">
+  </div>
 </div>
 <div class="toolbar" id="roleToolbar">
   <label>Ver como</label>
@@ -208,6 +268,9 @@
           <tr>
             <td>5 Jul 2026, 19:30</td><td>Caja Central</td><td>Juan Pérez</td><td>Gs. 1.120.400</td><td class="estado-ok">Cerrado OK</td>
             <td>
+              <button class="action-btn" title="Ver detalle" onclick="alert('Ver detalle del 5 Jul 2026...')">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4Z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.4"/></svg>
+              </button>
               <button class="action-btn" title="Reabrir arqueo" onclick="alert('Reabriendo arqueo del 5 Jul 2026...')">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7a5 5 0 1 0 1.5-3.5L2 2M2 2v3h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
@@ -222,6 +285,9 @@
           <tr>
             <td>4 Jul 2026, 19:15</td><td>Caja Auxiliar 1</td><td>Ana María Ruiz</td><td>Gs. 435.000</td><td class="estado-ok">Cerrado OK</td>
             <td>
+              <button class="action-btn" title="Ver detalle" onclick="alert('Ver detalle...')">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4Z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.4"/></svg>
+              </button>
               <button class="action-btn" disabled title="Solo se puede reabrir el arqueo más reciente">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7a5 5 0 1 0 1.5-3.5L2 2M2 2v3h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
@@ -236,6 +302,9 @@
           <tr>
             <td>3 Jul 2026, 21:05</td><td>Caja Central</td><td>Jorge Ramírez</td><td>Gs. 1.895.300</td><td class="estado-dif">Diferencia</td>
             <td>
+              <button class="action-btn" title="Ver detalle" onclick="alert('Ver detalle...')">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4Z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.4"/></svg>
+              </button>
               <button class="action-btn" disabled title="Solo se puede reabrir el arqueo más reciente">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7a5 5 0 1 0 1.5-3.5L2 2M2 2v3h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
@@ -250,6 +319,9 @@
           <tr>
             <td>2 Jul 2026, 20:12</td><td>Caja Central</td><td>Jorge Ramírez</td><td>Gs. 980.150</td><td class="estado-ok">Cerrado OK</td>
             <td>
+              <button class="action-btn" title="Ver detalle" onclick="alert('Ver detalle...')">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4Z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.4"/></svg>
+              </button>
               <button class="action-btn" disabled title="Solo se puede reabrir el arqueo más reciente">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7a5 5 0 1 0 1.5-3.5L2 2M2 2v3h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
@@ -264,6 +336,9 @@
           <tr>
             <td>1 Jul 2026, 18:47</td><td>Caja Auxiliar 1</td><td>Ana María Ruiz</td><td>Gs. 1.310.000</td><td class="estado-dif">Diferencia</td>
             <td>
+              <button class="action-btn" title="Ver detalle" onclick="alert('Ver detalle...')">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4Z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.4"/></svg>
+              </button>
               <button class="action-btn" disabled title="Solo se puede reabrir el arqueo más reciente">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7a5 5 0 1 0 1.5-3.5L2 2M2 2v3h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
