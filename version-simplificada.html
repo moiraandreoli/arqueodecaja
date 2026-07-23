@@ -213,7 +213,7 @@
     </div>
 
     <div id="viewCaja">
-      <div class="card">
+      <div class="card" id="cc-card">
         <div class="row-title">
           <div style="display:flex; align-items:center; gap:10px;">
             <span class="caja-name">Caja Central</span>
@@ -287,7 +287,7 @@
       </div>
 
       <!-- Caja Mostrador -->
-      <div class="card" style="margin-top:12px;">
+      <div class="card" id="cm-card" style="margin-top:12px;">
         <div class="row-title">
           <div style="display:flex; align-items:center; gap:10px;">
             <span class="caja-name">Caja Mostrador</span>
@@ -828,6 +828,7 @@
     document.getElementById('cm-mainBtn').style.display = '';
     document.getElementById('cm-ownerLine').textContent = '';
     document.getElementById('cm-conteoBlock').style.display = 'none';
+    document.getElementById('cc-card').style.display = '';
     resetConteoCm();
   }
   // ────────────────────────────────────────────────────────────
@@ -895,6 +896,7 @@
       document.getElementById('cm-ownerLine').textContent = 'Cajero responsable: Jorge Ramírez · Apertura: ' + fecha;
       resetConteoCm();
       document.getElementById('cm-conteoBlock').style.display = 'block';
+      document.getElementById('cc-card').style.display = 'none';
     } else {
       abierta = true;
       document.getElementById('estadoBadge').textContent = 'Abierta';
@@ -902,6 +904,7 @@
       document.getElementById('ownerLine').textContent = 'Cajero responsable: Jorge Ramírez · Apertura: ' + fecha;
       resetConteo();
       document.getElementById('conteoBlock').style.display = 'block';
+      document.getElementById('cm-card').style.display = 'none';
     }
     pendingApertura = null;
   }
@@ -935,6 +938,7 @@
     document.getElementById('mainBtn').style.display = '';
     document.getElementById('ownerLine').textContent = '';
     document.getElementById('conteoBlock').style.display = 'none';
+    document.getElementById('cm-card').style.display = '';
     resetConteo();
   }
 
