@@ -39,12 +39,14 @@
   .search-input{width:300px; border:1px solid var(--gray-2); border-radius:8px; padding:7px 10px 7px 32px; font-size:13px; font-family:inherit; color:var(--text-1); background:var(--gray-1); outline:none;}
   .search-input:focus{border-color:var(--blue); background:var(--white);}
   main{max-width:800px; margin:24px auto 60px; padding:0 20px;}
+  main.wide{max-width:1080px;}
   h1{font-size:20px; margin:0 0 16px;}
   .tabs{display:flex; align-items:center; justify-content:space-between; border-bottom:1px solid var(--gray-2); margin-bottom:18px;}
   .tabs-links{display:flex; gap:22px;}
   .tabs span{padding:8px 2px; font-size:13px; color:var(--text-2); cursor:pointer;}
   .tabs span.active{color:var(--text-1); font-weight:600; border-bottom:2px solid var(--blue);}
   .card{background:var(--white); border:1px solid var(--gray-2); border-radius:10px; padding:20px 22px; max-width:800px;}
+  .card.wide{max-width:none;}
   .row-title{display:flex; align-items:center; justify-content:space-between;}
   .caja-name{font-size:16px; font-weight:700;}
   .badge{font-size:11px; font-weight:700; padding:3px 9px; border-radius:20px;}
@@ -372,7 +374,7 @@
     </div>
 
     <div id="viewTodos" style="display:none;">
-      <div class="card">
+      <div class="card wide">
         <table>
           <tr>
             <th>Punto de venta</th><th>Cuenta fondo</th><th>Fecha y hora de cierre</th><th style="text-align:right;">Saldo computado</th><th style="text-align:right;">Saldo declarado</th><th style="text-align:right;">Diferencia</th><th>Acciones</th>
@@ -384,7 +386,7 @@
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4Z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.4"/></svg>
               </button>
               <button class="action-btn" title="Reabrir arqueo" onclick="alert('Reabriendo arqueo del 5 Jul 2026...')">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7a5 5 0 1 0 1.5-3.5L2 2M2 2v3h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 3h1.5a1.5 1.5 0 0 1 0 3H3M3 6 5.5 3.5M3 6l2.5 2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
               <button class="action-btn" title="Editar arqueo" onclick="alert('Editando arqueo del 5 Jul 2026...')">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9.5 2.5 11.5 4.5 5 11H3V9l6.5-6.5ZM8.5 3.5l2 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -401,7 +403,7 @@
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4Z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.4"/></svg>
               </button>
               <button class="action-btn" disabled title="Solo se puede reabrir el arqueo más reciente">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7a5 5 0 1 0 1.5-3.5L2 2M2 2v3h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 3h1.5a1.5 1.5 0 0 1 0 3H3M3 6 5.5 3.5M3 6l2.5 2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
               <button class="action-btn" title="Editar arqueo" onclick="alert('Editando arqueo del 4 Jul 2026...')">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9.5 2.5 11.5 4.5 5 11H3V9l6.5-6.5ZM8.5 3.5l2 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -418,7 +420,7 @@
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4Z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.4"/></svg>
               </button>
               <button class="action-btn" disabled title="Solo se puede reabrir el arqueo más reciente">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7a5 5 0 1 0 1.5-3.5L2 2M2 2v3h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 3h1.5a1.5 1.5 0 0 1 0 3H3M3 6 5.5 3.5M3 6l2.5 2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
               <button class="action-btn" title="Editar arqueo" onclick="alert('Editando arqueo del 3 Jul 2026...')">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9.5 2.5 11.5 4.5 5 11H3V9l6.5-6.5ZM8.5 3.5l2 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -435,7 +437,7 @@
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4Z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.4"/></svg>
               </button>
               <button class="action-btn" disabled title="Solo se puede reabrir el arqueo más reciente">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7a5 5 0 1 0 1.5-3.5L2 2M2 2v3h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 3h1.5a1.5 1.5 0 0 1 0 3H3M3 6 5.5 3.5M3 6l2.5 2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
               <button class="action-btn" title="Editar arqueo" onclick="alert('Editando arqueo del 2 Jul 2026...')">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9.5 2.5 11.5 4.5 5 11H3V9l6.5-6.5ZM8.5 3.5l2 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -452,7 +454,7 @@
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4Z" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="7" r="1.5" stroke="currentColor" stroke-width="1.4"/></svg>
               </button>
               <button class="action-btn" disabled title="Solo se puede reabrir el arqueo más reciente">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7a5 5 0 1 0 1.5-3.5L2 2M2 2v3h3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 3h1.5a1.5 1.5 0 0 1 0 3H3M3 6 5.5 3.5M3 6l2.5 2.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </button>
               <button class="action-btn" title="Editar arqueo" onclick="alert('Editando arqueo del 1 Jul 2026...')">
                 <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9.5 2.5 11.5 4.5 5 11H3V9l6.5-6.5ZM8.5 3.5l2 2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -655,10 +657,15 @@
 <!-- Modal: confirmación de cierre cajero -->
 <div class="overlay" id="cierreOkOverlay">
   <div class="modal">
-    <h3 id="cierreOkTitle">Cerraste Caja Central</h3>
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:6px;">
+      <h3 id="cierreOkTitle" style="margin:0;">Cerraste Caja Central</h3>
+      <button onclick="cerrarModalCierre()" style="background:none; border:none; cursor:pointer; color:var(--text-2); padding:4px; line-height:1; border-radius:6px;" title="Cerrar">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      </button>
+    </div>
     <p id="cierreOkMsg" style="margin-bottom:0;"></p>
     <div class="modal-actions">
-      <button class="btn btn-primary" style="margin-top:0;" onclick="confirmarCierre()">Entendido</button>
+      <button class="btn btn-primary" style="margin-top:0;" onclick="irAHistorial()">Ir a historial</button>
     </div>
   </div>
 </div>
@@ -859,6 +866,7 @@
     document.getElementById('viewTodos').style.display = tab === 'todos' ? 'block' : 'none';
     document.getElementById('tabCaja').classList.toggle('active', tab === 'caja');
     document.getElementById('tabTodos').classList.toggle('active', tab === 'todos');
+    document.getElementById('primaryMain').classList.toggle('wide', tab === 'todos');
   }
 
   // Cajero: abrir/cerrar caja
@@ -943,6 +951,21 @@
       document.getElementById('mainBtn').style.display = 'none';
       abrirAperturaForm('Caja Central', 'central');
     }
+  }
+
+  function cerrarModalCierre(){
+    document.getElementById('cierreOkOverlay').classList.remove('show');
+    if(pendingCierre === 'mostrador') cerrarCajeroInlineCm();
+    else cerrarCajeroInline();
+    pendingCierre = null;
+  }
+
+  function irAHistorial(){
+    document.getElementById('cierreOkOverlay').classList.remove('show');
+    if(pendingCierre === 'mostrador') cerrarCajeroInlineCm();
+    else cerrarCajeroInline();
+    pendingCierre = null;
+    showTab('todos');
   }
 
   function confirmarCierre(){
