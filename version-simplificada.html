@@ -503,7 +503,18 @@
 </main>
 
 <!-- Apertura de jornada -->
-<main id="aperturaMain" style="display:none; padding:40px 20px;">
+<main id="aperturaMain" style="display:none; max-width:800px; margin:24px auto 60px; padding:0 20px;">
+  <h1>Arqueo de caja</h1>
+  <div class="tabs" style="margin-top:16px;">
+    <div class="tabs-links">
+      <span class="active">Arqueo de caja</span>
+      <span style="pointer-events:none; opacity:.5;">Todos los arqueos</span>
+    </div>
+    <button class="btn btn-secondary" style="margin-top:0; font-size:12px; padding:7px 13px; display:flex; align-items:center; gap:6px;" onclick="alert('Navegando al POS...')">
+      Abrir POS
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M7 1h4v4M11 1L5.5 6.5M5 2H2a1 1 0 00-1 1v7a1 1 0 001 1h7a1 1 0 001-1V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </div>
   <div class="ap-card">
     <div class="ap-header">
       <div class="ap-header-left">
