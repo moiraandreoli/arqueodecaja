@@ -122,6 +122,7 @@
   .ap-fecha-wrap input{height:36px; padding:0 10px; border:0.5px solid var(--gray-2); border-radius:8px; font-size:14px; color:var(--text-1); width:100%; font-family:inherit;}
   .ap-fecha-wrap input:focus{outline:none; border-color:var(--gray-3); box-shadow:0 0 0 2px rgba(28,28,30,.06);}
   .ap-section-label{font-size:13px; color:var(--text-2); margin:0 0 8px;}
+  .conteo-group-title{font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.06em; color:var(--text-2); margin:14px 0 6px;}
   .ap-row{display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; align-items:start; padding:12px 0; border-bottom:0.5px solid var(--gray-2);}
   .ap-row.ap-row-header{font-size:12px; color:var(--gray-3); padding:0 0 8px;}
   .ap-row.ap-row-last{border-bottom:none;}
@@ -230,9 +231,11 @@
             <div class="conteo-col col-sep" id="colSistema">
               <div class="conteo-section-title">Según sistema</div>
               <div id="sistemaRows">
+                <div class="conteo-group-title">Ingresos</div>
                 <div class="conteo-row"><span class="lbl">Monto inicial</span><span>Gs. 200.000</span></div>
                 <div class="conteo-row"><span class="lbl">Voucher</span><span>Gs. 0</span></div>
                 <div class="conteo-row"><span class="lbl">Cheques</span><span>Gs. 0</span></div>
+                <div class="conteo-group-title">Egresos</div>
                 <div class="conteo-row"><span class="lbl">Billetes</span><span>Gs. 0</span></div>
               </div>
               <div class="blind-note" id="blindNote">El detalle según sistema está oculto por el modo ciego.</div>
@@ -242,13 +245,15 @@
             <!-- Derecha: Según usuario -->
             <div class="conteo-col">
               <div class="conteo-section-title">Según usuario</div>
+              <div class="conteo-group-title">Ingresos</div>
               <div style="font-size:12px; color:var(--text-2); margin-bottom:3px;">Monto inicial</div>
               <input id="uMonto" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onConteoInput()">
               <div style="font-size:12px; color:var(--text-2); margin-bottom:3px; margin-top:10px;">Voucher (tarjeta de crédito y débito)</div>
               <input id="uVoucher" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onConteoInput()">
               <div style="font-size:12px; color:var(--text-2); margin-bottom:3px; margin-top:10px;">Cheques</div>
               <input id="uCheques" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onConteoInput()">
-              <div style="font-size:12px; font-weight:600; margin:12px 0 4px; color:var(--text-1);">Billetes (Guaraníes)</div>
+              <div class="conteo-group-title">Egresos</div>
+              <div style="font-size:12px; font-weight:600; margin:0 0 4px; color:var(--text-1);">Billetes (Guaraníes)</div>
               <div class="denom-grid">
                 <div class="denom-row"><span class="denom-label">Gs. 100.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input cajero-denom" data-denom="100000" oninput="onConteoInput()"></div>
                 <div class="denom-row"><span class="denom-label">Gs. 50.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input cajero-denom" data-denom="50000" oninput="onConteoInput()"></div>
@@ -303,9 +308,11 @@
             <div class="conteo-col col-sep">
               <div class="conteo-section-title">Según sistema</div>
               <div id="cm-sistemaRows">
+                <div class="conteo-group-title">Ingresos</div>
                 <div class="conteo-row"><span class="lbl">Monto inicial</span><span>Gs. 200.000</span></div>
                 <div class="conteo-row"><span class="lbl">Voucher</span><span>Gs. 0</span></div>
                 <div class="conteo-row"><span class="lbl">Cheques</span><span>Gs. 0</span></div>
+                <div class="conteo-group-title">Egresos</div>
                 <div class="conteo-row"><span class="lbl">Billetes</span><span>Gs. 0</span></div>
               </div>
               <div class="blind-note" id="cm-blindNote">El detalle según sistema está oculto por el modo ciego.</div>
@@ -314,13 +321,15 @@
             </div>
             <div class="conteo-col">
               <div class="conteo-section-title">Según usuario</div>
+              <div class="conteo-group-title">Ingresos</div>
               <div style="font-size:12px; color:var(--text-2); margin-bottom:3px;">Monto inicial</div>
               <input id="cm-uMonto" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onConteoInputCm()">
               <div style="font-size:12px; color:var(--text-2); margin-bottom:3px; margin-top:10px;">Voucher (tarjeta de crédito y débito)</div>
               <input id="cm-uVoucher" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onConteoInputCm()">
               <div style="font-size:12px; color:var(--text-2); margin-bottom:3px; margin-top:10px;">Cheques</div>
               <input id="cm-uCheques" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onConteoInputCm()">
-              <div style="font-size:12px; font-weight:600; margin:12px 0 4px; color:var(--text-1);">Billetes (Guaraníes)</div>
+              <div class="conteo-group-title">Egresos</div>
+              <div style="font-size:12px; font-weight:600; margin:0 0 4px; color:var(--text-1);">Billetes (Guaraníes)</div>
               <div class="denom-grid">
                 <div class="denom-row"><span class="denom-label">Gs. 100.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input cm-cajero-denom" data-denom="100000" oninput="onConteoInputCm()"></div>
                 <div class="denom-row"><span class="denom-label">Gs. 50.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input cm-cajero-denom" data-denom="50000" oninput="onConteoInputCm()"></div>
@@ -577,9 +586,11 @@
       <div class="conteo-col col-sep">
         <div class="conteo-section-title">Según sistema</div>
         <div id="fcSistemaRows">
+          <div class="conteo-group-title">Ingresos</div>
           <div class="conteo-row"><span class="lbl">Monto inicial</span><span>Gs. 200.000</span></div>
           <div class="conteo-row"><span class="lbl">Voucher</span><span>Gs. 0</span></div>
           <div class="conteo-row"><span class="lbl">Cheques</span><span>Gs. 0</span></div>
+          <div class="conteo-group-title">Egresos</div>
           <div class="conteo-row"><span class="lbl">Billetes</span><span>Gs. 0</span></div>
         </div>
         <div class="blind-note" id="fcBlindNote">El detalle según sistema está oculto por el modo ciego.</div>
@@ -589,13 +600,15 @@
       <!-- Derecha: Según usuario -->
       <div class="conteo-col">
         <div class="conteo-section-title">Según usuario</div>
+        <div class="conteo-group-title">Ingresos</div>
         <div style="font-size:12px; color:var(--text-2); margin-bottom:3px;">Monto inicial</div>
         <input id="fcMonto" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onFcInput()">
         <div style="font-size:12px; color:var(--text-2); margin-bottom:3px; margin-top:10px;">Voucher (tarjeta de crédito y débito)</div>
         <input id="fcVoucher" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onFcInput()">
         <div style="font-size:12px; color:var(--text-2); margin-bottom:3px; margin-top:10px;">Cheques</div>
         <input id="fcCheques" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onFcInput()">
-        <div style="font-size:12px; font-weight:600; margin:12px 0 4px; color:var(--text-1);">Billetes (Guaraníes)</div>
+        <div class="conteo-group-title">Egresos</div>
+        <div style="font-size:12px; font-weight:600; margin:0 0 4px; color:var(--text-1);">Billetes (Guaraníes)</div>
         <div class="denom-grid">
           <div class="denom-row"><span class="denom-label">Gs. 100.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input fc-denom" data-denom="100000" oninput="onFcInput()"></div>
           <div class="denom-row"><span class="denom-label">Gs. 50.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input fc-denom" data-denom="50000" oninput="onFcInput()"></div>
