@@ -111,7 +111,7 @@
   .col-sep{border-right:1px solid var(--gray-2); padding-right:24px;}
 
   /* Apertura de jornada */
-  .ap-card{max-width:640px; margin:0 auto; background:var(--white); border:0.5px solid var(--gray-2); border-radius:12px; padding:24px 28px;}
+  .ap-card{background:var(--white); border:0.5px solid var(--gray-2); border-radius:12px; padding:24px 28px;}
   .ap-header{display:flex; align-items:center; justify-content:space-between; margin-bottom:4px;}
   .ap-header-left{display:flex; align-items:center; gap:10px;}
   .ap-title{font-size:16px; font-weight:600;}
@@ -499,6 +499,17 @@
         <button class="btn btn-outline-blue" style="margin-top:0;" onclick="alert('Se avisó al Admin (Ana Torres) que la caja de Jorge Ramírez sigue abierta.')">Avisar al Admin</button>
       </div>
     </div>
+
+    <div class="card" style="margin-top:14px;">
+      <div class="row-title">
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="caja-name">Caja Mostrador</span>
+          <span class="badge cerrada">Cerrada</span>
+        </div>
+        <button class="btn btn-primary" style="margin-top:0;" onclick="alert('Iniciando apertura de Caja Mostrador...')">Abrir caja</button>
+      </div>
+      <div class="owner-line"></div>
+    </div>
   </div>
 </main>
 
@@ -521,7 +532,6 @@
         <span class="ap-title" id="apCajaNombre">Caja Central</span>
         <span class="ap-badge">Cerrada</span>
       </div>
-      <button class="btn btn-secondary" style="margin-top:0; font-size:13px; padding:7px 14px;" onclick="alert('Navegando al POS...')">Abrir POS ↗</button>
     </div>
     <div class="ap-divider"></div>
     <div class="ap-fecha-wrap">
@@ -538,8 +548,8 @@
       <div id="apSaldosContainer"></div>
     </div>
     <div class="ap-actions">
-      <button class="btn btn-secondary" style="margin-top:0; font-size:13px; padding:7px 14px;" onclick="cancelarAperturaGlobal()">Cancelar</button>
-      <button class="btn-dark" onclick="confirmarAperturaGlobal()">Abrir jornada</button>
+      <button class="btn btn-secondary" style="margin-top:0; font-size:13px; padding:7px 14px;" onclick="cancelarAperturaGlobal()">Volver</button>
+      <button class="btn-dark" onclick="confirmarAperturaGlobal()">Continuar</button>
     </div>
   </div>
 </main>
