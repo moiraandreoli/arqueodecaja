@@ -232,6 +232,7 @@
               <div id="sistemaRows">
                 <div class="conteo-row"><span class="lbl">Monto inicial</span><span>Gs. 200.000</span></div>
                 <div class="conteo-row"><span class="lbl">Voucher</span><span>Gs. 0</span></div>
+                <div class="conteo-row"><span class="lbl">Cheques</span><span>Gs. 0</span></div>
                 <div class="conteo-row"><span class="lbl">Billetes</span><span>Gs. 0</span></div>
               </div>
               <div class="blind-note" id="blindNote">El detalle según sistema está oculto por el modo ciego.</div>
@@ -245,6 +246,8 @@
               <input id="uMonto" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onConteoInput()">
               <div style="font-size:12px; color:var(--text-2); margin-bottom:3px; margin-top:10px;">Voucher (tarjeta de crédito y débito)</div>
               <input id="uVoucher" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onConteoInput()">
+              <div style="font-size:12px; color:var(--text-2); margin-bottom:3px; margin-top:10px;">Cheques</div>
+              <input id="uCheques" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onConteoInput()">
               <div style="font-size:12px; font-weight:600; margin:12px 0 4px; color:var(--text-1);">Billetes (Guaraníes)</div>
               <div class="denom-grid">
                 <div class="denom-row"><span class="denom-label">Gs. 100.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input cajero-denom" data-denom="100000" oninput="onConteoInput()"></div>
@@ -302,6 +305,7 @@
               <div id="cm-sistemaRows">
                 <div class="conteo-row"><span class="lbl">Monto inicial</span><span>Gs. 200.000</span></div>
                 <div class="conteo-row"><span class="lbl">Voucher</span><span>Gs. 0</span></div>
+                <div class="conteo-row"><span class="lbl">Cheques</span><span>Gs. 0</span></div>
                 <div class="conteo-row"><span class="lbl">Billetes</span><span>Gs. 0</span></div>
               </div>
               <div class="blind-note" id="cm-blindNote">El detalle según sistema está oculto por el modo ciego.</div>
@@ -314,6 +318,8 @@
               <input id="cm-uMonto" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onConteoInputCm()">
               <div style="font-size:12px; color:var(--text-2); margin-bottom:3px; margin-top:10px;">Voucher (tarjeta de crédito y débito)</div>
               <input id="cm-uVoucher" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onConteoInputCm()">
+              <div style="font-size:12px; color:var(--text-2); margin-bottom:3px; margin-top:10px;">Cheques</div>
+              <input id="cm-uCheques" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onConteoInputCm()">
               <div style="font-size:12px; font-weight:600; margin:12px 0 4px; color:var(--text-1);">Billetes (Guaraníes)</div>
               <div class="denom-grid">
                 <div class="denom-row"><span class="denom-label">Gs. 100.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input cm-cajero-denom" data-denom="100000" oninput="onConteoInputCm()"></div>
@@ -571,6 +577,7 @@
         <div id="fcSistemaRows">
           <div class="conteo-row"><span class="lbl">Monto inicial</span><span>Gs. 200.000</span></div>
           <div class="conteo-row"><span class="lbl">Voucher</span><span>Gs. 0</span></div>
+          <div class="conteo-row"><span class="lbl">Cheques</span><span>Gs. 0</span></div>
           <div class="conteo-row"><span class="lbl">Billetes</span><span>Gs. 0</span></div>
         </div>
         <div class="blind-note" id="fcBlindNote">El detalle según sistema está oculto por el modo ciego.</div>
@@ -584,6 +591,8 @@
         <input id="fcMonto" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onFcInput()">
         <div style="font-size:12px; color:var(--text-2); margin-bottom:3px; margin-top:10px;">Voucher (tarjeta de crédito y débito)</div>
         <input id="fcVoucher" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onFcInput()">
+        <div style="font-size:12px; color:var(--text-2); margin-bottom:3px; margin-top:10px;">Cheques</div>
+        <input id="fcCheques" type="text" inputmode="numeric" placeholder="Gs. 0" class="conteo-input" oninput="onFcInput()">
         <div style="font-size:12px; font-weight:600; margin:12px 0 4px; color:var(--text-1);">Billetes (Guaraníes)</div>
         <div class="denom-grid">
           <div class="denom-row"><span class="denom-label">Gs. 100.000</span><input type="text" inputmode="numeric" placeholder="0" class="denom-input fc-denom" data-denom="100000" oninput="onFcInput()"></div>
@@ -664,17 +673,18 @@
   function parseVal(v){ const r = v.replace(/[^0-9]/g,''); return r ? parseInt(r,10) : null; }
   function fmtGs(n){ return 'Gs. ' + n.toLocaleString('es-PY'); }
 
-  function calcConteo(montoEl, voucherEl, denomEls, subtotalId, totalId, bannerId, motivoBlockId, motivoSelectId, submitBtn){
+  function calcConteo(montoEl, voucherEl, chequesEl, denomEls, subtotalId, totalId, bannerId, motivoBlockId, motivoSelectId, submitBtn){
     const montoVal = parseVal(montoEl.value);
     const voucherVal = parseVal(voucherEl.value);
+    const chequesVal = parseVal(chequesEl.value);
     let subtotal = 0;
     denomEls.forEach(inp => { subtotal += (parseVal(inp.value) || 0) * parseInt(inp.dataset.denom); });
 
     document.getElementById(subtotalId).textContent = fmtGs(subtotal);
-    const total = (montoVal || 0) + (voucherVal || 0) + subtotal;
+    const total = (montoVal || 0) + (voucherVal || 0) + (chequesVal || 0) + subtotal;
     document.getElementById(totalId).textContent = fmtGs(total);
 
-    if(montoVal === null || voucherVal === null){
+    if(montoVal === null || voucherVal === null || chequesVal === null){
       document.getElementById(bannerId).style.display = 'none';
       document.getElementById(motivoBlockId).style.display = 'none';
       submitBtn.disabled = true;
@@ -703,6 +713,7 @@
     calcConteo(
       document.getElementById('uMonto'),
       document.getElementById('uVoucher'),
+      document.getElementById('uCheques'),
       document.querySelectorAll('.cajero-denom'),
       'uSubtotalBilletes', 'uTotal', 'diffBanner', 'motivoBlock', 'motivoConteo',
       document.getElementById('cerrarCajeroBtn')
@@ -714,6 +725,7 @@
     calcConteo(
       document.getElementById('fcMonto'),
       document.getElementById('fcVoucher'),
+      document.getElementById('fcCheques'),
       document.querySelectorAll('.fc-denom'),
       'fcSubtotalBilletes', 'fcTotal', 'fcDiffBanner', 'fcMotivoBlock', 'fcMotivoConteo',
       document.getElementById('cerrarCajaFormBtn')
@@ -723,6 +735,7 @@
   function resetConteo(){
     document.getElementById('uMonto').value = '';
     document.getElementById('uVoucher').value = '';
+    document.getElementById('uCheques').value = '';
     document.querySelectorAll('.cajero-denom').forEach(inp => inp.value = '');
     document.getElementById('uSubtotalBilletes').textContent = fmtGs(0);
     document.getElementById('uTotal').textContent = fmtGs(0);
@@ -735,6 +748,7 @@
   function resetFcForm(){
     document.getElementById('fcMonto').value = '';
     document.getElementById('fcVoucher').value = '';
+    document.getElementById('fcCheques').value = '';
     document.querySelectorAll('.fc-denom').forEach(inp => inp.value = '');
     document.getElementById('fcSubtotalBilletes').textContent = fmtGs(0);
     document.getElementById('fcTotal').textContent = fmtGs(0);
@@ -787,6 +801,7 @@
     calcConteo(
       document.getElementById('cm-uMonto'),
       document.getElementById('cm-uVoucher'),
+      document.getElementById('cm-uCheques'),
       document.querySelectorAll('.cm-cajero-denom'),
       'cm-uSubtotalBilletes', 'cm-uTotal', 'cm-diffBanner', 'cm-motivoBlock', 'cm-motivoConteo',
       document.getElementById('cm-cerrarCajeroBtn')
@@ -796,6 +811,7 @@
   function resetConteoCm(){
     document.getElementById('cm-uMonto').value = '';
     document.getElementById('cm-uVoucher').value = '';
+    document.getElementById('cm-uCheques').value = '';
     document.querySelectorAll('.cm-cajero-denom').forEach(inp => inp.value = '');
     document.getElementById('cm-uSubtotalBilletes').textContent = fmtGs(0);
     document.getElementById('cm-uTotal').textContent = fmtGs(0);
@@ -968,11 +984,12 @@
     if(!forceCloseTarget) return;
     const monto = parseVal(document.getElementById('fcMonto').value) || 0;
     const voucher = parseVal(document.getElementById('fcVoucher').value) || 0;
+    const cheques = parseVal(document.getElementById('fcCheques').value) || 0;
     let billetes = 0;
     document.querySelectorAll('.fc-denom').forEach(inp => {
       billetes += (parseVal(inp.value) || 0) * parseInt(inp.dataset.denom);
     });
-    const total = monto + voucher + billetes;
+    const total = monto + voucher + cheques + billetes;
     const now = new Date().toLocaleString('es-PY');
     const motivo = document.getElementById('motivoForzado').value;
     const comentario = document.getElementById('comentarioForzado').value.trim();
@@ -980,7 +997,7 @@
 
     let line = 'Cierre forzado · ' + now + '<br>';
     line += 'Ejecutado por: Admin · Responsable: ' + forceCloseTarget.nombre + '<br>';
-    line += 'Total declarado: ' + fmtGs(total) + ' (Monto inicial: ' + fmtGs(monto) + ' · Voucher: ' + fmtGs(voucher) + ' · Billetes: ' + fmtGs(billetes) + ')<br>';
+    line += 'Total declarado: ' + fmtGs(total) + ' (Monto inicial: ' + fmtGs(monto) + ' · Voucher: ' + fmtGs(voucher) + ' · Cheques: ' + fmtGs(cheques) + ' · Billetes: ' + fmtGs(billetes) + ')<br>';
     line += 'Motivo de cierre: ' + motivo;
     if(comentario) line += ' · ' + comentario;
     if(motivoDiff) line += '<br>Motivo diferencia: ' + motivoDiff;
