@@ -122,7 +122,7 @@
   .ap-fecha-wrap input{height:36px; padding:0 10px; border:0.5px solid var(--gray-2); border-radius:8px; font-size:14px; color:var(--text-1); width:100%; font-family:inherit;}
   .ap-fecha-wrap input:focus{outline:none; border-color:var(--gray-3); box-shadow:0 0 0 2px rgba(28,28,30,.06);}
   .ap-section-label{font-size:13px; color:var(--text-2); margin:0 0 8px;}
-  .ap-row{display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; align-items:center; padding:12px 0; border-bottom:0.5px solid var(--gray-2);}
+  .ap-row{display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; align-items:start; padding:12px 0; border-bottom:0.5px solid var(--gray-2);}
   .ap-row.ap-row-header{font-size:12px; color:var(--gray-3); padding:0 0 8px;}
   .ap-row.ap-row-last{border-bottom:none;}
   .ap-row input[type="text"]{height:36px; padding:0 10px; border:0.5px solid var(--gray-2); border-radius:8px; font-size:14px; color:var(--text-1); width:100%; font-family:inherit;}
@@ -231,12 +231,12 @@
               <div class="conteo-section-title">Según sistema</div>
               <div id="sistemaRows">
                 <div class="conteo-row"><span class="lbl">Monto inicial</span><span>Gs. 200.000</span></div>
-                <div class="conteo-row"><span class="lbl">Voucher</span><span>Gs. 545.890</span></div>
-                <div class="conteo-row"><span class="lbl">Billetes</span><span>Gs. 500.000</span></div>
+                <div class="conteo-row"><span class="lbl">Voucher</span><span>Gs. 0</span></div>
+                <div class="conteo-row"><span class="lbl">Billetes</span><span>Gs. 0</span></div>
               </div>
               <div class="blind-note" id="blindNote">El detalle según sistema está oculto por el modo ciego.</div>
               <div class="conteo-divider" style="margin-top:auto;"></div>
-              <div class="conteo-total" style="margin-top:0;"><span>Total</span><span>Gs. 1.245.890</span></div>
+              <div class="conteo-total" style="margin-top:0;"><span>Total</span><span>Gs. 200.000</span></div>
             </div>
             <!-- Derecha: Según usuario -->
             <div class="conteo-col">
@@ -301,12 +301,12 @@
               <div class="conteo-section-title">Según sistema</div>
               <div id="cm-sistemaRows">
                 <div class="conteo-row"><span class="lbl">Monto inicial</span><span>Gs. 200.000</span></div>
-                <div class="conteo-row"><span class="lbl">Voucher</span><span>Gs. 545.890</span></div>
-                <div class="conteo-row"><span class="lbl">Billetes</span><span>Gs. 500.000</span></div>
+                <div class="conteo-row"><span class="lbl">Voucher</span><span>Gs. 0</span></div>
+                <div class="conteo-row"><span class="lbl">Billetes</span><span>Gs. 0</span></div>
               </div>
               <div class="blind-note" id="cm-blindNote">El detalle según sistema está oculto por el modo ciego.</div>
               <div class="conteo-divider" style="margin-top:auto;"></div>
-              <div class="conteo-total" style="margin-top:0;"><span>Total</span><span>Gs. 1.245.890</span></div>
+              <div class="conteo-total" style="margin-top:0;"><span>Total</span><span>Gs. 200.000</span></div>
             </div>
             <div class="conteo-col">
               <div class="conteo-section-title">Según usuario</div>
@@ -549,12 +549,12 @@
         <div class="conteo-section-title">Según sistema</div>
         <div id="fcSistemaRows">
           <div class="conteo-row"><span class="lbl">Monto inicial</span><span>Gs. 200.000</span></div>
-          <div class="conteo-row"><span class="lbl">Voucher</span><span>Gs. 545.890</span></div>
-          <div class="conteo-row"><span class="lbl">Billetes</span><span>Gs. 500.000</span></div>
+          <div class="conteo-row"><span class="lbl">Voucher</span><span>Gs. 0</span></div>
+          <div class="conteo-row"><span class="lbl">Billetes</span><span>Gs. 0</span></div>
         </div>
         <div class="blind-note" id="fcBlindNote">El detalle según sistema está oculto por el modo ciego.</div>
         <div class="conteo-divider" style="margin-top:auto;"></div>
-        <div class="conteo-total" style="margin-top:0;"><span>Total</span><span>Gs. 1.245.890</span></div>
+        <div class="conteo-total" style="margin-top:0;"><span>Total</span><span>Gs. 200.000</span></div>
       </div>
       <!-- Derecha: Según usuario -->
       <div class="conteo-col">
@@ -636,9 +636,9 @@
 
 <script>
   const SIS_INICIAL = 200000;
-  const SIS_VOUCHER = 545890;
-  const SIS_BILLETES = 500000;
-  const SIS_TOTAL = SIS_INICIAL + SIS_VOUCHER + SIS_BILLETES; // 1.245.890
+  const SIS_VOUCHER = 0;
+  const SIS_BILLETES = 0;
+  const SIS_TOTAL = SIS_INICIAL + SIS_VOUCHER + SIS_BILLETES; // 200.000
 
   function parseVal(v){ const r = v.replace(/[^0-9]/g,''); return r ? parseInt(r,10) : null; }
   function fmtGs(n){ return 'Gs. ' + n.toLocaleString('es-PY'); }
@@ -812,8 +812,8 @@
 
   // Datos de saldos para el form de apertura
   const cuentasDeFondos = [
-    { id: 'gs001', moneda: 'Guaraníes', simbolo: 'Gs.', saldoComputado: 2256030 },
-    { id: 'usd001', moneda: 'Dólares', simbolo: 'USD', saldoComputado: 0 }
+    { id: 'gs001', moneda: 'Guaraníes', simbolo: 'Gs.', cuenta: 'Cuenta fondo ueno Gs. *1223', saldoComputado: 2256030 },
+    { id: 'usd001', moneda: 'Dólares', simbolo: 'USD', cuenta: 'Cuenta fondo uenoUSD *1223', saldoComputado: 0 }
   ];
 
   function abrirAperturaForm(cajaNombre, pendingKey){
@@ -828,7 +828,7 @@
     cuentasDeFondos.forEach((c, i) => {
       const row = document.createElement('div');
       row.className = 'ap-row' + (i === cuentasDeFondos.length-1 ? ' ap-row-last' : '');
-      row.innerHTML = `<span class="ap-moneda">${c.moneda}</span><span class="ap-computado">${c.simbolo} ${c.saldoComputado.toLocaleString('es-PY')}</span><input type="text" value="${c.saldoComputado.toLocaleString('es-PY')}">`;
+      row.innerHTML = `<span class="ap-moneda">${c.moneda}<br><span style="font-size:11px;color:var(--text-2);font-weight:400;">${c.cuenta}</span></span><span class="ap-computado">${c.simbolo} ${c.saldoComputado.toLocaleString('es-PY')}</span><input type="text" value="0">`;
       cont.appendChild(row);
     });
     document.getElementById('primaryMain').style.display = 'none';
