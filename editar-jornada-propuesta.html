@@ -320,10 +320,13 @@
       <div class="card-header">Egresos</div>
       <div class="card-body">
         <table>
-          <tr><th>Concepto</th><th style="width:140px;">Monto</th></tr>
-          <tbody id="egreso-rows"></tbody>
+          <tr><th>Concepto</th><th style="width:140px; text-align:right;">Monto</th></tr>
+          <tr><td>Fondo de cambio devuelto</td><td style="text-align:right;">Gs 200.000</td></tr>
+          <tr><td>Pago proveedor limpieza</td><td style="text-align:right;">Gs 85.000</td></tr>
         </table>
-        <button type="button" class="btn-add" id="add-egreso">+ Agregar egreso</button>
+        <div style="display:flex; justify-content:flex-end; font-size:12.5px; color:var(--text-muted); margin-top:8px; padding-top:8px; border-top:1px solid var(--gray-border);">
+          <span>Total egresos:&nbsp;</span><span style="font-weight:600; color:var(--text-main);">Gs 285.000</span>
+        </div>
       </div>
     </div>
 
@@ -394,8 +397,7 @@
     document.querySelectorAll('.cheque').forEach(inp => declarado += parseMonto(inp.value));
     document.querySelectorAll('.voucher').forEach(inp => declarado += parseMonto(inp.value));
     document.querySelectorAll('.transferencia').forEach(inp => declarado += parseMonto(inp.value));
-    let egresos = 0;
-    document.querySelectorAll('.egreso-monto').forEach(inp => egresos += parseMonto(inp.value));
+    const egresos = 285000;
 
     declarado -= egresos;
     const diferencia = declarado - COMPUTADO;
@@ -467,14 +469,6 @@
     tr.querySelector('input').focus();
   });
 
-  document.getElementById('add-egreso').addEventListener('click', () => {
-    const rows = document.getElementById('egreso-rows');
-    const tr = document.createElement('tr');
-    tr.innerHTML = `<td><input class="concepto" type="text" placeholder="Concepto del egreso"></td><td><input class="monto egreso-monto" type="text" value="0"></td>`;
-    rows.appendChild(tr);
-    wireInput(tr.querySelector('.egreso-monto'));
-    tr.querySelector('.concepto').focus();
-  });
 
   document.getElementById('btn-cerrar').addEventListener('click', () => {
     const declarado = document.getElementById('sum-declarado').textContent;
