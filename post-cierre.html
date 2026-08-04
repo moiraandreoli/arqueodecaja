@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>BIMS — Jornada 212 (cerrada)</title>
+<style>
+  :root{
+    --navy: #1c3a5e;
+    --blue-link: #2f7bbf;
+    --blue-btn: #3f8fd6;
+    --blue-btn-hover: #3480c4;
+    --gray-bg: #f4f6f8;
+    --gray-border: #e2e6ea;
+    --gray-header: #eef1f4;
+    --text-main: #33404d;
+    --text-muted: #7a8794;
+    --bad-text: #c0392b;
+    --toast-bg: #6fbf5e;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--gray-bg);
+    color: var(--text-main);
+    font-size: 12.5px;
+  }
+  .navbar{
+    background: var(--navy);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 10px 20px;
+  }
+  .navbar-left{display:flex; align-items:center; gap:28px;}
+  .logo{font-weight:700; letter-spacing:.5px; font-size:14px;}
+  .navmenu{display:flex; gap:20px; font-size:12px; color:#cfdcea;}
+  .navbar-right{display:flex; align-items:center; gap:14px;}
+  .icon-dot{
+    width:26px;height:26px;border-radius:50%;background:#2b4a6f;
+    display:flex;align-items:center;justify-content:center;font-size:11px;
+  }
+  .breadcrumb{
+    background:#fff;
+    padding:10px 20px;
+    font-size:12px;
+    color: var(--text-muted);
+    border-bottom:1px solid var(--gray-border);
+  }
+  .breadcrumb b{color:var(--text-main);}
+
+  .toast{
+    position:fixed;
+    top:56px;
+    right:20px;
+    background:var(--toast-bg);
+    color:#fff;
+    padding:9px 16px;
+    border-radius:5px;
+    font-size:12.5px;
+    font-weight:600;
+    box-shadow:0 2px 6px rgba(0,0,0,.15);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    animation: fade 5s forwards;
+  }
+  @keyframes fade{0%,80%{opacity:1;}100%{opacity:0; visibility:hidden;}}
+
+  .content{max-width:1040px; margin:0 auto; padding:20px 20px 60px;}
+  .titlebar{display:flex; align-items:center; justify-content:space-between; margin-bottom:16px;}
+  h1{font-size:19px; font-weight:600; margin:0;}
+  .actions-top{display:flex; gap:10px;}
+  .btn{
+    padding:8px 14px;
+    border-radius:5px;
+    font-size:12.5px;
+    font-weight:600;
+    border:none;
+    cursor:pointer;
+  }
+  .btn-primary{background:var(--blue-btn); color:#fff;}
+  .btn-primary:hover{background:var(--blue-btn-hover);}
+  .btn-ghost{background:#fff; color:var(--blue-link); border:1px solid var(--gray-border);}
+  .btn-ghost:hover{background:var(--gray-header);}
+
+  .motivo-banner{
+    background:#fdf3d8;
+    border:1px solid #eccf7a;
+    color:#7a5e12;
+    padding:10px 14px;
+    border-radius:6px;
+    font-size:12.5px;
+    margin-bottom:18px;
+  }
+  .motivo-banner b{font-weight:600;}
+
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .card{
+    background:#fff;
+    border:1px solid var(--gray-border);
+    border-radius:6px;
+    margin-bottom:20px;
+    overflow:hidden;
+  }
+  .card-header{
+    background:var(--gray-header);
+    padding:9px 16px;
+    font-weight:600;
+    font-size:12.5px;
+    border-bottom:1px solid var(--gray-border);
+  }
+  .card-body{padding:14px 16px;}
+  .field-row{display:flex; justify-content:space-between; margin-bottom:6px;}
+  .field-row .label{color:var(--text-muted);}
+  .field-row .value{font-weight:500;}
+  .field-row .value.link{color:var(--blue-link);}
+  table{width:100%; border-collapse:collapse; margin-top:8px;}
+  th{
+    text-align:left;
+    background:var(--gray-header);
+    padding:7px 10px;
+    font-weight:600;
+    border-bottom:1px solid var(--gray-border);
+  }
+  td{padding:6px 10px; border-bottom:1px solid #f0f2f4; text-align:right;}
+  td:first-child, td.left{text-align:left;}
+  .neg{color:var(--bad-text); font-weight:600;}
+  .total-row td{font-weight:700; border-top:1px solid var(--gray-border);}
+</style>
+</head>
+<body>
+
+  <div class="navbar">
+    <div class="navbar-left">
+      <div class="logo">YOUR COMPANY</div>
+      <div class="navmenu">
+        <span>Configuración ▾</span>
+        <span>Ventas ▾</span>
+        <span>Compras ▾</span>
+        <span>Stock ▾</span>
+        <span>Producción ▾</span>
+        <span>RRHH ▾</span>
+        <span>Finanzas ▾</span>
+        <span>Contabilidad ▾</span>
+      </div>
+    </div>
+    <div class="navbar-right">
+      <div class="icon-dot">💬</div>
+      <div class="icon-dot">🔔</div>
+    </div>
+  </div>
+
+  <div class="breadcrumb">
+    Puntos de Venta &nbsp;›&nbsp; Caja 001 &nbsp;›&nbsp; <b>Jornada 212</b>
+  </div>
+
+  <div class="toast">✓ La Jornada ha sido cerrada</div>
+
+  <div class="content">
+    <div class="titlebar">
+      <h1>Jornada 212</h1>
+      <div class="actions-top">
+        <button class="btn btn-ghost">Descargar resumen</button>
+        <button class="btn btn-primary">Reabrir Jornada</button>
+      </div>
+    </div>
+
+    <div class="motivo-banner">
+      <b>Diferencia al cierre: Gs -5.863,58 —</b> Motivo declarado: "Faltante de caja"
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-header">Apertura</div>
+        <div class="card-body">
+          <div class="field-row"><span class="label">Fecha de Apertura</span><span class="value">2026-08-03 15:36:56</span></div>
+          <div class="field-row"><span class="label">Usuario de Apertura</span><span class="value link">Moira Andreoli</span></div>
+          <table>
+            <tr><th class="left">Cuenta de Fondos</th><th>Computado</th><th>Declarado</th><th>Dif.</th></tr>
+            <tr><td class="left link">UENO cta cte 123</td><td>5.950.583</td><td>5.950.583</td><td>0</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">Cierre</div>
+        <div class="card-body">
+          <div class="field-row"><span class="label">Fecha de Cierre</span><span class="value">2026-08-03 15:44:17</span></div>
+          <div class="field-row"><span class="label">Usuario de Cierre</span><span class="value link">Moira Andreoli</span></div>
+          <table>
+            <tr><th class="left">Cuenta de Fondos</th><th>Computado</th><th>Declarado</th><th>Dif.</th></tr>
+            <tr><td class="left link">UENO cta cte 123</td><td>5.950.583</td><td>87.000</td><td class="neg">-5.863.583</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Depósito</div>
+      <div class="card-body">
+        <div class="field-row"><span class="label">Cuenta de Banco</span><span class="value link">Banco $ USD</span></div>
+        <div class="field-row"><span class="label">Operación</span><span class="value">0000212</span></div>
+        <div class="field-row"><span class="label">Valor Depositado</span><span class="value">87.000</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">Estado de Cuenta</div>
+      <div class="card-body">
+        <table>
+          <tr><th class="left">Período</th><th>Crédito</th><th>Débito</th></tr>
+          <tr><td class="left">Saldo al Inicio</td><td>Gs 5.950.583</td><td></td></tr>
+          <tr><td class="left">Jornada — Saldo Computado</td><td>Gs 5.950.583</td><td>Gs 0</td></tr>
+          <tr><td class="left">Ajuste al Cierre</td><td>0</td><td class="neg">Gs 5.863.583</td></tr>
+          <tr class="total-row"><td class="left">Saldo Actual</td><td colspan="2">Gs 87.000</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-header">Resumen de Diferencias</div>
+        <div class="card-body">
+          <table>
+            <tr><th class="left">Origen</th><th>Monto</th></tr>
+            <tr><td class="left">Saldo al Inicio</td><td>Gs 5.950.583</td></tr>
+            <tr><td class="left">Ventas al Contado</td><td>Gs 0</td></tr>
+            <tr><td class="left">Egresos</td><td>Gs 0</td></tr>
+            <tr><td class="left">Sub-total</td><td>Gs 5.950.583</td></tr>
+            <tr><td class="left">Total de Valores Reportados</td><td>Gs 87.002</td></tr>
+            <tr class="total-row"><td class="left">Diferencia</td><td class="neg">(Gs -5.863,58)</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">Recaudación</div>
+        <div class="card-body">
+          <table>
+            <tr><th class="left">Billete</th><th>Cantidad</th><th>Monto</th></tr>
+            <tr><td class="left">50.000</td><td>1</td><td>Gs 50.000</td></tr>
+            <tr><td class="left">20.000</td><td>1</td><td>Gs 20.000</td></tr>
+            <tr><td class="left">10.000</td><td>1</td><td>Gs 10.000</td></tr>
+            <tr><td class="left">5.000</td><td>1</td><td>Gs 5.000</td></tr>
+            <tr><td class="left">2.000</td><td>1</td><td>Gs 2.000</td></tr>
+            <tr class="total-row"><td class="left" colspan="2">Total</td><td>Gs 87.000</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-header">Cheques</div>
+        <div class="card-body">
+          <table><tr><th class="left">Monto</th></tr><tr><td class="left">Gs 0</td></tr></table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">Voucher (POS) / Transferencia</div>
+        <div class="card-body">
+          <table>
+            <tr><th class="left">Monto</th></tr>
+            <tr><td class="left">Gs 1</td></tr>
+            <tr><td class="left">Gs 1</td></tr>
+            <tr class="total-row"><td class="left">Total: Gs 2</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <div class="card">
+        <div class="card-header">Resumen de Egresos</div>
+        <div class="card-body">
+          <table><tr><th class="left">Concepto</th><th>Monto</th></tr><tr class="total-row"><td class="left">Total</td><td>Gs 0</td></tr></table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">Resumen de Cobros</div>
+        <div class="card-body">
+          <table><tr><th class="left">Concepto</th><th>Monto</th></tr><tr class="total-row"><td class="left">Total</td><td>Gs 0</td></tr></table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
