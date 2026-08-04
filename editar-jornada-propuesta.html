@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>BIMS — Cerrar Jornada (Variante B — sintética)</title>
+<style>
+  :root{
+    --navy: #1c3a5e;
+    --blue-link: #2f7bbf;
+    --blue-btn: #3f8fd6;
+    --blue-btn-hover: #3480c4;
+    --gray-bg: #f4f6f8;
+    --gray-border: #e2e6ea;
+    --gray-header: #eef1f4;
+    --text-main: #33404d;
+    --text-muted: #7a8794;
+    --edited-bg: #fff8e6;
+    --edited-border: #f0c65c;
+    --ok-bg: #eaf7ec;
+    --ok-text: #2f8f4e;
+    --bad-bg: #fdecec;
+    --bad-text: #c0392b;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--gray-bg);
+    color: var(--text-main);
+    font-size: 13px;
+  }
+  .navbar{
+    background: var(--navy);
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 10px 20px;
+  }
+  .navbar-left{display:flex; align-items:center; gap:28px;}
+  .logo{font-weight:700; letter-spacing:.5px; font-size:14px;}
+  .navmenu{display:flex; gap:20px; font-size:12px; color:#cfdcea;}
+  .navbar-right{display:flex; align-items:center; gap:14px;}
+  .icon-dot{
+    width:26px;height:26px;border-radius:50%;background:#2b4a6f;
+    display:flex;align-items:center;justify-content:center;font-size:11px;
+  }
+  .breadcrumb{
+    background:#fff;
+    padding:10px 20px;
+    font-size:12px;
+    color: var(--text-muted);
+    border-bottom:1px solid var(--gray-border);
+  }
+  .breadcrumb b{color:var(--text-main);}
+  .content{max-width:1040px; margin:0 auto; padding:24px 20px 60px;}
+  h1{font-size:20px; font-weight:600; margin:0 0 16px;}
+
+  .summary-bar{
+    display:flex;
+    align-items:center;
+    gap:24px;
+    background:#fff;
+    border:1px solid var(--gray-border);
+    border-radius:6px;
+    padding:14px 18px;
+    margin-bottom:20px;
+    position:sticky;
+    top:12px;
+    z-index:5;
+  }
+  .summary-item{display:flex; flex-direction:column; gap:2px;}
+  .summary-item .label{font-size:11px; color:var(--text-muted); text-transform:uppercase; letter-spacing:.03em;}
+  .summary-item .val{font-size:16px; font-weight:700;}
+  .summary-item.diff .val{padding:2px 10px; border-radius:4px;}
+  .summary-item.diff .val.ok{background:var(--ok-bg); color:var(--ok-text);}
+  .summary-item.diff .val.bad{background:var(--bad-bg); color:var(--bad-text);}
+  .summary-item.diff .status{font-size:11px; font-weight:600;}
+  .summary-item.diff .status.ok{color:var(--ok-text);}
+  .summary-item.diff .status.bad{color:var(--bad-text);}
+
+  .card{
+    background:#fff;
+    border:1px solid var(--gray-border);
+    border-radius:6px;
+    margin-bottom:20px;
+    overflow:hidden;
+  }
+  .card-header{
+    background:var(--gray-header);
+    padding:10px 16px;
+    font-weight:600;
+    font-size:13px;
+    border-bottom:1px solid var(--gray-border);
+  }
+  .two-col{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  .card-body{padding:16px;}
+  .field-row{display:flex; justify-content:space-between; margin-bottom:6px; font-size:12.5px;}
+  .field-row .label{color:var(--text-muted);}
+  .field-row .value{font-weight:500;}
+  .field-row .value.link{color:var(--blue-link);}
+  table{width:100%; border-collapse:collapse; font-size:12.5px; margin-top:10px;}
+  th{
+    text-align:left;
+    background:var(--gray-header);
+    padding:8px 10px;
+    font-weight:600;
+    color:var(--text-main);
+    border-bottom:1px solid var(--gray-border);
+  }
+  td{padding:7px 10px; border-bottom:1px solid #f0f2f4;}
+  input.cantidad, input.monto{
+    width:120px;
+    padding:5px 8px;
+    border:1px solid var(--gray-border);
+    border-radius:4px;
+    font-size:12.5px;
+    text-align:right;
+  }
+  input.concepto{
+    width:100%;
+    padding:5px 8px;
+    border:1px solid var(--gray-border);
+    border-radius:4px;
+    font-size:12.5px;
+  }
+  input.edited{background: var(--edited-bg); border-color: var(--edited-border);}
+
+  .btn-add{
+    background:none;
+    border:none;
+    color:var(--blue-link);
+    font-size:12.5px;
+    font-weight:600;
+    cursor:pointer;
+    padding:8px 0 0;
+  }
+  .btn-add:hover{text-decoration:underline;}
+
+  .motivo-row{
+    display:none;
+    align-items:center;
+    gap:10px;
+    background:#fffaf0;
+    border:1px dashed var(--edited-border);
+    border-radius:5px;
+    padding:8px 10px;
+    margin-top:14px;
+    font-size:12px;
+  }
+  .motivo-row.show{display:flex;}
+  .motivo-row label{color:#8a6d1a; font-weight:600; white-space:nowrap;}
+  .motivo-row select{
+    flex:0 0 50%;
+    padding:6px 8px;
+    border:1px solid var(--edited-border);
+    border-radius:4px;
+    font-size:12.5px;
+    background:#fff;
+  }
+
+  .ver-detalle{
+    text-align:center;
+    padding:10px;
+    font-size:12.5px;
+  }
+  .ver-detalle a{color:var(--blue-link); text-decoration:none; font-weight:600;}
+  .ver-detalle a:hover{text-decoration:underline;}
+
+  .actions{display:flex; justify-content:flex-end; align-items:center; margin-top:24px; gap:12px;}
+  .actions .hint{font-size:11.5px; color:var(--bad-text); display:none;}
+  .actions .hint.show{display:inline;}
+  .btn{
+    padding:9px 18px;
+    border-radius:5px;
+    font-size:13px;
+    font-weight:600;
+    border:none;
+    cursor:pointer;
+  }
+  .btn-primary{background:var(--blue-btn); color:#fff;}
+  .btn-primary:hover:not(:disabled){background:var(--blue-btn-hover);}
+  .btn-primary:disabled{background:#c3d7e9; color:#f0f5fa; cursor:not-allowed;}
+  .btn-ghost{background:#fff; color:var(--text-muted); border:1px solid var(--gray-border);}
+</style>
+</head>
+<body>
+
+  <div class="navbar">
+    <div class="navbar-left">
+      <div class="logo">YOUR COMPANY</div>
+      <div class="navmenu">
+        <span>Configuración ▾</span>
+        <span>Ventas ▾</span>
+        <span>Compras ▾</span>
+        <span>Stock ▾</span>
+        <span>Producción ▾</span>
+        <span>RRHH ▾</span>
+        <span>Finanzas ▾</span>
+        <span>Contabilidad ▾</span>
+      </div>
+    </div>
+    <div class="navbar-right">
+      <div class="icon-dot">💬</div>
+      <div class="icon-dot">🔔</div>
+    </div>
+  </div>
+
+  <div class="breadcrumb">
+    Puntos de Venta &nbsp;›&nbsp; Caja 001 &nbsp;›&nbsp; <b>Jornada 212</b>
+  </div>
+
+  <div class="content">
+    <h1>Cerrar Jornada</h1>
+
+    <!-- Resumen en vivo -->
+    <div class="summary-bar">
+      <div class="summary-item">
+        <span class="label">Computado</span>
+        <span class="val" id="sum-computado">Gs 5.950.583</span>
+      </div>
+      <div class="summary-item">
+        <span class="label">Declarado</span>
+        <span class="val" id="sum-declarado">Gs 5.950.583</span>
+      </div>
+      <div class="summary-item diff">
+        <span class="label">Diferencia</span>
+        <span class="val ok" id="sum-diferencia">Gs 0</span>
+        <span class="status ok" id="sum-status">✓ Cuadra</span>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <!-- Apertura -->
+      <div class="card">
+        <div class="card-header">Apertura</div>
+        <div class="card-body">
+          <div class="field-row"><span class="label">Fecha de Apertura</span><span class="value">2026-08-03 15:36:56</span></div>
+          <div class="field-row"><span class="label">Usuario de Apertura</span><span class="value link">Moira Andreoli</span></div>
+          <table>
+            <tr><th>Cuenta de Fondos</th><th>Moneda</th><th>Saldo Computado</th></tr>
+            <tr><td class="link">UENO cta cte 123</td><td>Guaraníes</td><td>5.950.583</td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- Cierre -->
+      <div class="card">
+        <div class="card-header">Cierre</div>
+        <div class="card-body">
+          <div class="field-row"><span class="label">Fecha de Cierre</span><span class="value">—</span></div>
+          <div class="field-row"><span class="label">Usuario de Cierre</span><span class="value link">Moira Andreoli</span></div>
+          <table>
+            <tr><th>Cuenta de Fondos</th><th>Moneda</th><th>Saldo Computado</th></tr>
+            <tr><td class="link">UENO cta cte 123</td><td>Guaraníes</td><td>5.950.583</td></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Billetes -->
+    <div class="card">
+      <div class="card-header">Billetes</div>
+      <div class="card-body">
+        <table>
+          <tr><th>Denominación</th><th>Cantidad</th></tr>
+          <tr><td>Gs. 100.000</td><td><input class="cantidad billete" type="text" value="40" data-denom="100000"></td></tr>
+          <tr><td>Gs. 50.000</td><td><input class="cantidad billete" type="text" value="30" data-denom="50000"></td></tr>
+          <tr><td>Gs. 20.000</td><td><input class="cantidad billete" type="text" value="15" data-denom="20000"></td></tr>
+          <tr><td>Gs. 10.000</td><td><input class="cantidad billete" type="text" value="5" data-denom="10000"></td></tr>
+          <tr><td>Gs. 5.000</td><td><input class="cantidad billete" type="text" value="15" data-denom="5000"></td></tr>
+          <tr><td>Gs. 2.000</td><td><input class="cantidad billete" type="text" value="2" data-denom="2000"></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <!-- Cheques -->
+    <div class="card">
+      <div class="card-header">Cheques</div>
+      <div class="card-body">
+        <table>
+          <tr><th>#</th><th>Monto</th></tr>
+          <tbody id="cheque-rows">
+            <tr><td>1</td><td><input class="monto cheque" type="text" value="0"></td></tr>
+          </tbody>
+        </table>
+        <button type="button" class="btn-add" id="add-cheque">+ Agregar cheque</button>
+      </div>
+    </div>
+
+    <!-- Voucher -->
+    <div class="card">
+      <div class="card-header">Voucher (POS)</div>
+      <div class="card-body">
+        <table>
+          <tr><th>#</th><th>Monto</th></tr>
+          <tbody id="voucher-rows">
+            <tr><td>1</td><td><input class="monto voucher" type="text" value="21.583"></td></tr>
+          </tbody>
+        </table>
+        <button type="button" class="btn-add" id="add-voucher">+ Agregar voucher</button>
+      </div>
+    </div>
+
+    <!-- Transferencia -->
+    <div class="card">
+      <div class="card-header">Transferencia</div>
+      <div class="card-body">
+        <table>
+          <tr><th>#</th><th>Monto</th></tr>
+          <tbody id="transferencia-rows"></tbody>
+        </table>
+        <button type="button" class="btn-add" id="add-transferencia">+ Agregar transferencia</button>
+      </div>
+    </div>
+
+    <!-- Egresos -->
+    <div class="card">
+      <div class="card-header">Egresos</div>
+      <div class="card-body">
+        <table>
+          <tr><th>Concepto</th><th style="width:140px;">Monto</th></tr>
+          <tbody id="egreso-rows"></tbody>
+        </table>
+        <button type="button" class="btn-add" id="add-egreso">+ Agregar egreso</button>
+      </div>
+    </div>
+
+    <div class="ver-detalle">
+      <a href="#" id="ver-detalle-link">Ver resumen completo (Estado de Cuenta, Recaudación, Diferencias por Forma de Pago…)</a>
+    </div>
+
+    <div class="motivo-row" id="motivo-diferencia">
+      <label>Motivo de la diferencia</label>
+      <select id="motivo-select">
+        <option value="" selected>Seleccioná un motivo…</option>
+        <option>Faltante de caja</option>
+        <option>Sobrante de caja</option>
+        <option>Error de conteo</option>
+        <option>Vuelto no registrado</option>
+        <option>Otro</option>
+      </select>
+    </div>
+
+    <div class="actions">
+      <span class="hint" id="close-hint">Seleccioná un motivo para poder cerrar con diferencia.</span>
+      <button class="btn btn-ghost">Cancelar</button>
+      <button class="btn btn-primary" id="btn-cerrar">Cerrar Jornada</button>
+    </div>
+  </div>
+
+<script>
+  const COMPUTADO = 5950583;
+
+  function parseMonto(v){
+    return parseInt((v || '0').toString().replace(/\./g,'').replace(/[^0-9-]/g,''), 10) || 0;
+  }
+  function formatGs(n){
+    return 'Gs ' + n.toLocaleString('es-PY');
+  }
+
+  function recalcular(){
+    let declarado = 0;
+    document.querySelectorAll('.billete').forEach(inp => {
+      declarado += parseMonto(inp.value) * parseInt(inp.dataset.denom, 10);
+    });
+    document.querySelectorAll('.cheque').forEach(inp => declarado += parseMonto(inp.value));
+    document.querySelectorAll('.voucher').forEach(inp => declarado += parseMonto(inp.value));
+    document.querySelectorAll('.transferencia').forEach(inp => declarado += parseMonto(inp.value));
+    let egresos = 0;
+    document.querySelectorAll('.egreso-monto').forEach(inp => egresos += parseMonto(inp.value));
+
+    declarado -= egresos;
+    const diferencia = declarado - COMPUTADO;
+
+    document.getElementById('sum-declarado').textContent = formatGs(declarado);
+    const diffEl = document.getElementById('sum-diferencia');
+    const statusEl = document.getElementById('sum-status');
+    const motivoRow = document.getElementById('motivo-diferencia');
+    const btnCerrar = document.getElementById('btn-cerrar');
+    const hint = document.getElementById('close-hint');
+
+    diffEl.textContent = formatGs(diferencia);
+
+    if(diferencia === 0){
+      diffEl.className = 'val ok';
+      statusEl.className = 'status ok';
+      statusEl.textContent = '✓ Cuadra';
+      motivoRow.classList.remove('show');
+      btnCerrar.disabled = false;
+      hint.classList.remove('show');
+    } else {
+      diffEl.className = 'val bad';
+      statusEl.className = 'status bad';
+      statusEl.textContent = diferencia > 0 ? '▲ Sobrante' : '▼ Faltante';
+      motivoRow.classList.add('show');
+      const motivoElegido = document.getElementById('motivo-select').value !== '';
+      btnCerrar.disabled = !motivoElegido;
+      hint.classList.toggle('show', !motivoElegido);
+    }
+  }
+
+  function wireInput(inp){
+    inp.addEventListener('input', () => {
+      inp.classList.add('edited');
+      recalcular();
+    });
+  }
+
+  document.querySelectorAll('input.cantidad, input.monto').forEach(wireInput);
+  document.getElementById('motivo-select').addEventListener('change', recalcular);
+
+  document.getElementById('add-cheque').addEventListener('click', () => {
+    const rows = document.getElementById('cheque-rows');
+    const n = rows.querySelectorAll('tr').length + 1;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${n}</td><td><input class="monto cheque" type="text" value="0"></td>`;
+    rows.appendChild(tr);
+    wireInput(tr.querySelector('input'));
+    tr.querySelector('input').focus();
+  });
+
+  document.getElementById('add-voucher').addEventListener('click', () => {
+    const rows = document.getElementById('voucher-rows');
+    const n = rows.querySelectorAll('tr').length + 1;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${n}</td><td><input class="monto voucher" type="text" value="0"></td>`;
+    rows.appendChild(tr);
+    wireInput(tr.querySelector('input'));
+    tr.querySelector('input').focus();
+  });
+
+  document.getElementById('add-transferencia').addEventListener('click', () => {
+    const rows = document.getElementById('transferencia-rows');
+    const n = rows.querySelectorAll('tr').length + 1;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${n}</td><td><input class="monto transferencia" type="text" value="0"></td>`;
+    rows.appendChild(tr);
+    wireInput(tr.querySelector('input'));
+    tr.querySelector('input').focus();
+  });
+
+  document.getElementById('add-egreso').addEventListener('click', () => {
+    const rows = document.getElementById('egreso-rows');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td><input class="concepto" type="text" placeholder="Concepto del egreso"></td><td><input class="monto egreso-monto" type="text" value="0"></td>`;
+    rows.appendChild(tr);
+    wireInput(tr.querySelector('.egreso-monto'));
+    tr.querySelector('.concepto').focus();
+  });
+
+  document.getElementById('ver-detalle-link').addEventListener('click', (e) => {
+    e.preventDefault();
+    alert('Acá se despliega o abre el resumen completo (mismo contenido que hoy) para quien necesite descargarlo o revisarlo en detalle.');
+  });
+
+  recalcular();
+</script>
+
+</body>
+</html>
